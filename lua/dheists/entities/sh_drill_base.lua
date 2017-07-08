@@ -11,8 +11,8 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Drill"
 
-SWEP.Spawnable = true
-SWEP.AdminSpawnable	= true
+ENT.Spawnable = true
+ENT.AdminSpawnable	= true
 
 ENT.IsDrill = true
 
