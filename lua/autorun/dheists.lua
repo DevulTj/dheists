@@ -38,3 +38,13 @@ function dHeists.includeFolder( currentFolder, noCheckInnerFolders )
         dHeists.includeFolder( currentFolder .. folder .. "/" )
     end
 end
+
+--[[
+    File Loading
+]]
+
+dHeists.config = dHeists.config or {} -- Initialize configuration table
+dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
+
+dHeists.include( "dheists/sv_content.lua" )
+dHeists.include( "dheists/sh_load_entities.lua" )
