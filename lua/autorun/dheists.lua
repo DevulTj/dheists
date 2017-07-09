@@ -6,6 +6,10 @@
 
 dHeists = dHeists or {}
 
+function dHeists.print( ... )
+    return MsgC( Color( 255, 0, 0 ), "[dHeists] ", color_white, ..., "\n" )
+end
+
 function dHeists.include( fileName, state )
     if not fileName then return end
 
@@ -24,6 +28,8 @@ function dHeists.include( fileName, state )
             include( fileName )
         end
     end
+
+    dHeists.print( "Included file " .. fileName )
 end
 
 function dHeists.includeFolder( currentFolder, noCheckInnerFolders )
@@ -46,5 +52,9 @@ end
 dHeists.config = dHeists.config or {} -- Initialize configuration table
 dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
 
+dHeists.includeFolder( "dheists/libraries/" )
+
 dHeists.include( "dheists/sv_content.lua" )
+dHeists.include( "dheists/sv_actions.lua" )
+dHeists.include( "dheists/cl_actions.lua" )
 dHeists.include( "dheists/sh_load_entities.lua" )
