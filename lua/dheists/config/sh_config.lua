@@ -13,9 +13,14 @@ dHeists.config.bagModel = "models/jessev92/payday2/item_Bag_loot.mdl" -- Leave t
 dHeists.config.bagSkin = 2 -- You can set a skin for the bag
 
 dHeists.config.fontFace = "Purista"
+dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
 
+dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.holdingBagAngleOffset = 10 -- 10 degrees
 dHeists.config.dropBagCommand = "dheists_dropbag"
 dHeists.config.dropBagKey = KEY_G
+
+dHeists.config.pickUpBagActionColor = Color( 20, 151, 20 )
+dHeists.config.pickUpBagActionText = "PICKING UP BAG"
