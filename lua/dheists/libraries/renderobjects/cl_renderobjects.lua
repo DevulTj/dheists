@@ -54,6 +54,8 @@ function renderObjects:render()
             local player = Entity( entIndex )
             if not IsValid( player ) then continue end -- TODO: mark for player deletion
 
+            if GetViewEntity() == player then continue end
+
             if not IsEntity( entity ) or not IsValid( entity ) then
                 local objectEntity = ClientsideModel( objectData.model, RENDERGROUP_TRANSLUCENT )
                 objectEntity:SetParent( player )
