@@ -43,6 +43,20 @@ function renderObjects:setPlayer( player )
 end
 
 --[[
+    function: renderObjects.setObjects
+    arguments: Player player, Table objects
+    description: Sets objects onto the desired player with the desired objects
+]]
+
+function renderObjects:setObjects( objects )
+    self.objectList = objects
+
+    hook.Run( "renderObjects.setObjects", objects )
+
+    return objects
+end
+
+--[[
     function: renderObjects.setObject
     arguments: Player player, Table objectData
     description: Sets an object onto the desired player with the desired object data
@@ -68,7 +82,7 @@ function renderObjects:clearObject( player, objectName )
 
     hook.Run( "renderObjects.clearObject", player, objectName )
 
-    self.objectList[ player:EntIndex() ].objectName = nil
+    self.objectList[ player:EntIndex() ][ objectName ] = nil
 end
 
 --[[
@@ -131,10 +145,14 @@ function renderObjects:registerObject( objectName, objectData )
     hook.Run( "renderObjects.registerObject", objectData )
 end
 
+function renderObjects:getRegisteredObject( objectName )
+    return self.objectDatabase[ objectName ]
+end
+
 renderObjects:registerObject( "pop_can", {
     model = "models/props_junk/PopCan01a.mdl",
     bone = "ValveBiped.Bip01_Head1",
-    pos = Vector( 0, 0, 2 ),
-    ang = Angle( 0, 180, 0 ),
+    pos = Vector( 0, 0, 4 ),
+    ang = Angle( 0, 270, 0 ),
     scale = 2
 } )
