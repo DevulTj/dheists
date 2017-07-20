@@ -56,6 +56,7 @@ dHeists.includeFolder( "dheists/libraries/" )
 
 dHeists.include( "dheists/sv_content.lua" )
 dHeists.include( "dheists/sv_bags.lua" )
+dHeists.include( "dheists/sh_bags.lua" )
 dHeists.include( "dheists/cl_bags.lua" )
 dHeists.include( "dheists/cl_ui.lua" )
 dHeists.include( "dheists/sv_actions.lua" )
