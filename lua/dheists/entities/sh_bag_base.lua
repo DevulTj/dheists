@@ -16,6 +16,11 @@ ENT.AdminSpawnable	= true
 
 ENT.IsBag = true
 
+ENT.physicsBox = {
+    mins = Vector( -7, -20, -5 ),
+    maxs = Vector( 7, 10, 6 )
+}
+
 if SERVER then
     function ENT:SetupDataTables()
         self:NetworkVar( "Int", 0, "BagType" )
@@ -31,7 +36,7 @@ if SERVER then
 
         self:SetModel( selectedModel )
 
-        self:PhysicsInitBox( Vector( -20, -20, -5 ), Vector( 20, 20, 16 ) )
+        self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )
@@ -59,11 +64,9 @@ if SERVER then
                 bagType = self:GetBagType()
             }
 
-            print("picking up ent")
-            PrintTable(player._dHeistsBag)
-
             SafeRemoveEntity( self )
             renderObjects:setObject( player, "bag_" .. self:GetBagType() )
+            player:SetNW2Bool( "dHeists_CarryingBag", true )
         end, {
             ent = self
         } )
@@ -73,6 +76,10 @@ end
 if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
+
+        if dHeists.config.debugEnabled then 
+            render.DrawWireframeBox( self:GetPos(), self:GetAngles(), self.physicsBox.mins, self.physicsBox.maxs, color_white )
+        end
     end
 
 	function ENT:Initialize()

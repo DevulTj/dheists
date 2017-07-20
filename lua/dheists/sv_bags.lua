@@ -19,5 +19,6 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
         renderObjects:clearObject( player, "bag_" .. player._dHeistsBag.bagType )
 
         player._dHeistsBag = nil
+        player:SetNW2Bool( "dHeists_CarryingBag", false )
     end
 end )

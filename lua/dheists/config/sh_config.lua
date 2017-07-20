@@ -4,6 +4,8 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
+dHeists.config.debugEnabled = true
+
 dHeists.config.drillModel = "models/hunter/blocks/cube05x05x05.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
 
@@ -14,5 +16,6 @@ dHeists.config.fontFace = "Purista"
 
 dHeists.config.bagPickUpTime = 2
 
+dHeists.config.holdingBagAngleOffset = 10 -- 10 degrees
 dHeists.config.dropBagCommand = "dheists_dropbag"
 dHeists.config.dropBagKey = KEY_G

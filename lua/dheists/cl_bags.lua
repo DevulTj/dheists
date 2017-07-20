@@ -12,3 +12,18 @@ hook.Add( "PlayerButtonDown", "dHeists.dropBag", function( player, buttonId )
 
     RunConsoleCommand( "dheists_dropbag" )
 end )
+
+local roll = 0
+hook.Add( "CalcView", "dHeists.drawBag", function( player, origin, angles, fov )
+    if roll ~= 0 or ( roll == 0 and player:GetNW2Bool( "dHeists_CarryingBag", false ) ) then
+        roll = Lerp( FrameTime() * 10, roll, player:GetNW2Bool( "dHeists_CarryingBag", false ) and dHeists.config.holdingBagAngleOffset or 0)
+
+        local view = {
+            origin = origin,
+            angles = Angle( angles.p, angles.y, angles.r + roll ),
+            fov = fov - 5
+        }
+
+        return view
+    end
+end )
