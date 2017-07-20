@@ -12,8 +12,7 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
         bag:Spawn()
         bag:Activate()
 
-        print("Do shit")
-        bag:GetPhysicsObject():SetVelocity( player:GetForward() * 300 + Vector( 0, 0, 20 ) )
+        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward() * ( dHeists.config.defaultBagThrowStrength or 300 ) )
 
         bag:setBagType( player._dHeistsBag.bagType )
         renderObjects:clearObject( player, "bag_" .. player._dHeistsBag.bagType )
