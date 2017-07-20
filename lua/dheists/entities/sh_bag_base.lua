@@ -68,7 +68,9 @@ if SERVER then
             renderObjects:setObject( player, "bag_" .. self:GetBagType() )
             player:SetNW2Bool( "dHeists_CarryingBag", true )
         end, {
-            ent = self
+            ent = self,
+            ActionColor = dHeists.config.pickUpBagActionColor,
+            ActionTimeRemainingText = dHeists.config.pickUpBagActionText
         } )
     end
 end
