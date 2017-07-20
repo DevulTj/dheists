@@ -61,7 +61,7 @@ function renderObjects:render()
                 objectEntity:SetParent( player )
 
                 if objectData.scale then objectEntity:SetModelScale( objectData.scale, 0 ) end
-                if objectData.skin then print("Set skin of object", objectData.skin) objectEntity:SetSkin( objectData.skin ) end
+                if objectData.skin then objectEntity:SetSkin( objectData.skin ) end
 
                 objectEntity:SetNoDraw( true )
                 self:setObjectEntity( player, objectName, objectEntity )
