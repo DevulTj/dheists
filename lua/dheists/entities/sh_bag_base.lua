@@ -36,12 +36,22 @@ if SERVER then
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )
 
+        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+        self:GetPhysicsObject():Wake()
+
         self:SetBagType( 1 ) -- Bag types
     end
 
     function ENT:Use( player )
         dHeists.actions.doAction( player, dHeists.config.bagPickUpTime, function()
+
+            player._dHeistsBag = {
+                bagType = self:GetBagType(),
+                objectName = "blue_bag"
+            }
+
             SafeRemoveEntity( self )
+            renderObjects:setObject( player, "blue_bag" )
         end, {
             ent = self
         } )

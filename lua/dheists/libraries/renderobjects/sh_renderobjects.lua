@@ -149,10 +149,9 @@ function renderObjects:getRegisteredObject( objectName )
     return self.objectDatabase[ objectName ]
 end
 
-renderObjects:registerObject( "pop_can", {
-    model = "models/props_junk/PopCan01a.mdl",
-    bone = "ValveBiped.Bip01_Head1",
-    pos = Vector( 0, 0, 4 ),
-    ang = Angle( 0, 270, 0 ),
-    scale = 2
+renderObjects:registerObject( "blue_bag", {
+    model = "models/jessev92/payday2/item_Bag_loot.mdl",
+    bone = "ValveBiped.Bip01_Spine",
+    pos = Vector( 0, 0, 10 ),
+    ang = Angle( 80, 100, 20 )
 } )

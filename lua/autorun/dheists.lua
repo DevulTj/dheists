@@ -55,6 +55,8 @@ dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
 dHeists.includeFolder( "dheists/libraries/" )
 
 dHeists.include( "dheists/sv_content.lua" )
+dHeists.include( "dheists/sv_bags.lua" )
+dHeists.include( "dheists/cl_bags.lua" )
 dHeists.include( "dheists/sv_actions.lua" )
 dHeists.include( "dheists/cl_actions.lua" )
 dHeists.include( "dheists/sh_load_entities.lua" )

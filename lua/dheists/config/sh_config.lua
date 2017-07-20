@@ -13,3 +13,6 @@ dHeists.config.bagSkin = 2 -- You can set a skin for the bag
 dHeists.config.fontFace = "Purista"
 
 dHeists.config.bagPickUpTime = 2
+
+dHeists.config.dropBagCommand = "dheists_dropbag"
+dHeists.config.dropBagKey = KEY_G
