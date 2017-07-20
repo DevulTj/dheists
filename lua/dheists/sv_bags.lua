@@ -15,8 +15,8 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
         print("Do shit")
         bag:GetPhysicsObject():SetVelocity( player:GetForward() * 300 + Vector( 0, 0, 20 ) )
 
-        bag:SetBagType( player._dHeistsBag.bagType )
-        renderObjects:clearObject( player, player._dHeistsBag.objectName )
+        bag:setBagType( player._dHeistsBag.bagType )
+        renderObjects:clearObject( player, "bag_" .. player._dHeistsBag.bagType )
 
         player._dHeistsBag = nil
     end

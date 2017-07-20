@@ -31,7 +31,7 @@ if SERVER then
 
         self:SetModel( selectedModel )
 
-        self:PhysicsInit( SOLID_VPHYSICS )
+        self:PhysicsInitBox( Vector( -20, -20, -5 ), Vector( 20, 20, 16 ) )
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )
@@ -39,19 +39,31 @@ if SERVER then
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
-        self:SetBagType( 1 ) -- Bag types
+        self:setBagType( 0 )
+    end
+
+    function ENT:setBagType( bagType )
+        if not tonumber( bagType ) then return end
+
+        print("setting bag type", bagType)
+
+        self:SetBagType( bagType ) -- Bag types
+        self:SetSkin( bagType )
     end
 
     function ENT:Use( player )
         dHeists.actions.doAction( player, dHeists.config.bagPickUpTime, function()
+            if player._dHeistsBag then return end
 
             player._dHeistsBag = {
-                bagType = self:GetBagType(),
-                objectName = "blue_bag"
+                bagType = self:GetBagType()
             }
 
+            print("picking up ent")
+            PrintTable(player._dHeistsBag)
+
             SafeRemoveEntity( self )
-            renderObjects:setObject( player, "blue_bag" )
+            renderObjects:setObject( player, "bag_" .. self:GetBagType() )
         end, {
             ent = self
         } )

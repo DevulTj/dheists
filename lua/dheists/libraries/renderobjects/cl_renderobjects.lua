@@ -58,8 +58,10 @@ function renderObjects:render()
                 local objectEntity = ClientsideModel( objectData.model, RENDERGROUP_TRANSLUCENT )
                 objectEntity:SetParent( player )
 
+                PrintTable( objectData )
+
                 if objectData.scale then objectEntity:SetModelScale( objectData.scale, 0 ) end
-                if objectData.skin then objectEntity:SetSkin( objectData.skin ) end
+                if objectData.skin then print("Set skin of object", objectData.skin) objectEntity:SetSkin( objectData.skin ) end
 
                 objectEntity:SetNoDraw( true )
                 self:setObjectEntity( player, objectName, objectEntity )
