@@ -24,3 +24,39 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
         player:SetNW2Bool( "dHeists_CarryingBag", false )
     end
 end )
+
+hook.Add( "renderObjects.registerObjects", "dHeists.addBags", function()
+    renderObjects:registerObject( "bag_0", {
+        model = "models/jessev92/payday2/item_Bag_loot.mdl",
+        bone = "ValveBiped.Bip01_Spine",
+        pos = Vector( 0, 0, 10 ),
+        ang = Angle( 80, 100, 20 )
+    } )
+
+    renderObjects:registerObject( "bag_1", {
+        model = "models/jessev92/payday2/item_Bag_loot.mdl",
+        bone = "ValveBiped.Bip01_Spine",
+        pos = Vector( 0, 0, 10 ),
+        ang = Angle( 80, 100, 20 ),
+
+        skin = 1
+    } )
+
+    renderObjects:registerObject( "bag_2", {
+        model = "models/jessev92/payday2/item_Bag_loot.mdl",
+        bone = "ValveBiped.Bip01_Spine",
+        pos = Vector( 0, 0, 10 ),
+        ang = Angle( 80, 100, 20 ),
+
+        skin = 2
+    } )
+
+    renderObjects:registerObject( "bag_3", {
+        model = "models/jessev92/payday2/item_Bag_loot.mdl",
+        bone = "ValveBiped.Bip01_Spine",
+        pos = Vector( 0, 0, 10 ),
+        ang = Angle( 80, 100, 20 ),
+
+        skin = 3
+    } )
+end )
