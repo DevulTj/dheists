@@ -13,3 +13,5 @@ function dHeists.npc.create( name, data )
 
     return id
 end
+
+hook.Call( "dHeists.registerNPCs" )

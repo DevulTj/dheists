@@ -7,6 +7,8 @@
 dHeists = dHeists or {
     VERSION = 1,
 
+    IDENTIFIER = "dheists",
+
     config = {},
     npc = {}
 }

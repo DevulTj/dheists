@@ -6,7 +6,9 @@
 
 dHeists.npc.list = {}
 
--- DO NOT EDIT ABOVE THIS LINE!
+hook.Add( "dHeists.registerNPCs", dHeists.IDENTIFIER, function()
+
+-- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
 dHeists.LOOT_NPC = dHeists.npc.create( "Loot Guy", {
     model = "models/police.mdl",
@@ -19,3 +21,7 @@ dHeists.LOOT_NPC = dHeists.npc.create( "Loot Guy", {
         dHeists.collectBag( npc, entity )
     end
 } )
+
+-- DO NOT EDIT ANYTHING BELOW THIS LINE!
+
+end )
