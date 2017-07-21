@@ -45,6 +45,10 @@ hook.Add( "ShouldCollide", "dHeists.bag", function( ent1, ent2 )
     end
 end )
 
+function dHeists.isPolice( player )
+    return dHeists.config.isPoliceFunction( player )
+end
+
 local effectData = EffectData()
 function dHeists.collectBag( npc, entity )
     effectData:SetOrigin( npc:GetPos() + Vector( 0, 0, 30 ) )

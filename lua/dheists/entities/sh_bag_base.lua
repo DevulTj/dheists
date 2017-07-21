@@ -57,7 +57,7 @@ if SERVER then
         self:SetSkin( bagType )
     end
 
-    function ENT:Use( player )
+    function ENT:doPickUpAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagPickUpTime, function()
             if player._dHeistsBag then return end
 
@@ -73,6 +73,26 @@ if SERVER then
             ActionColor = dHeists.config.pickUpBagActionColor,
             ActionTimeRemainingText = dHeists.config.pickUpBagActionText
         } )
+    end
+
+    function ENT:doConfiscateAction( player )
+        dHeists.actions.doAction( player, dHeists.config.bagConfiscateTime, function()
+            SafeRemoveEntity( self )
+        end, {
+            ent = self,
+            ActionColor = dHeists.config.confiscateBagActionColor,
+            ActionTimeRemainingText = dHeists.config.confiscateBagActionText
+        } )
+    end
+
+    function ENT:Use( player )
+        local shouldConfiscate = dHeists.isPolice( player )
+
+        if shouldConfiscate then
+            self:doConfiscateAction( player )
+        else
+            self:doPickUpAction( player )
+        end
     end
 end
 
