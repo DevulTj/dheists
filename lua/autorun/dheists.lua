@@ -4,78 +4,68 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-dHeists = dHeists or {}
+dHeists = dHeists or {
+    VERSION = 1,
+
+    config = {},
+    npc = {}
+}
 
 function dHeists.print( ... )
     return MsgC( Color( 255, 0, 0 ), "[dHeists] ", color_white, ..., "\n" )
 end
 
-function dHeists.include( fileName, state )
-    if not fileName then return end
-
-    if ( state == "server" or fileName:find("sv_" ) ) and SERVER then
-        include( fileName )
-    elseif state == "shared" or fileName:find( "sh_" ) then
-        if SERVER then
-            AddCSLuaFile( fileName )
-        end
-
-        include( fileName )
-    elseif state == "client" or fileName:find( "cl_" ) then
-        if SERVER then
-            AddCSLuaFile( fileName )
-        else
-            include( fileName )
-        end
-    end
-
-    dHeists.print( "Included file " .. fileName )
-end
-
-function dHeists.includeFolder( currentFolder, noCheckInnerFolders )
-    local files, folders = file.Find( currentFolder .. "*", "LUA" )
-
-    for _, File in pairs( files ) do
-        dHeists.include( currentFolder .. File )
-    end
-
-    if noCheckInnerFolders then return end
-    for _, folder in pairs( folders ) do
-        dHeists.includeFolder( currentFolder .. folder .. "/" )
-    end
-end
-
 --[[
     File Loading
 ]]
+local version = 1
 
-dHeists.config = dHeists.config or {} -- Initialize configuration table
-dHeists.npc = dHeists.npc or {} -- Initialize npc table
+if not frile or frile.VERSION < version then
+    frile = {
+        VERSION = version,
 
-dHeists.include( "dheists/modules/npc/sh_npc.lua" )
+        STATE_SERVER = 0,
+        STATE_CLIENT = 1,
+        STATE_SHARED = 2
+    }
 
-dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
-dHeists.includeFolder( "dheists/libraries/" )
+    function frile.includeFile( filename, state )
+        if state == frile.STATE_SHARED or filename:find( "sh_" ) then
+            if SERVER then AddCSLuaFile( filename ) end
+            include( filename )
+        elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
+            include( filename )
+        elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
+            if SERVER then AddCSLuaFile( filename )
+            else include( filename ) end
+        end
+    end
 
-dHeists.include( "dheists/sv_content.lua" )
-dHeists.include( "dheists/cl_fonts.lua" )
+    function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersInFolder )
+        if file.Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
+            frile.includeFile( currentFolder .. "sh_frile.lua" )
 
-dHeists.include( "dheists/sh_util.lua" )
+            return
+        end
 
--- NPC system
-dHeists.include( "dheists/modules/npc/sv_npc.lua" )
-dHeists.include( "dheists/modules/npc/cl_npc.lua" )
+        local files, folders = file.Find( currentFolder .. "*", "LUA" )
 
-dHeists.include( "dheists/sv_init.lua" )
+        if not ignoreFilesInFolder then
+            for _, File in ipairs( files ) do
+                frile.includeFile( currentFolder .. File )
+            end
+        end
 
--- Bag system
-dHeists.include( "dheists/modules/bags/sv_bags.lua" )
-dHeists.include( "dheists/modules/bags/sh_bags.lua" )
-dHeists.include( "dheists/modules/bags/cl_bags.lua" )
+        if not ignoreFoldersInFolder then
+            for _, folder in ipairs( folders ) do
+                frile.includeFolder( currentFolder .. folder .. "/" )
+            end
+        end
+    end
+end
 
-dHeists.include( "dheists/cl_ui.lua" )
-dHeists.include( "dheists/sh_load_entities.lua" )
-
--- Action system
-dHeists.include( "dheists/modules/actions/sv_actions.lua" )
-dHeists.include( "dheists/modules/actions/cl_actions.lua" )
+ -- Load everything
+frile.includeFolder( "dheists/libraries/" )
+frile.includeFolder( "dheists/entities/" )
+frile.includeFolder( "dheists/config/" )
+frile.includeFolder( "dheists/module/" )
