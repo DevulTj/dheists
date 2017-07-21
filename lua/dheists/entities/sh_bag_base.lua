@@ -57,6 +57,10 @@ if SERVER then
         self:SetSkin( bagType )
     end
 
+    function ENT:playActionSound()
+        self:EmitSound( "npc/combine_soldier/gear" .. math.random( 1, 3 ) .. ".wav" )
+    end
+
     function ENT:doPickUpAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagPickUpTime, function()
             if player._dHeistsBag then return end
@@ -64,6 +68,8 @@ if SERVER then
             player._dHeistsBag = {
                 bagType = self:GetBagType()
             }
+
+            self:playActionSound()
 
             SafeRemoveEntity( self )
             renderObjects:setObject( player, "bag_" .. self:GetBagType() )
@@ -75,8 +81,19 @@ if SERVER then
         } )
     end
 
+    function ENT:doEffect()
+        local effectData = EffectData()
+        effectData:SetOrigin( self:GetPos() )
+        effectData:SetScale( 10 )
+        util.Effect( "inflator_magic", effectData )
+
+        self:playActionSound()
+    end
+
     function ENT:doConfiscateAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagConfiscateTime, function()
+            self:doEffect()
+
             SafeRemoveEntity( self )
 
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
