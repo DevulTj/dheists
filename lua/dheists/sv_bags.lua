@@ -12,8 +12,8 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
         bag:Spawn()
         bag:Activate()
 
-        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward() 
-            * ( dHeists.config.defaultBagThrowStrength or 300 ) 
+        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward()
+            * ( dHeists.config.defaultBagThrowStrength or 300 )
             * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
         )
 
@@ -25,38 +25,32 @@ concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
     end
 end )
 
-hook.Add( "renderObjects.registerObjects", "dHeists.addBags", function()
-    renderObjects:registerObject( "bag_0", {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = Vector( 0, 0, 10 ),
-        ang = Angle( 80, 100, 20 )
-    } )
+concommand.Add( "dheists_debug_setbagtype", function( player, cmd, args )
+    if not player:IsSuperAdmin() then return end
 
-    renderObjects:registerObject( "bag_1", {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = Vector( 0, 0, 10 ),
-        ang = Angle( 80, 100, 20 ),
+    args = table.concat( args, " " )
+    if not tonumber( args ) then return end
 
-        skin = 1
-    } )
+    print(args)
 
-    renderObjects:registerObject( "bag_2", {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = Vector( 0, 0, 10 ),
-        ang = Angle( 80, 100, 20 ),
+    local entity = player:GetEyeTrace().Entity
+    if not IsValid( entity ) or not entity.IsBag then return end
 
-        skin = 2
-    } )
-
-    renderObjects:registerObject( "bag_3", {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = Vector( 0, 0, 10 ),
-        ang = Angle( 80, 100, 20 ),
-
-        skin = 3
-    } )
+    entity:setBagType( args )
 end )
+
+hook.Add( "ShouldCollide", "dHeists.bag", function( ent1, ent2 )
+    if ply1.IsBag and ply2:IsPlayer() then
+        return false
+    end
+end )
+
+local effectData = EffectData()
+function dHeists.collectBag( npc, entity )
+    effectData:SetOrigin( npc:GetPos() + Vector( 0, 0, 30 ) )
+    effectData:SetColor( 1 )
+
+    util.Effect( "balloon_pop", effectData )
+
+    SafeRemoveEntity( entity )
+end

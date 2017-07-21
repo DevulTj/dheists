@@ -10,6 +10,7 @@ ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Drill"
+ENT.Category = "dHeists"
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -21,7 +22,7 @@ if SERVER then
         local selectedModel = dHeists.config.drillModel
         local isValidModel = file.Exists( selectedModel, "GAME" )
 
-        if not isValidModel then 
+        if not isValidModel then
             selectedModel = "models/hunter/blocks/cube05x05x05.mdl"
         end
 

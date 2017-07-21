@@ -110,7 +110,7 @@ if SERVER then
         local objectList = self:getObjects()
 
         -- We're running in the server realm, so we can use net messages!
-        net.Start( "renderObjects.loadObjects" ) 
+        net.Start( "renderObjects.loadObjects" )
             net.WriteTable( objectList )
         net.Send( player )
 
@@ -143,10 +143,44 @@ function renderObjects:registerObject( objectName, objectData )
     self.objectDatabase[ objectName ] = objectData
 
     hook.Run( "renderObjects.registerObject", objectData )
+
+    MsgC( Color( 255, 0, 0 ), "[renderObjects] ", color_white, "Registered object '" .. objectName .. "'\n" )
 end
 
 function renderObjects:getRegisteredObject( objectName )
     return self.objectDatabase[ objectName ]
 end
 
-hook.Run( "renderObjects.registerObjects" )
+renderObjects:registerObject( "bag_0", {
+    model = "models/jessev92/payday2/item_Bag_loot.mdl",
+    bone = "ValveBiped.Bip01_Spine",
+    pos = Vector( 0, 0, 10 ),
+    ang = Angle( 80, 100, 20 )
+} )
+
+renderObjects:registerObject( "bag_1", {
+    model = "models/jessev92/payday2/item_Bag_loot.mdl",
+    bone = "ValveBiped.Bip01_Spine",
+    pos = Vector( 0, 0, 10 ),
+    ang = Angle( 80, 100, 20 ),
+
+    skin = 1
+} )
+
+renderObjects:registerObject( "bag_2", {
+    model = "models/jessev92/payday2/item_Bag_loot.mdl",
+    bone = "ValveBiped.Bip01_Spine",
+    pos = Vector( 0, 0, 10 ),
+    ang = Angle( 80, 100, 20 ),
+
+    skin = 2
+} )
+
+renderObjects:registerObject( "bag_3", {
+    model = "models/jessev92/payday2/item_Bag_loot.mdl",
+    bone = "ValveBiped.Bip01_Spine",
+    pos = Vector( 0, 0, 10 ),
+    ang = Angle( 80, 100, 20 ),
+
+    skin = 3
+} )

@@ -27,21 +27,16 @@ hook.Add( "CalcView", "dHeists.drawBag", function( player, origin, angles, fov )
     end
 end )
 
-surface.CreateFont( "dHeists_bagText", {
-    font = dHeists.config.fontFace,
-    weight = 800,
-    size = 26,
-} )
-
 local hudX, hudY = ScrW() - 4, ScrH() * 0.6
 local width, height = 230, 70
 
 local carryingText = "CARRYING:"
+local itemText = "BAG OF CASH"
 
 local posMult = 0
 hook.Add( "HUDPaint", "dHeists.drawBag", function()
     local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] TO THROW"
-    
+
     if posMult ~= 0 or ( posMult == 0 and LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) ) then
         posMult = Lerp( FrameTime() * 20, posMult, LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) and 1 or 0 )
 
@@ -55,7 +50,7 @@ hook.Add( "HUDPaint", "dHeists.drawBag", function()
         draw.SimpleText( carryingText, "dHeists_bagText", hudX + 10 - offset, hudY + 8, Color( 0, 0, 0, 185 ) )
         draw.SimpleText( carryingText, "dHeists_bagText", hudX + 8 - offset, hudY + 6, color_white )
 
-        draw.SimpleText( "BAG OF CASH", "dHeists_bagText", hudX + 8 - offset, hudY + 36, Color( 0, 0, 0, 185 ) )
-        draw.SimpleText( "BAG OF CASH", "dHeists_bagText", hudX + 6 - offset, hudY + 34, color_white )
+        draw.SimpleText( itemText, "dHeists_bagText", hudX + 8 - offset, hudY + 36, Color( 0, 0, 0, 185 ) )
+        draw.SimpleText( itemText, "dHeists_bagText", hudX + 6 - offset, hudY + 34, color_white )
     end
 end )

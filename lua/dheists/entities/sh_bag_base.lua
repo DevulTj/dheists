@@ -10,6 +10,7 @@ ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Bag"
+ENT.Category = "dHeists"
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -30,7 +31,7 @@ if SERVER then
         local selectedModel = dHeists.config.bagModel
         local isValidModel = file.Exists( selectedModel, "GAME" )
 
-        if not isValidModel then 
+        if not isValidModel then
             selectedModel = "models/jessev92/payday2/item_Bag_loot.mdl"
         end
 
@@ -41,7 +42,7 @@ if SERVER then
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )
 
-        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+        --self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
         self:setBagType( 0 )
@@ -79,7 +80,7 @@ if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
 
-        if dHeists.config.debugEnabled then 
+        if dHeists.config.debugEnabled then
             render.DrawWireframeBox( self:GetPos(), self:GetAngles(), self.physicsBox.mins, self.physicsBox.maxs, color_white )
         end
     end

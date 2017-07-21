@@ -6,13 +6,6 @@
 
 dHeists.actions = dHeists.actions or {}
 
-surface.CreateFont( "dHeistsMedium", {
-	font = dHeists.config.fontFace or "Purista",
-	size = 24,
-	weight = dHeists.config.fontWeight or 800,
-	antialias = true
-} )
-
 dHeists.StateText = ""
 dHeists.ActionText = ""
 dHeists.ActionColor = Color( 255, 0, 0 )
@@ -26,7 +19,7 @@ function dHeists.DrawAction()
 	local curTime = CurTime()
 	local scrW, scrH = ScrW(), ScrH()
 
-	local timeRemainingText = dHeists.ActionTimeRemainingText or "TIME REMAINING"   
+	local timeRemainingText = dHeists.ActionTimeRemainingText or "TIME REMAINING"
 
 	if finish > curTime then
 		local fraction = math.TimeFraction( start, finish, curTime )
@@ -92,7 +85,7 @@ net.Receive( "dHeists.actions.doAction", function()
 	end
 
 	timer.Create( "dHeists.ActionTimer", length, 1, function()
-		net.Start("dHeists.actions.finishAction")
+		net.Start( "dHeists.actions.finishAction" )
 		net.SendToServer()
 	end )
 end)

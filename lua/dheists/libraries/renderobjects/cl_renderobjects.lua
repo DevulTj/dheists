@@ -24,7 +24,7 @@ end )
 net.Receive( "renderObjects.clearObject", function()
     local player = Entity( net.ReadUInt( 16 ) )
     if not IsValid( player ) then return end
-    
+
     renderObjects:clearObject( player, net.ReadString() )
     renderObjects:render()
 end )
@@ -34,7 +34,7 @@ function renderObjects:iterObjects()
 end
 
 function renderObjects:setObjectEntity( player, objectName, objectEntity )
-    self.objectList[ player:EntIndex() ][ objectName ] = objectEntity 
+    self.objectList[ player:EntIndex() ][ objectName ] = objectEntity
 end
 
 function renderObjects:clearEntity( objectName )
@@ -64,6 +64,7 @@ function renderObjects:render()
                 if objectData.skin then objectEntity:SetSkin( objectData.skin ) end
 
                 objectEntity:SetNoDraw( true )
+
                 self:setObjectEntity( player, objectName, objectEntity )
             else
                 local bone = player:LookupBone( objectData.bone or "ValveBiped.Bip01_Head1" )

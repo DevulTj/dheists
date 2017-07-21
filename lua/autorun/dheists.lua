@@ -50,11 +50,20 @@ end
 ]]
 
 dHeists.config = dHeists.config or {} -- Initialize configuration table
-dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
+dHeists.npc = dHeists.npc or {} -- Initialize npc table
 
+dHeists.include( "dheists/sh_npc.lua" )
+
+dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
 dHeists.includeFolder( "dheists/libraries/" )
 
 dHeists.include( "dheists/sv_content.lua" )
+dHeists.include( "dheists/cl_fonts.lua" )
+
+dHeists.include( "dheists/sh_npc.lua" )
+dHeists.include( "dheists/sv_npc.lua" )
+dHeists.include( "dheists/cl_npc.lua" )
+
 dHeists.include( "dheists/sv_bags.lua" )
 dHeists.include( "dheists/sh_bags.lua" )
 dHeists.include( "dheists/cl_bags.lua" )
