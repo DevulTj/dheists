@@ -52,7 +52,7 @@ end
 dHeists.config = dHeists.config or {} -- Initialize configuration table
 dHeists.npc = dHeists.npc or {} -- Initialize npc table
 
-dHeists.include( "dheists/sh_npc.lua" )
+dHeists.include( "dheists/modules/npc/sh_npc.lua" )
 
 dHeists.includeFolder( "dheists/config/" ) -- Load all configurations
 dHeists.includeFolder( "dheists/libraries/" )
@@ -63,18 +63,19 @@ dHeists.include( "dheists/cl_fonts.lua" )
 dHeists.include( "dheists/sh_util.lua" )
 
 -- NPC system
-dHeists.include( "dheists/sh_npc.lua" )
-dHeists.include( "dheists/sv_npc.lua" )
-dHeists.include( "dheists/cl_npc.lua" )
+dHeists.include( "dheists/modules/npc/sv_npc.lua" )
+dHeists.include( "dheists/modules/npc/cl_npc.lua" )
 
 dHeists.include( "dheists/sv_init.lua" )
 
 -- Bag system
-dHeists.include( "dheists/sv_bags.lua" )
-dHeists.include( "dheists/sh_bags.lua" )
-dHeists.include( "dheists/cl_bags.lua" )
+dHeists.include( "dheists/modules/bags/sv_bags.lua" )
+dHeists.include( "dheists/modules/bags/sh_bags.lua" )
+dHeists.include( "dheists/modules/bags/cl_bags.lua" )
 
 dHeists.include( "dheists/cl_ui.lua" )
-dHeists.include( "dheists/sv_actions.lua" )
-dHeists.include( "dheists/cl_actions.lua" )
 dHeists.include( "dheists/sh_load_entities.lua" )
+
+-- Action system
+dHeists.include( "dheists/modules/actions/sv_actions.lua" )
+dHeists.include( "dheists/modules/actions/cl_actions.lua" )
