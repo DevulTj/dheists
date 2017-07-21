@@ -19,6 +19,8 @@ dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
 
+dHeists.config.holdingBagMovementModifier = 0.75 -- 25% less movement speed
+
 dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
 dHeists.config.holdingBagAngleOffset = 10 -- 10 degrees
