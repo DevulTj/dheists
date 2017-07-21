@@ -37,6 +37,10 @@ dHeists.config.confiscateBagText = "You gained %s from confiscating a Bag"
 dHeists.config.pickUpBagActionColor = Color( 20, 151, 20 )
 dHeists.config.pickUpBagActionText = "PICKING UP BAG"
 
+dHeists.config.stealPickUpBagActionColor = Color( 255, 165, 20 )
+dHeists.config.stealPickUpBagActionText = "STEALING BAG"
+dHeists.config.stealPickUpBagTime = 4
+
 dHeists.config.isPoliceFunction = function( player )
     return player:getJobTable().category == "Civil Protection"
 end

@@ -25,6 +25,7 @@ ENT.physicsBox = {
 if SERVER then
     function ENT:SetupDataTables()
         self:NetworkVar( "Int", 0, "BagType" )
+        self:NetworkVar( "Entity", 0, "EntityOwner" )
     end
 
     function ENT:Initialize()
@@ -62,7 +63,10 @@ if SERVER then
     end
 
     function ENT:doPickUpAction( player )
-        dHeists.actions.doAction( player, dHeists.config.bagPickUpTime, function()
+        local entityOwner = self:GetEntityOwner()
+        local playerIsOwner = entityOwner == player
+
+        dHeists.actions.doAction( player, playerIsOwner and dHeists.config.bagPickUpTime or dHeists.config.stealPickUpBagTime, function()
             if player._dHeistsBag then return end
 
             player._dHeistsBag = {
@@ -76,8 +80,9 @@ if SERVER then
             player:SetNW2Bool( "dHeists_CarryingBag", true )
         end, {
             ent = self,
-            ActionColor = dHeists.config.pickUpBagActionColor,
-            ActionTimeRemainingText = dHeists.config.pickUpBagActionText
+            ActionColor = playerIsOwner and dHeists.config.pickUpBagActionColor or dHeists.config.stealPickUpBagActionColor,
+            ActionTimeRemainingText = playerIsOwner and dHeists.config.pickUpBagActionText
+                or dHeists.config.stealPickUpBagActionText .. ( IsValid( entityOwner ) and ( " FROM " .. entityOwner:Nick():upper() ) or "" )
         } )
     end
 

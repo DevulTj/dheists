@@ -4,27 +4,6 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-concommand.Add( dHeists.config.dropBagCommand, function( player, cmd, args )
-    if player._dHeistsBag then
-        local bag = ents.Create( "dheists_bag_base" )
-        bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) )
-
-        bag:Spawn()
-        bag:Activate()
-
-        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward()
-            * ( dHeists.config.defaultBagThrowStrength or 300 )
-            * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
-        )
-
-        bag:setBagType( player._dHeistsBag.bagType )
-        renderObjects:clearObject( player, "bag_" .. player._dHeistsBag.bagType )
-
-        player._dHeistsBag = nil
-        player:SetNW2Bool( "dHeists_CarryingBag", false )
-    end
-end )
-
 concommand.Add( "dheists_debug_setbagtype", function( player, cmd, args )
     if not player:IsSuperAdmin() then return end
 
@@ -44,6 +23,34 @@ hook.Add( "ShouldCollide", "dHeists.bag", function( ent1, ent2 )
         return false
     end
 end )
+
+function dHeists.dropBag( player )
+    if player._dHeistsBag then
+        local bag = ents.Create( "dheists_bag_base" )
+        bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) )
+
+        bag:Spawn()
+        bag:Activate()
+
+        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward()
+            * ( dHeists.config.defaultBagThrowStrength or 300 )
+            * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
+        ) -- Throw the bag in the player's direction
+
+        bag:setBagType( player._dHeistsBag.bagType )
+
+        if renderObjects then -- renderObjects support
+            renderObjects:clearObject( player, "bag_" .. player._dHeistsBag.bagType )
+        end
+
+        player._dHeistsBag = nil
+        player:SetNW2Bool( "dHeists_CarryingBag", false )
+
+        bag:SetEntityOwner( player ) -- Ownership property
+    end
+end
+
+concommand.Add( dHeists.config.dropBagCommand, dHeists.dropBag )
 
 function dHeists.isPolice( player )
     return dHeists.config.isPoliceFunction( player )
