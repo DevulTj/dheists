@@ -25,6 +25,8 @@ ENT.physicsBox = {
 if SERVER then
     function ENT:SetupDataTables()
         self:NetworkVar( "Int", 0, "BagType" )
+        self:NetworkVar( "Int", 2, "LootCount" )
+        self:NetworkVar( "Int", 4, "Capacity" )
         self:NetworkVar( "Entity", 0, "EntityOwner" )
     end
 
@@ -43,7 +45,7 @@ if SERVER then
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )
 
-        --self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
         self:setBagType( 0 )
@@ -123,17 +125,75 @@ if SERVER then
 end
 
 if CLIENT then
+
+    local hudX, hudY = 0, 0
+    local hudWidth, hudHeight = 280, 60
     function ENT:Draw()
     	self:DrawModel()
 
         if dHeists.config.debugEnabled then
             render.DrawWireframeBox( self:GetPos(), self:GetAngles(), self.physicsBox.mins, self.physicsBox.maxs, color_white )
         end
+
+       /* --Design stuff
+        self.camPos = self:GetPos() + self:GetUp() * 7 + self:GetForward() * -3 + self:GetRight() * 20
+        self.camAng = self:GetAngles()
+        self.camAng:RotateAroundAxis(self.camAng:Right(), -90)
+        self.camAng:RotateAroundAxis(self.camAng:Up(), 90)
+        self.camAng:RotateAroundAxis(self.camAng:Forward(), 270)
+
+        local loot = self.GetLootCount and self:GetLootCount() or 3
+        local capacity = self.GetCapacity and self:GetCapacity() or 4
+        local fraction = loot / capacity
+
+        cam.Start3D2D(self.camPos, self.camAng, .1)
+            draw.RoundedBox( 0, 0, 0, hudWidth * fraction, hudHeight, Color( 0, 151, 0, 100 ) )
+
+            surface.DrawCuteRect( hudX, hudY, hudWidth, hudHeight, 3 )
+
+            draw.SimpleText( loot .. "/" .. capacity, "dHeists_bagText3D", hudX + ( hudWidth / 2 ), hudY + ( hudHeight / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+        cam.End3D2D()*/
     end
 
 	function ENT:Initialize()
         self:DrawShadow( false )
 	end
 end
+
+properties.Add( "setbagtype", {
+	MenuLabel = "Set Bag Type", -- Name to display on the context menu
+	Order = 0, -- The order to display this property relative to other properties
+	MenuIcon = "icon16/briefcase.png", -- The icon to display next to the property
+
+	Filter = function( self, ent, ply ) -- A function that determines whether an entity is valid for this property
+		if not ent.IsBag then return false end
+		--if not gamemode.Call( "CanProperty", ply, "bags", ent ) then return false end
+
+		return true
+	end,
+	Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
+        Derma_StringRequest(
+            "Set Bag Type",
+            "Input a number with the bag type",
+            "",
+            function( text )
+                if not tonumber( text ) then return end
+
+                self:MsgStart()
+                    net.WriteEntity( ent )
+                    net.WriteUInt( text, 8 )
+                self:MsgEnd()
+            end,
+            function( text ) end
+        )
+
+	end,
+	Receive = function( self, length, player ) -- The action to perform upon using the property ( Serverside )
+		local ent = net.ReadEntity()
+		if not self:Filter( ent, player ) then return end
+
+		ent:setBagType( net.ReadUInt( 8 ) )
+	end
+} )
 
 scripted_ents.Register( ENT, "dheists_bag_base" )

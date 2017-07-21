@@ -16,3 +16,9 @@ surface.CreateFont( "dHeists_bagText", {
     weight = 800,
     size = 26,
 } )
+
+surface.CreateFont( "dHeists_bagText3D", {
+    font = dHeists.config.fontFace or "Purista",
+    weight = 800,
+    size = 32,
+} )
