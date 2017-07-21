@@ -10,18 +10,10 @@ concommand.Add( "dheists_debug_setbagtype", function( player, cmd, args )
     args = table.concat( args, " " )
     if not tonumber( args ) then return end
 
-    print(args)
-
     local entity = player:GetEyeTrace().Entity
     if not IsValid( entity ) or not entity.IsBag then return end
 
     entity:setBagType( args )
-end )
-
-hook.Add( "ShouldCollide", "dHeists.bag", function( ent1, ent2 )
-    if ply1.IsBag and ply2:IsPlayer() then
-        return false
-    end
 end )
 
 function dHeists.dropBag( player )
