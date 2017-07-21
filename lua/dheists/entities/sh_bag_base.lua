@@ -78,6 +78,10 @@ if SERVER then
     function ENT:doConfiscateAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagConfiscateTime, function()
             SafeRemoveEntity( self )
+
+            local moneyGiven = dHeists.config.confiscateBagMoneyPrize
+            dHeists.addMoney( player, moneyGiven )
+            dHeists.addNotification( player, ( dHeists.config.confiscateBagText or "You were given %s" ):format( dHeists.formatMoney( moneyGiven ) ) )
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,

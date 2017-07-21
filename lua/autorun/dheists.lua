@@ -60,13 +60,20 @@ dHeists.includeFolder( "dheists/libraries/" )
 dHeists.include( "dheists/sv_content.lua" )
 dHeists.include( "dheists/cl_fonts.lua" )
 
+dHeists.include( "dheists/sh_util.lua" )
+
+-- NPC system
 dHeists.include( "dheists/sh_npc.lua" )
 dHeists.include( "dheists/sv_npc.lua" )
 dHeists.include( "dheists/cl_npc.lua" )
 
+dHeists.include( "dheists/sv_init.lua" )
+
+-- Bag system
 dHeists.include( "dheists/sv_bags.lua" )
 dHeists.include( "dheists/sh_bags.lua" )
 dHeists.include( "dheists/cl_bags.lua" )
+
 dHeists.include( "dheists/cl_ui.lua" )
 dHeists.include( "dheists/sv_actions.lua" )
 dHeists.include( "dheists/cl_actions.lua" )

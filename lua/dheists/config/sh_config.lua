@@ -12,11 +12,12 @@ dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
 dHeists.config.bagModel = "models/jessev92/payday2/item_Bag_loot.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.bagSkin = 2 -- You can set a skin for the bag
 
+dHeists.config.currency = "£"
+
 dHeists.config.fontFace = "Purista"
 dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
-dHeists.config.bagConfiscateTime = 4
 
 dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
@@ -26,6 +27,10 @@ dHeists.config.dropBagKey = KEY_G
 
 dHeists.config.confiscateBagActionColor = Color( 20, 20, 151 )
 dHeists.config.confiscateBagActionText = "CONFISCATING BAG"
+dHeists.config.confiscateBagMoneyPrize = 1250
+dHeists.config.bagConfiscateTime = 4
+
+dHeists.config.confiscateBagText = "You gained %s from confiscating a Bag"
 
 dHeists.config.pickUpBagActionColor = Color( 20, 151, 20 )
 dHeists.config.pickUpBagActionText = "PICKING UP BAG"
@@ -34,4 +39,10 @@ dHeists.config.isPoliceFunction = function( player )
     return player:getJobTable().category == "Civil Protection"
 end
 
-dHeists.config.confiscateBagAmount = 500
+dHeists.config.addMoneyFunction = function( player, amount )
+    return player:addMoney( amount )
+end
+
+dHeists.config.addNotificationFunction = function( player, text )
+    return DarkRP and DarkRP.notify( player, 0, 4, text ) or player:ChatPrint( text )
+end
