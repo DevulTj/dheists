@@ -18,6 +18,7 @@ dHeists.config.fontFace = "Purista"
 dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
+dHeists.config.alternateBagPos = false
 
 dHeists.config.holdingBagMovementModifier = 0.75 -- 25% less movement speed
 
