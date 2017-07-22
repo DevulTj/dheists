@@ -28,29 +28,68 @@ hook.Add( "CalcView", "dHeists.drawBag", function( player, origin, angles, fov )
 end )
 
 local hudX, hudY = ScrW() - 4, ScrH() * 0.6
-local width, height = 230, 70
+local width, height = 230, 40
 
 local carryingText = "CARRYING:"
 local itemText = "BAG OF CASH"
 
-local posMult = 0
 hook.Add( "HUDPaint", "dHeists.drawBag", function()
     local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] TO THROW"
 
-    if posMult ~= 0 or ( posMult == 0 and LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) ) then
-        posMult = Lerp( FrameTime() * 20, posMult, LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) and 1 or 0 )
+    if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
+        local itemsText = LocalPlayer()._dHeistsLootItems or "NO ITEMS"
 
-        local offset = ( width * 1 ) / posMult
+        surface.SetFont( "dHeists_bagText" )
+        local textW, textH = surface.GetTextSize( itemsText )
+        local carryingTextW, carryingTextH = surface.GetTextSize( carryingText )
 
-        surface.DrawCuteRect( hudX - offset, hudY, width, height, 3, 100 )
+        if textW < carryingTextW then textW = carryingTextW end
 
-        draw.SimpleText( throwText, "dHeists_bagText", hudX + width + 2 - offset, hudY - 26, Color( 0, 0, 0, 185 ), TEXT_ALIGN_RIGHT )
-        draw.SimpleText( throwText, "dHeists_bagText", hudX + width - offset, hudY - 28, Color( 240, 240, 240, 255 ), TEXT_ALIGN_RIGHT )
+        textW = textW + 16
 
-        draw.SimpleText( carryingText, "dHeists_bagText", hudX + 10 - offset, hudY + 8, Color( 0, 0, 0, 185 ) )
-        draw.SimpleText( carryingText, "dHeists_bagText", hudX + 8 - offset, hudY + 6, color_white )
+        surface.DrawCuteRect( hudX - textW, hudY, textW, height + ( dHeists.addedHeight > 0 and dHeists.addedHeight or 28 ), 3, 100 )
 
-        draw.SimpleText( itemText, "dHeists_bagText", hudX + 8 - offset, hudY + 36, Color( 0, 0, 0, 185 ) )
-        draw.SimpleText( itemText, "dHeists_bagText", hudX + 6 - offset, hudY + 34, color_white )
+        draw.SimpleText( throwText, "dHeists_bagText", hudX + 2, hudY - 26, Color( 0, 0, 0, 185 ), TEXT_ALIGN_RIGHT )
+        draw.SimpleText( throwText, "dHeists_bagText", hudX, hudY - 28, Color( 240, 240, 240, 255 ), TEXT_ALIGN_RIGHT )
+
+        draw.SimpleText( carryingText, "dHeists_bagText", hudX + 12 - textW, hudY + 8, Color( 0, 0, 0, 185 ) )
+        draw.SimpleText( carryingText, "dHeists_bagText", hudX + 10 - textW, hudY + 6, color_white )
+
+        draw.DrawText( itemsText, "dHeists_bagText", hudX + 12 - textW, hudY + 36, Color( 0, 0, 0, 185 ) )
+        draw.DrawText( itemsText, "dHeists_bagText", hudX + 10 - textW, hudY + 34, color_white )
     end
+end )
+
+net.Receive( "dHeists.sendBagItems", function()
+    local lootItems = net.ReadTable()
+
+    LocalPlayer()._dHeistsBag = {
+        lootItems = lootItems
+    }
+
+    if #lootItems == 0 then
+        LocalPlayer()._dHeistsLootItems = nil
+
+        return
+    end
+
+    local lootStuff = {}
+    for _, itemName in pairs( lootItems ) do
+        dHeists.addedHeight = dHeists.addedHeight + ( not lootStuff[ itemName ] and 28 or 0 )
+
+        lootStuff[ itemName ] = ( lootStuff[ itemName ] or 0 ) + 1
+    end
+
+    local lootString = ""
+    for itemName, amount in pairs( lootStuff ) do
+        lootString = lootString .. "" .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. itemName:upper() .. "\n"
+    end
+
+    LocalPlayer()._dHeistsLootItems = lootString
+end )
+
+net.Receive( "dHeists.dropBag", function()
+    LocalPlayer()._dHeistsBag = nil
+    LocalPlayer()._dHeistsLootItems = nil
+    dHeists.addedHeight = 0
 end )

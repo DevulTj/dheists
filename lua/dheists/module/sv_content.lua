@@ -6,3 +6,4 @@
 
 resource.AddWorkshop( "970777104" ) -- dHeists
 resource.AddWorkshop( "357350543" ) -- PAYDAY bags
+resource.AddWorkshop( "941544793" ) -- Office GTAV

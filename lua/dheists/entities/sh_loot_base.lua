@@ -19,25 +19,59 @@ ENT.IsLoot = true
 
 if SERVER then
     function ENT:SetupDataTables()
-        self:NetworkVar( "Int", 0, "LootType" )
+        self:NetworkVar( "String", 0, "LootType" )
     end
 
     function ENT:Initialize()
         -- assign a default model, with physics etc.
+
+        self:SetMoveType( MOVETYPE_VPHYSICS )
+        self:SetSolid( SOLID_VPHYSICS )
+        self:SetUseType( SIMPLE_USE )
+
+        local randomLootData = table.Random( dHeists.loot.list )
+        if not randomLootData then
+            SafeRemoveEntity( self )
+
+            return
+        end
+
+        self:setLootType( randomLootData )
     end
 
     function ENT:setLootType( lootType )
-        self:SetLootType( lootType )
+        local lootData = istable( lootType ) and lootType or dHeists.loot.getLoot( lootType )
+        if not lootData then return end
 
-        -- TODO: get loot type through some kind of table and assign models here
+        self:SetLootType( lootData.name )
+        self:SetModel( lootData.model )
+
+        self:PhysicsInit( SOLID_VPHYSICS )
+        self:SetMoveType( MOVETYPE_VPHYSICS )
+        self:SetSolid( SOLID_VPHYSICS )
+        self:GetPhysicsObject():Wake()
     end
 
     function ENT:Use( player )
-        -- TODO: check if the player is holding a bag, if they are - add the loot into the bag
+        local bag = player:getBag()
+        if not bag then return end
+
+        --[[
+            TODO: add data from entity into bag loot items
+                  check if the bag is full already
+        ]]
+
+        SafeRemoveEntity( self )
     end
 
     function ENT:StartTouch( entity )
-        -- TODO: add an entity whitelist for bags so you can place loot into bags
+        if not entity.IsBag then return end
+
+        local canDo = entity:addLoot( self:GetLootType() )
+
+        if canDo ~= false then
+            SafeRemoveEntity( self )
+        end
     end
 end
 

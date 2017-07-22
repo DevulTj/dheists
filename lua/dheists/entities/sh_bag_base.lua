@@ -22,14 +22,14 @@ ENT.physicsBox = {
     maxs = Vector( 7, 10, 6 )
 }
 
-if SERVER then
-    function ENT:SetupDataTables()
-        self:NetworkVar( "Int", 0, "BagType" )
-        self:NetworkVar( "Int", 2, "LootCount" )
-        self:NetworkVar( "Int", 4, "Capacity" )
-        self:NetworkVar( "Entity", 0, "EntityOwner" )
-    end
+function ENT:SetupDataTables()
+    self:NetworkVar( "Int", 0, "BagType" )
+    self:NetworkVar( "Int", 2, "LootCount" )
+    self:NetworkVar( "Int", 4, "Capacity" )
+    self:NetworkVar( "Entity", 0, "EntityOwner" )
+end
 
+if SERVER then
     function ENT:Initialize()
         local selectedModel = dHeists.config.bagModel
         local isValidModel = file.Exists( selectedModel, "GAME" )
@@ -49,15 +49,36 @@ if SERVER then
         self:GetPhysicsObject():Wake()
 
         self:setBagType( 0 )
+        self.lootItems = {}
+    end
+
+    function ENT:getLoot()
+        return self.lootItems
+    end
+
+    function ENT:addLoot( lootName )
+        if #self:getLoot() >= self:GetCapacity() then return false end
+
+        table.insert( self.lootItems, lootName )
+
+        self:SetLootCount( self:GetLootCount() + 1 )
+
+        return true
+    end
+
+    function ENT:setLoot( lootTable )
+        self.lootItems = lootTable
+        self:SetLootCount( table.Count( lootTable ) )
+
+        return true
     end
 
     function ENT:setBagType( bagType )
         if not tonumber( bagType ) then return end
 
-        print("setting bag type", bagType)
-
         self:SetBagType( bagType ) -- Bag types
         self:SetSkin( bagType )
+        self:SetCapacity( dHeists.getBagCapacity( bagType ) or 4 )
     end
 
     function ENT:playActionSound()
@@ -69,17 +90,13 @@ if SERVER then
         local playerIsOwner = entityOwner == player
 
         dHeists.actions.doAction( player, playerIsOwner and dHeists.config.bagPickUpTime or dHeists.config.stealPickUpBagTime, function()
-            if player._dHeistsBag then return end
+            if player:getBag() then return end
 
-            player._dHeistsBag = {
-                bagType = self:GetBagType()
-            }
+            player:setBag( self )
 
             self:playActionSound()
 
             SafeRemoveEntity( self )
-            renderObjects:setObject( player, "bag_" .. self:GetBagType() )
-            player:SetNW2Bool( "dHeists_CarryingBag", true )
         end, {
             ent = self,
             ActionColor = playerIsOwner and dHeists.config.pickUpBagActionColor or dHeists.config.stealPickUpBagActionColor,
@@ -99,8 +116,6 @@ if SERVER then
 
     function ENT:doConfiscateAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagConfiscateTime, function()
-            self:doEffect()
-
             SafeRemoveEntity( self )
 
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
@@ -126,8 +141,8 @@ end
 
 if CLIENT then
 
-    local hudX, hudY = 0, 0
-    local hudWidth, hudHeight = 280, 60
+    local hudX, hudY = 50, 0
+    local hudWidth, hudHeight = 180, 50
     function ENT:Draw()
     	self:DrawModel()
 
@@ -135,24 +150,24 @@ if CLIENT then
             render.DrawWireframeBox( self:GetPos(), self:GetAngles(), self.physicsBox.mins, self.physicsBox.maxs, color_white )
         end
 
-       /* --Design stuff
+        -- 3D
         self.camPos = self:GetPos() + self:GetUp() * 7 + self:GetForward() * -3 + self:GetRight() * 20
         self.camAng = self:GetAngles()
-        self.camAng:RotateAroundAxis(self.camAng:Right(), -90)
-        self.camAng:RotateAroundAxis(self.camAng:Up(), 90)
-        self.camAng:RotateAroundAxis(self.camAng:Forward(), 270)
+        self.camAng:RotateAroundAxis( self.camAng:Right(), -90 )
+        self.camAng:RotateAroundAxis( self.camAng:Up(), 90 )
+        self.camAng:RotateAroundAxis( self.camAng:Forward(), 270 )
 
-        local loot = self.GetLootCount and self:GetLootCount() or 3
+        local loot = self.GetLootCount and self:GetLootCount() or 0
         local capacity = self.GetCapacity and self:GetCapacity() or 4
         local fraction = loot / capacity
 
-        cam.Start3D2D(self.camPos, self.camAng, .1)
-            draw.RoundedBox( 0, 0, 0, hudWidth * fraction, hudHeight, Color( 0, 151, 0, 100 ) )
+        cam.Start3D2D( self.camPos, self.camAng, .1 )
+            draw.RoundedBox( 0, hudX, hudY, hudWidth * fraction, hudHeight, Color( 0, 151, 0, 100 ) )
 
             surface.DrawCuteRect( hudX, hudY, hudWidth, hudHeight, 3 )
 
             draw.SimpleText( loot .. "/" .. capacity, "dHeists_bagText3D", hudX + ( hudWidth / 2 ), hudY + ( hudHeight / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-        cam.End3D2D()*/
+        cam.End3D2D()
     end
 
 	function ENT:Initialize()
@@ -161,17 +176,17 @@ if CLIENT then
 end
 
 properties.Add( "setbagtype", {
-	MenuLabel = "Set Bag Type", -- Name to display on the context menu
-	Order = 0, -- The order to display this property relative to other properties
-	MenuIcon = "icon16/briefcase.png", -- The icon to display next to the property
+	MenuLabel = "Set Bag Type",
+	Order = 0,
+	MenuIcon = "icon16/briefcase.png",
 
-	Filter = function( self, ent, ply ) -- A function that determines whether an entity is valid for this property
+	Filter = function( self, ent, ply )
 		if not ent.IsBag then return false end
-		--if not gamemode.Call( "CanProperty", ply, "bags", ent ) then return false end
+		if not gamemode.Call( "CanProperty", ply, "setbagtype", ent ) then return false end
 
 		return true
 	end,
-	Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
+	Action = function( self, ent ) -- CLIENT
         Derma_StringRequest(
             "Set Bag Type",
             "Input a number with the bag type",
@@ -188,7 +203,7 @@ properties.Add( "setbagtype", {
         )
 
 	end,
-	Receive = function( self, length, player ) -- The action to perform upon using the property ( Serverside )
+	Receive = function( self, length, player ) -- SERVER
 		local ent = net.ReadEntity()
 		if not self:Filter( ent, player ) then return end
 

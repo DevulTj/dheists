@@ -12,12 +12,16 @@ function CMoveData:RemoveKeys( keys )
 end
 
 hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, commandData )
-    if player._dHeistsBag then
+    if player:getBag() then
         if moveData:KeyDown( IN_JUMP ) then
             moveData:RemoveKeys( IN_JUMP )
         end
 
-        moveData:SetMaxSpeed( moveData:GetMaxSpeed() * dHeists.config.holdingBagMovementModifier )
-        moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * dHeists.config.holdingBagMovementModifier )
+        local maxSpeed = moveData:GetMaxSpeed()
+        local defaultModifier = math.Clamp( ( ( dHeists.config.holdingBagMovementModifier ) / #player:getBag().lootItems ), 0, dHeists.config.holdingBagMovementModifier )
+        local modifier = ( dHeists.config.holdingBagMovementModifier - defaultModifier )
+
+        moveData:SetMaxSpeed( moveData:GetMaxSpeed() * modifier )
+        moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
     end
 end )

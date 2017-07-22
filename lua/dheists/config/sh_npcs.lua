@@ -10,7 +10,7 @@ hook.Add( "dHeists.registerNPCs", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.LOOT_NPC = dHeists.npc.create( "Loot Guy", {
+dHeists.NPC_BAGS = dHeists.npc.create( "Loot Guy", {
     model = "models/police.mdl",
     pos = Vector( 1093, 271, -79 ),
     ang = Angle( 0, 135, 0 ),

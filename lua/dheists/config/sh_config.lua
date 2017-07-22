@@ -18,9 +18,9 @@ dHeists.config.fontFace = "Purista"
 dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
-dHeists.config.alternateBagPos = false
+dHeists.config.alternateBagPos = true
 
-dHeists.config.holdingBagMovementModifier = 0.75 -- 25% less movement speed
+dHeists.config.holdingBagMovementModifier = 0.7 -- 25% less movement speed
 
 dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
@@ -34,6 +34,7 @@ dHeists.config.confiscateBagMoneyPrize = 1250
 dHeists.config.bagConfiscateTime = 4
 
 dHeists.config.confiscateBagText = "You gained %s from confiscating a Bag"
+dHeists.config.bagCollectedText = "You gained %s from selling %s"
 
 dHeists.config.pickUpBagActionColor = Color( 20, 151, 20 )
 dHeists.config.pickUpBagActionText = "PICKING UP BAG"
@@ -49,6 +50,7 @@ end
 dHeists.config.addMoneyFunction = function( player, amount )
     return player:addMoney( amount )
 end
+
 
 dHeists.config.addNotificationFunction = function( player, text )
     return DarkRP and DarkRP.notify( player, 0, 4, text ) or player:ChatPrint( text )
