@@ -18,8 +18,8 @@ hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, comm
         end
 
         local maxSpeed = moveData:GetMaxSpeed()
-        local defaultModifier = math.Clamp( ( ( dHeists.config.holdingBagMovementModifier ) / #player:getBag().lootItems ), 0, dHeists.config.holdingBagMovementModifier )
-        local modifier = ( dHeists.config.holdingBagMovementModifier - defaultModifier )
+        local defaultModifier = math.Clamp( dHeists.config.holdingBagMovementModifier / #player:getBag().lootItems, 0, dHeists.config.holdingBagMovementModifier )
+        local modifier = dHeists.config.holdingBagMovementModifier - defaultModifier
 
         moveData:SetMaxSpeed( moveData:GetMaxSpeed() * modifier )
         moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
