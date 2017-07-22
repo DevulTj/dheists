@@ -6,20 +6,25 @@
 
 dHeists.actions = dHeists.actions or {}
 
-dHeists.StateText = ""
-dHeists.ActionText = ""
-dHeists.ActionColor = Color( 255, 0, 0 )
-dHeists.ActionStart = 0
-dHeists.ActionEnd = 0
+dHeists.actions.actionData = dHeists.actions.actionData or {}
+
+dHeists.actions.actionData = {
+    StateText = "",
+    ActionText = "",
+    ActionColor = Color( 255, 0, 0 ),
+    ActionStart = 0,
+    ActionEnd = 0
+}
 
 local gradient = Material( "gui/gradient" )
 function dHeists.DrawAction()
-	local actionColor = dHeists.ActionColor
-	local start, finish = dHeists.ActionStart, dHeists.ActionEnd
+    local actionData = dHeists.actions.actionData
+	local actionColor = actionData.ActionColor
+	local start, finish = actionData.ActionStart, actionData.ActionEnd
 	local curTime = CurTime()
 	local scrW, scrH = ScrW(), ScrH()
 
-	local timeRemainingText = dHeists.ActionTimeRemainingText or "TIME REMAINING"
+	local timeRemainingText = actionData.ActionTimeRemainingText or "TIME REMAINING"
 
 	if finish > curTime then
 		local fraction = math.TimeFraction( start, finish, curTime )
@@ -45,12 +50,15 @@ function dHeists.DrawAction()
 end
 
 function dHeists.ClearAction()
-	dHeists.StateText = ""
-	dHeists.ActionText = ""
-	dHeists.ActionColor = Color( 255, 0, 0 )
-	dHeists.ActionStart = 0
-	dHeists.ActionEnd = 0
-	dHeists.ActionTimeRemainingText = nil
+    dHeists.actions.actionData = {
+        StateText = "",
+        ActionText = "",
+        ActionColor = Color( 255, 0, 0 ),
+        ActionStart = 0,
+        ActionEnd = 0,
+
+        ActionTimeRemainingText = nil
+    }
 end
 
 hook.Add( "HUDPaint", "dHeists.Action", function()
@@ -58,13 +66,13 @@ hook.Add( "HUDPaint", "dHeists.Action", function()
 
 	dHeists.DrawAction()
 
-	if dHeists.ActionEnd < CurTime() then
+	if dHeists.actions.actionData.ActionEnd < CurTime() then
 		hook.Run( "dHeists.ActionFinished" )
 		dHeists.ClearAction()
 	end
 end )
 
-dHeists.actions.DefaultActionColor = Color(129, 169, 118)
+dHeists.actions.DefaultActionColor = Color( 129, 169, 118 )
 
 net.Receive( "dHeists.actions.doAction", function()
 	timer.Destroy( "dHeists.ActionTimer" )
@@ -76,12 +84,12 @@ net.Receive( "dHeists.actions.doAction", function()
 		LocalPlayer()._dHeistsActionData = extraData
 	end
 
-	dHeists.ActionColor = dHeists.actions.DefaultActionColor
-	dHeists.ActionStart = CurTime()
-	dHeists.ActionEnd = CurTime() + length
+	dHeists.actions.actionData.ActionColor = dHeists.actions.DefaultActionColor
+	dHeists.actions.actionData.ActionStart = CurTime()
+	dHeists.actions.actionData.ActionEnd = CurTime() + length
 
-	for key, value in pairs(extraData or {}) do
-		dHeists[ key ] = value
+	for key, value in pairs( extraData or {} ) do
+		dHeists.actions.actionData[ key ] = value
 	end
 
 	timer.Create( "dHeists.ActionTimer", length, 1, function()
