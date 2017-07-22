@@ -43,6 +43,9 @@ dHeists.config.stealPickUpBagActionColor = Color( 255, 165, 20 )
 dHeists.config.stealPickUpBagActionText = "STEALING BAG"
 dHeists.config.stealPickUpBagTime = 4
 
+dHeists.config.pickUpLootActionColor = Color( 20, 151, 20 )
+dHeists.config.pickUpLootActionText = "PICKING UP LOOT"
+
 dHeists.config.isPoliceFunction = function( player )
     return player:getJobTable().category == "Civil Protection"
 end
@@ -50,7 +53,6 @@ end
 dHeists.config.addMoneyFunction = function( player, amount )
     return player:addMoney( amount )
 end
-
 
 dHeists.config.addNotificationFunction = function( player, text )
     return DarkRP and DarkRP.notify( player, 0, 4, text ) or player:ChatPrint( text )

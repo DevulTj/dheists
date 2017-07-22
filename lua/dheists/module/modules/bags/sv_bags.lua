@@ -58,7 +58,8 @@ function dHeists.setBag( player, entity )
 
     player._dHeistsBag = {
         bagType = entity:GetBagType(),
-        lootItems = entity:getLoot()
+        lootItems = entity:getLoot(),
+        capacity = entity:GetCapacity()
     }
 
     renderObjects:setObject( player, "bag_" .. entity:GetBagType() )

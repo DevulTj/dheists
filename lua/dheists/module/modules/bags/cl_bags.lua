@@ -61,6 +61,7 @@ hook.Add( "HUDPaint", "dHeists.drawBag", function()
 end )
 
 net.Receive( "dHeists.sendBagItems", function()
+    dHeists.addedHeight = 0
     local lootItems = net.ReadTable()
 
     LocalPlayer()._dHeistsBag = {

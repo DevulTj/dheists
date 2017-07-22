@@ -50,25 +50,32 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
+
+        self.actionTime = lootData.actionTime
     end
 
     function ENT:Use( player )
         local bag = player:getBag()
         if not bag then return end
 
-        --[[
-            TODO: add data from entity into bag loot items
-                  check if the bag is full already
-        ]]
+        dHeists.actions.doAction( player, self.actionTime or 0, function()
+            if not player:getBag() then return end
 
-        SafeRemoveEntity( self )
+            local canDo = player:addLoot( self:GetLootType() )
+            if canDo ~= false then
+                SafeRemoveEntity( self )
+            end
+        end, {
+            ent = self,
+            ActionColor = dHeists.config.pickUpLootActionColor,
+            ActionTimeRemainingText = dHeists.config.pickUpLootActionText
+        } )
     end
 
     function ENT:StartTouch( entity )
         if not entity.IsBag then return end
 
         local canDo = entity:addLoot( self:GetLootType() )
-
         if canDo ~= false then
             SafeRemoveEntity( self )
         end
