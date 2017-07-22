@@ -76,7 +76,7 @@ end
 
 local effectData = EffectData()
 function dHeists.collectBag( npc, entity )
-    local player = entity:GetEntityOwner()
+    local player = entity.GetEntityOwner and entity:GetEntityOwner()
     if not IsValid( player ) then return end
 
     effectData:SetOrigin( npc:GetPos() + Vector( 0, 0, 30 ) )
