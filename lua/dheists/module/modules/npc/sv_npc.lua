@@ -14,11 +14,7 @@ function dHeists.npc.spawnNPCs()
         npc:SetModel( npcData.model )
 
         npc:Spawn()
-        npc:SetNPCType( npcData.id )
-
-        npc:DropToFloor()
-
-        npc.startTouch = npcData.startTouch
+        npc:setNPC( npcData )
 
         dHeists.print( "Spawning NPC at " .. tostring( npcData.pos ) )
     end

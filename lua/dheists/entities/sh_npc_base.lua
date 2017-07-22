@@ -46,6 +46,21 @@ if SERVER then
         self:GetPhysicsObject():EnableMotion( false )
 	end
 
+    function ENT:setNPC( npcInfo )
+        self:SetModel( npcInfo.model )
+
+
+        self:SetMoveType( MOVETYPE_VPHYSICS )
+        self:SetSolid( SOLID_VPHYSICS )
+        self:SetUseType( SIMPLE_USE )
+
+        self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
+        self:GetPhysicsObject():EnableMotion( false )
+
+        self.startTouch = npcInfo.startTouch
+        self:SetNPCType( npcInfo.id )
+    end
+
 	function ENT:AcceptInput( name, activator, caller )
 		if name ~= "Use" or not IsValid( caller ) or not caller:IsPlayer() then return end
 
