@@ -32,6 +32,12 @@ dHeists.LOOT_CASH_CASE = dHeists.loot.registerLoot( "Case of Cash", {
     actionTime = 2
 } )
 
+dHeists.LOOT_CASH_PALLET = dHeists.loot.registerLoot( "Pallet of Cash", {
+    model = "models/props/cs_assault/MoneyPalletE.mdl",
+    moneyGiven = 10000,
+    actionTime = 10
+} )
+
 -- DO NOT EDIT ANYTHING BELOW THIS LINE!
 
 end )
