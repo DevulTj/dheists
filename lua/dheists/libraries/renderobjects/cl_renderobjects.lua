@@ -67,21 +67,28 @@ function renderObjects:render()
 
                 self:setObjectEntity( player, objectName, objectEntity )
             else
-                local bone = player:LookupBone( objectData.bone or "ValveBiped.Bip01_Head1" )
-                if bone then
-                    local position, angles = player:GetBonePosition( bone )
 
-                    angles:RotateAroundAxis( angles:Up(), objectData.ang.p )
-					angles:RotateAroundAxis( angles:Right(), objectData.ang.y )
-					angles:RotateAroundAxis( angles:Forward(), objectData.ang.r )
+                local position, angles
+                local bone
+                if objectData.bone then
+                    bone = player:LookupBone( objectData.bone )
 
-					local newPosition = position + angles:Forward() * objectData.pos.x
-                    + angles:Right() * objectData.pos.y + angles:Up() * objectData.pos.z
-
-                    entity:SetPos( newPosition )
-					entity:SetAngles( angles )
-					entity:DrawModel()
+                    position, angles = player:GetBonePosition( bone )
                 end
+
+                if not position then position = player:GetPos() end
+                if not angles then angles = Angle( 0, 0, 0 ) end
+
+                angles:RotateAroundAxis( angles:Up(), objectData.ang.p )
+                angles:RotateAroundAxis( angles:Right(), objectData.ang.y )
+                angles:RotateAroundAxis( angles:Forward(), objectData.ang.r )
+
+                local newPosition = position + angles:Forward() * objectData.pos.x
+                + angles:Right() * objectData.pos.y + angles:Up() * objectData.pos.z
+
+                entity:SetPos( newPosition )
+                entity:SetAngles( angles )
+                entity:DrawModel()
             end
         end
     end
