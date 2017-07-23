@@ -118,7 +118,7 @@ if SERVER then
     end
 end
 
-renderObjects.objectDatabase = renderObjects.objectDatabase or {}
+renderObjects.objectDatabase = {}
 
 --[[
         function: renderObjects.registerObject
@@ -150,46 +150,3 @@ end
 function renderObjects:getRegisteredObject( objectName )
     return self.objectDatabase[ objectName ]
 end
-
-local bagPos = dHeists.config.alternateBagPos and Vector( -7, -5, 0 ) or Vector( 0, 0, 10 )
-local bagAng = dHeists.config.alternateBagPos and Angle( 90, 0, 110 ) or Angle( 80, 100, 20 )
-local scale = dHeists.config.alternateBagPos and 0.8 or 1
-
-renderObjects:registerObject( "bag_0", {
-    model = "models/jessev92/payday2/item_Bag_loot.mdl",
-    bone = "ValveBiped.Bip01_Spine",
-    pos = bagPos,
-    ang = bagAng,
-
-    scale = scale
-} )
-
-renderObjects:registerObject( "bag_1", {
-    model = "models/jessev92/payday2/item_Bag_loot.mdl",
-    bone = "ValveBiped.Bip01_Spine",
-    pos = bagPos,
-    ang = bagAng,
-
-    skin = 1,
-    scale = scale
-} )
-
-renderObjects:registerObject( "bag_2", {
-    model = "models/jessev92/payday2/item_Bag_loot.mdl",
-    bone = "ValveBiped.Bip01_Spine",
-    pos = bagPos,
-    ang = bagAng,
-
-    skin = 2,
-    scale = scale
-} )
-
-renderObjects:registerObject( "bag_3", {
-    model = "models/jessev92/payday2/item_Bag_loot.mdl",
-    bone = "ValveBiped.Bip01_Spine",
-    pos = bagPos,
-    ang = bagAng,
-
-    skin = 3,
-    scale = scale
-} )

@@ -49,7 +49,6 @@ if SERVER then
     function ENT:setNPC( npcInfo )
         self:SetModel( npcInfo.model )
 
-
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:SetUseType( SIMPLE_USE )

@@ -17,11 +17,11 @@ ENT.AdminSpawnable	= true
 
 ENT.IsLoot = true
 
-if SERVER then
-    function ENT:SetupDataTables()
-        self:NetworkVar( "String", 0, "LootType" )
-    end
+function ENT:SetupDataTables()
+    self:NetworkVar( "String", 0, "LootType" )
+end
 
+if SERVER then
     function ENT:Initialize()
         -- assign a default model, with physics etc.
 
@@ -50,6 +50,8 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
+
+        self:SetUseType( SIMPLE_USE )
 
         self.actionTime = lootData.actionTime
     end

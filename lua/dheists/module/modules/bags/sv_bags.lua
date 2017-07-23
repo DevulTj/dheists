@@ -34,6 +34,9 @@ function dHeists.dropBag( player )
             * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
         ) -- Throw the bag in the player's direction
 
+
+        PrintTable( bagData )
+
         bag:setBagType( bagData.bagType )
         bag:setLoot( bagData.lootItems )
 
@@ -68,10 +71,6 @@ function dHeists.setBag( player, entity )
     net.Start( "dHeists.sendBagItems" )
         net.WriteTable( entity:getLoot() )
     net.Send( player )
-end
-
-function dHeists.getBagCapacity( bagType )
-    return 4 -- TODO: change this to be variable.
 end
 
 local effectData = EffectData()

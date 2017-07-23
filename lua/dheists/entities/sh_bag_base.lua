@@ -48,7 +48,15 @@ if SERVER then
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
-        self:setBagType( 0 )
+        local randomBagData = table.Random( dHeists.bags.list )
+        if not randomBagData then
+            SafeRemoveEntity( self )
+
+            return
+        end
+
+        self:setBagType( randomBagData.name )
+
         self.lootItems = {}
     end
 
@@ -74,11 +82,18 @@ if SERVER then
     end
 
     function ENT:setBagType( bagType )
-        if not tonumber( bagType ) then return end
+        local bagInfo = dHeists.bags.getBag( bagType )
+        if not bagInfo then
+            SafeRemoveEntity( self )
 
-        self:SetBagType( bagType ) -- Bag types
-        self:SetSkin( bagType )
-        self:SetCapacity( dHeists.getBagCapacity( bagType ) or 4 )
+            return
+        end
+
+        self:SetBagType( bagInfo.bagType ) -- Bag types
+        if bagInfo.skin then self:SetSkin( bagInfo.skin ) end
+
+        print( "Set Capacity", bagInfo.capacity )
+        self:SetCapacity( bagInfo.capacity or dHeists.config.defaultBagCapacity or 4 )
     end
 
     function ENT:playActionSound()
