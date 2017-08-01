@@ -16,6 +16,33 @@ dHeists.actions.actionData = {
     ActionEnd = 0
 }
 
+local circleMat = Material( "devultj/ring.png", "mips" )
+function dHeists.DrawActionCircle( x, y, w, h, perc, color, cirMat )
+	render.ClearStencil()
+	render.SetStencilEnable( true )
+		render.SetStencilWriteMask( 255 )
+		render.SetStencilTestMask( 255 )
+		render.SetStencilReferenceValue( 1 )
+		render.SetStencilFailOperation( STENCILOPERATION_KEEP )
+		render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
+		render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
+		render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_ALWAYS )
+		render.SetBlend( 0 )
+
+		surface.SetDrawColor( 0, 0, 0, 1 )
+		draw.NoTexture()
+		draw.DrawPercRect( x, y, w, h, perc, true )
+
+		render.SetBlend( 1 )
+		render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
+
+	surface.SetDrawColor( color.r, color.g, color.b, color.a )
+	cirMat = cirMat or mat
+	surface.SetMaterial( cirMat )
+	surface.DrawTexturedRect( x - w / 2, y - h / 2, w, h )
+	render.SetStencilEnable( false )
+end
+
 local gradient = Material( "gui/gradient" )
 function dHeists.DrawAction()
     local actionData = dHeists.actions.actionData
@@ -31,20 +58,19 @@ function dHeists.DrawAction()
 		local alpha = fraction * 255
 
 		if alpha > 0 then
-			local w, h = scrW * 0.35, 28
-			local x, y = ( scrW * 0.5 ) - ( w * 0.5 ), ( scrH * 0.725 ) - ( h * 0.5 )
+			local w, h = 170, 170
+			local x, y = scrW * 0.5, scrH * 0.5
 
-			surface.DrawCuteRect( x, y, w, h, 2, 100 )
+            local color = Color( actionColor.r, actionColor.g, actionColor.b, 255 )
+            dHeists.DrawActionCircle( x + 2, y + 2, w, h, fraction, Color( 0, 0, 0, 100 ), circleMat )
+            dHeists.DrawActionCircle( x, y, w, h, fraction, color, circleMat )
 
-			surface.SetDrawColor( actionColor.r, actionColor.g, actionColor.b, 200 )
-			surface.DrawRect( x + 2, y + 2, ( w * fraction ) - 4, h - 4 )
-
-			draw.SimpleText( timeRemainingText, "dHeistsMedium", x + 2, y - 22, color_black )
-			draw.SimpleText( timeRemainingText, "dHeistsMedium", x, y - 24, color_white )
+			draw.SimpleText( timeRemainingText, "dHeists_bagTextItalics", x + 2, y + 7, Color( 0, 0, 0, 100 ), TEXT_ALIGN_CENTER )
+			draw.SimpleText( timeRemainingText, "dHeists_bagTextItalics", x, y + 5, color_white, TEXT_ALIGN_CENTER )
 
 			local remainingTime = string.FormattedTime( math.max( finish - curTime, 0 ), "%02i:%02i:%02i" )
-			draw.SimpleText( remainingTime, "dHeistsMedium", x + w, y - 22, color_black, TEXT_ALIGN_RIGHT )
-			draw.SimpleText( remainingTime, "dHeistsMedium", x + w, y - 24, color_white, TEXT_ALIGN_RIGHT )
+			draw.SimpleText( remainingTime, "dHeistsLarge", x, y - 5, Color( 0, 0, 0, 100 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( remainingTime, "dHeistsLarge", x, y - 7, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 	end
 end
