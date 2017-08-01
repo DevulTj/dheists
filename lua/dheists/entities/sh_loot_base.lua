@@ -103,6 +103,12 @@ if CLIENT then
 
 		draw.SimpleText( lootData.name, "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
 		draw.SimpleText( lootData.name, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+
+        pos.y = pos.y + 20
+
+        local worth = dHeists.formatMoney( lootData.moneyGiven )
+		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
+		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )
 
 	function ENT:Initialize()
