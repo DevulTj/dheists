@@ -36,10 +36,9 @@ function dHeists.DrawActionCircle( x, y, w, h, perc, color, cirMat )
 		render.SetBlend( 1 )
 		render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
 
-	surface.SetDrawColor( color.r, color.g, color.b, color.a )
-	cirMat = cirMat or mat
-	surface.SetMaterial( cirMat )
-	surface.DrawTexturedRect( x - w / 2, y - h / 2, w, h )
+        surface.SetDrawColor( color.r, color.g, color.b, color.a )
+        surface.SetMaterial( cirMat or circleMat )
+        surface.DrawTexturedRect( x - w / 2, y - h / 2, w, h )
 	render.SetStencilEnable( false )
 end
 
