@@ -91,11 +91,13 @@ if SERVER then
     end )
 
     hook.Add( "PlayerUse", dHeists.IDENTIFIER .. "zones", function( player, entity )
-        if player.inZones then
-            for zone, _ in pairs( player.inZones ) do
-                if zone:hasCooldown() then
-                    return false
-                end
+        if not entity.IsRaidable or not player.inZones then
+            return
+        end
+
+        for zone, _ in pairs( player.inZones ) do
+            if zone:hasCooldown() then
+                return false
             end
         end
     end )
