@@ -17,6 +17,9 @@ function ENT:SetupDataTables()
     self:NetworkVar( "Int", 1, "PlayerCount" )
 end
 
+function ENT:hasCooldown()
+    return self:GetCooldownTime() > CurTime()
+end
 
 if SERVER then
     function ENT:Initialize()
@@ -50,7 +53,7 @@ if SERVER then
     end
 
     function ENT:StartTouch( player )
-        if self:GetCooldownTime() > CurTime() then
+        if self:hasCooldown() then
 
             return
         end
@@ -66,7 +69,7 @@ if SERVER then
         end
     end
 
-    gamevent.Listen( "player_disconnect" )
+    gameevent.Listen( "player_disconnect" )
     hook.Add( "player_disconnect", dHeists.IDENTIFIER, function( data )
         local player = Player( data.userid )
 
@@ -86,6 +89,36 @@ if SERVER then
             _zones[ entity ] = nil
         end
     end )
+
+    hook.Add( "PlayerUse", dHeists.IDENTIFIER .. "zones", function( player, entity )
+        if player.inZones then
+            for zone, _ in pairs( player.inZones ) do
+                if zone:hasCooldown() then
+                    return false
+                end
+            end
+        end
+    end )
+
+    local PLAYER = FindMetaTable( "Player" )
+
+    function PLAYER:addInZone( zone )
+        if self.inZones[ zone ] then
+
+            return
+        end
+
+        self.inZones[ zone ] = true
+    end
+
+    function PLAYER:removeInZone( zone )
+        if not self.inZones[ zone ] then
+
+            return
+        end
+
+        self.inZones[ zone ] = nil
+    end
 end
 
 if CLIENT then
@@ -93,3 +126,5 @@ if CLIENT then
         self:DrawModel()
     end
 end
+
+scripted_ents.Register( ENT, "dheists_zone" )
