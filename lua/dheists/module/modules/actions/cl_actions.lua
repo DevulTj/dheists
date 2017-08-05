@@ -58,7 +58,7 @@ function dHeists.DrawAction()
 
 		if alpha > 0 then
 			local w, h = 170, 170
-			local x, y = scrW * 0.5, scrH * 0.5
+			local x, y = scrW * 0.5, scrH * 0.65
 
             local color = Color( actionColor.r, actionColor.g, actionColor.b, 255 )
             dHeists.DrawActionCircle( x + 2, y + 2, w, h, fraction, Color( 0, 0, 0, 100 ), circleMat )
