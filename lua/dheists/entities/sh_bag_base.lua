@@ -92,7 +92,6 @@ if SERVER then
         self:SetBagType( bagInfo.bagType ) -- Bag types
         if bagInfo.skin then self:SetSkin( bagInfo.skin ) end
 
-        print( "Set Capacity", bagInfo.capacity )
         self:SetCapacity( bagInfo.capacity or dHeists.config.defaultBagCapacity or 4 )
     end
 
