@@ -21,7 +21,7 @@ ENT.physicsBox = {
 }
 
 function ENT:SetupDataTables()
-	self:NetworkVar( "Int", 0, "NPCType" )
+	self:NetworkVar( "String", 0, "NPCType" )
 end
 
 if SERVER then
@@ -57,7 +57,7 @@ if SERVER then
         self:GetPhysicsObject():EnableMotion( false )
 
         self.startTouch = npcInfo.startTouch
-        self:SetNPCType( npcInfo.id )
+        self:SetNPCType( npcInfo.name )
     end
 
 	function ENT:AcceptInput( name, activator, caller )

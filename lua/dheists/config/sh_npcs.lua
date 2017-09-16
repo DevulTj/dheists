@@ -5,21 +5,30 @@
 ]]
 
 dHeists.npc.list = {}
+dHeists.npc.locations = {}
 
-hook.Add( "dHeists.registerNPCs", dHeists.IDENTIFIER, function()
+hook.Add( "dHeists.npc.registerNPCs", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.NPC_BAGS = dHeists.npc.create( "Loot Guy", {
+dHeists.npc.create( "Loot Guy", {
     model = "models/police.mdl",
-    pos = Vector( 1093, 271, -79 ),
-    ang = Angle( 0, 135, 0 ),
     useFunc = function( player )
 
     end,
     startTouch = function( npc, entity )
         dHeists.collectBag( npc, entity )
     end
+} )
+
+dHeists.npc.addLocation( "gm_construct", "Loot Guy", {
+    pos = Vector( 1093, 271, -79 ),
+    ang = Angle( 0, 135, 0 ),
+} )
+
+dHeists.npc.addLocation( "gm_flatgrass", "Loot Guy", {
+    pos = Vector( -580, -34, -12223 ),
+    ang = Angle( 0, 135, 0 ),
 } )
 
 -- DO NOT EDIT ANYTHING BELOW THIS LINE!

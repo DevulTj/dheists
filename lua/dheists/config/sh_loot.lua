@@ -5,7 +5,7 @@
 ]]
 
 
-hook.Add( "dHeists.loot:registerLoot", dHeists.IDENTIFIER, function()
+hook.Add( "dHeists.loot.registerLoot", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 

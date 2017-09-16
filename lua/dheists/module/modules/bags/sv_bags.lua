@@ -34,9 +34,6 @@ function dHeists.dropBag( player )
             * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
         ) -- Throw the bag in the player's direction
 
-
-        PrintTable( bagData )
-
         bag:setBagType( bagData.bagType )
         bag:setLoot( bagData.lootItems )
 
@@ -74,17 +71,23 @@ function dHeists.setBag( player, entity )
 end
 
 local effectData = EffectData()
-function dHeists.collectBag( npc, entity )
-    local player = entity.GetEntityOwner and entity:GetEntityOwner()
-    if not IsValid( player ) then return end
-
+local function doBalloons()
     effectData:SetOrigin( npc:GetPos() + Vector( 0, 0, 30 ) )
     effectData:SetColor( 1 )
 
     util.Effect( "balloon_pop", effectData )
+end
+
+function dHeists.collectBag( npc, entity )
+    local player = entity.GetEntityOwner and entity:GetEntityOwner()
+    if not IsValid( player ) then return end
 
     local lootItems = entity:getLoot()
     local moneyGiven = 0
+
+    if table.Count( lootItems ) < 1 then return end
+
+    doBalloons()
 
     local lootStuff = {}
     for _, lootName in pairs( lootItems ) do

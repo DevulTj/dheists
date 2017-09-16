@@ -6,17 +6,32 @@
 
 util.AddNetworkString( "dHeists_NPCUse" )
 
+local function spawnNPC( tData, vPos, aAng )
+    local npc = ents.Create( "dheists_npc_base" )
+    npc:SetPos( vPos )
+    npc:SetAngles( aAng or Angle( 0, 0, 0 ) )
+    npc:SetModel( tData.model )
+
+    npc:Spawn()
+    npc:setNPC( tData )
+
+    dHeists.print( "Spawning NPC at " .. tostring( vPos ) .. ", " .. tostring( aAng ) )
+
+    return npc
+end
+
 function dHeists.npc.spawnNPCs()
     for _, npcData in pairs( dHeists.npc.list ) do
-        local npc = ents.Create( "dheists_npc_base" )
-        npc:SetPos( npcData.pos )
-        npc:SetAngles( npcData.ang )
-        npc:SetModel( npcData.model )
+        local location = dHeists.npc.getNPCLocations( npcData.name )
+        if not location then continue end
 
-        npc:Spawn()
-        npc:setNPC( npcData )
-
-        dHeists.print( "Spawning NPC at " .. tostring( npcData.pos ) )
+        if istable( location.pos ) then
+            for nId, vPos in pairs( location.pos ) do
+                spawnNPC( npcData, vPos, location.ang[ nId ] )
+            end
+        else
+            spawnNPC( npcData, location.pos, location.ang )
+        end
     end
 end
 
@@ -40,6 +55,6 @@ hook.Add( "dHeists_NPCUsed", "dHeists.useNPC", function( npc, name, activator, c
     if not npcData then return end
 
     net.Start( "dHeists_NPCUse" )
-        net.WriteUInt( npcData.id, 8 )
+        net.WriteString( npcData.name )
     net.Send( caller )
 end )

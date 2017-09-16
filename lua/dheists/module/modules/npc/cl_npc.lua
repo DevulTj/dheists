@@ -5,7 +5,7 @@
 ]]
 
 net.Receive( "dHeists_npcUse", function( len )
-    local npcType = net.ReadUInt( 8 )
+    local npcType = net.ReadString()
     local npcData = dHeists.npc.list[ npcType ]
     if not npcData then return end
 

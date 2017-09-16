@@ -5,7 +5,7 @@
 ]]
 
 
-hook.Add( "dHeists.robbing:registerEnt", dHeists.IDENTIFIER, function()
+hook.Add( "dHeists.robbing.registerEnt", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
