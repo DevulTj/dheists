@@ -71,8 +71,8 @@ function dHeists.setBag( player, entity )
 end
 
 local effectData = EffectData()
-local function doBalloons()
-    effectData:SetOrigin( npc:GetPos() + Vector( 0, 0, 30 ) )
+local function doBalloons( entity )
+    effectData:SetOrigin( entity:GetPos() + Vector( 0, 0, 30 ) )
     effectData:SetColor( 1 )
 
     util.Effect( "balloon_pop", effectData )
@@ -87,7 +87,7 @@ function dHeists.collectBag( npc, entity )
 
     if table.Count( lootItems ) < 1 then return end
 
-    doBalloons()
+    doBalloons( npc )
 
     local lootStuff = {}
     for _, lootName in pairs( lootItems ) do
