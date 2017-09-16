@@ -7,7 +7,7 @@
 --dHeists.config.debugEnabled = not game.IsDedicated()
 dHeists.config.debugEnabled = false
 
-dHeists.config.drillModel = "models/hunter/blocks/cube05x05x05.mdl" -- Leave to default if you don't know what to do with this
+dHeists.config.drillModel = "models/monmonstar/pd2_drill/drill_small.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
 
 dHeists.config.bagModel = "models/jessev92/payday2/item_Bag_loot.mdl" -- Leave to default if you don't know what to do with this

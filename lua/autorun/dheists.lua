@@ -73,5 +73,7 @@ frile.includeFolder( "dheists/config/" )
 frile.includeFolder( "dheists/module/" )
 
 if SERVER then
-    dHeistsDB.initialize()
+    timer.Simple( 1, function()
+        dHeistsDB.initialize()
+    end )
 end

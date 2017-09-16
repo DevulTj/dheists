@@ -120,7 +120,7 @@ local print = print
 
 local multistatements
 
-local MySQLite_config = MySQLite_config or dHeists and dHeists.config and dHeists.config.databaseCredentials
+local MySQLite_config = MySQLite_config or dHeists and dHeistsDBConfig
 local moduleLoaded
 
 local function loadMySQLModule()

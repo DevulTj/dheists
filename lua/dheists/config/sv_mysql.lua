@@ -4,7 +4,7 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-dHeists.config.databaseCredentials = {
+dHeistsDBConfig = {
     EnableMySQL = false,
     Host = "localhost",
     Username = "root",

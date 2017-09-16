@@ -15,24 +15,27 @@ ENT.Category = "dHeists"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
+ENT.physicsBox = {
+    mins = Vector( -7, -20, -5 ),
+    maxs = Vector( 7, 10, 6 )
+}
+
 ENT.IsDrill = true
 
-if SERVER then
-    function ENT:Initialize()
-        local selectedModel = dHeists.config.drillModel
-        local isValidModel = file.Exists( selectedModel, "GAME" )
+function ENT:Initialize()
+    local selectedModel = dHeists.config.drillModel
+    local isValidModel = file.Exists( selectedModel, "GAME" )
 
-        if not isValidModel then
-            selectedModel = "models/hunter/blocks/cube05x05x05.mdl"
-        end
-
-        self:SetModel( selectedModel )
-
-        self:PhysicsInit( SOLID_VPHYSICS )
-        self:SetMoveType( MOVETYPE_VPHYSICS )
-        self:SetSolid( SOLID_VPHYSICS )
-        self:SetUseType( SIMPLE_USE )
+    if not isValidModel then
+        selectedModel = "models/hunter/blocks/cube05x05x05.mdl"
     end
+
+    self:SetModel( selectedModel )
+
+    self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetUseType( SIMPLE_USE )
 end
 
 if CLIENT then
