@@ -104,6 +104,7 @@ if SERVER then
         local playerIsOwner = entityOwner == player
 
         dHeists.actions.doAction( player, playerIsOwner and dHeists.config.bagPickUpTime or dHeists.config.stealPickUpBagTime, function()
+            if not IsValid( self ) then return end
             if player:getBag() then return end
 
             player:setBag( self )
