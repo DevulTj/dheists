@@ -6,6 +6,8 @@
 
 util.AddNetworkString( "dHeists_NPCUse" )
 
+dHeists.npc.locations = dHeists.npc.locations or {}
+
 function dHeists.npc.spawnNPCs()
     for _, npcData in pairs( dHeists.npc.list ) do
         local npc = ents.Create( "dheists_npc_base" )
@@ -20,7 +22,9 @@ function dHeists.npc.spawnNPCs()
     end
 end
 
-hook.Add( "InitPostEntity", "dHeists_createNPCs", dHeists.npc.spawnNPCs )
+hook.Add( "dHeistsDBInitialized", "dHeists_createNPCs", function()
+    dHeists.print( "Database Initialized" )
+end )
 
 concommand.Add( "dheists_reload_npc", function( player )
     if not player:IsSuperAdmin() then return end

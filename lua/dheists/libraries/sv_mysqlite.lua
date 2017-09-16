@@ -95,7 +95,7 @@
         onFinished is called without arguments.
 
     ----------------------------- Hooks -----------------------------
-    DatabaseInitialized
+    dHeistsDBInitialized
         Called when a successful connection to the database has been made.
 ]]
 
@@ -161,10 +161,10 @@ function initialize(config)
     else
         timer.Simple(0, function()
             if GAMEMODE then
-                GAMEMODE.DatabaseInitialized = GAMEMODE.DatabaseInitialized or function() end
+                GAMEMODE.dHeistsDBInitialized = GAMEMODE.dHeistsDBInitialized or function() end
             end
 
-            hook.Call("DatabaseInitialized", GAMEMODE)
+            hook.Call("dHeistsDBInitialized", GAMEMODE)
         end)
     end
 end
@@ -334,7 +334,7 @@ local function onConnected()
     end
     cachedQueries = {}
 
-    hook.Call("DatabaseInitialized", GAMEMODE and GAMEMODE.DatabaseInitialized and GAMEMODE or nil)
+    hook.Call("dHeistsDBInitialized", GAMEMODE and GAMEMODE.dHeistsDBInitialized and GAMEMODE or nil)
 end
 
 msOOConnect = function(host, username, password, database_name, database_port)

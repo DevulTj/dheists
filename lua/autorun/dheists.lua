@@ -71,3 +71,7 @@ frile.includeFolder( "dheists/libraries/" )
 frile.includeFolder( "dheists/entities/" )
 frile.includeFolder( "dheists/config/" )
 frile.includeFolder( "dheists/module/" )
+
+if SERVER then
+    dHeistsDB.initialize()
+end
