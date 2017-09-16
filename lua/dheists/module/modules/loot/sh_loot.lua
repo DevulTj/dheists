@@ -7,7 +7,7 @@
 dHeists.loot = dHeists.loot or {}
 dHeists.loot.list = {}
 
-function dHeists.loot.registerLoot( lootName, data )
+function dHeists.loot:registerLoot( lootName, data )
     if not lootName then return end
 
     data.name = lootName

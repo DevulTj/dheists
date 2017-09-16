@@ -7,7 +7,7 @@
 dHeists.robbing = dHeists.robbing or {}
 dHeists.robbing.list = {}
 
-function dHeists.robbing.registerEnt( entName, data )
+function dHeists.robbing:registerEnt( entName, data )
     if not entName then return end
 
     data.name = entName

@@ -5,11 +5,11 @@
 ]]
 
 
-hook.Add( "dHeists.robbing.registerEnt", dHeists.IDENTIFIER, function()
+hook.Add( "dHeists.robbing:registerEnt", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.ROBBING_SAFETY_DEPOSIT_BOX = dHeists.robbing.registerEnt( "Safety Deposit Box", {
+dHeists.ROBBING_SAFETY_DEPOSIT_BOX = dHeists.robbing:registerEnt( "Safety Deposit Box", {
     model = "models/hunter/blocks/cube05x05x05.mdl",
     material = "phoenix_storms/dome",
 
@@ -21,7 +21,7 @@ dHeists.ROBBING_SAFETY_DEPOSIT_BOX = dHeists.robbing.registerEnt( "Safety Deposi
     }
 } )
 
-dHeists.ROBBING_SMALL_VAULT = dHeists.robbing.registerEnt( "Small Vault", {
+dHeists.ROBBING_SMALL_VAULT = dHeists.robbing:registerEnt( "Small Vault", {
     model = "models/hunter/blocks/cube1x1x1.mdl",
     material = "phoenix_storms/metalfloor_2-3",
 
