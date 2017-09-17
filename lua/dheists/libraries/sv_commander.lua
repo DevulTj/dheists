@@ -74,7 +74,7 @@ hook.Add( "PlayerSay", commander.IDENTIFIER, function( player, text )
     if #text < 1 then return end -- Empty command
 
     if commander.Prefixes[ prefix ] then
-        text = string.Explode( "_", text )
+        text = string.Explode( "_", text[ 1 ] )
 
         local global = text[ 1 ]
         local command = text[ 2 ]
