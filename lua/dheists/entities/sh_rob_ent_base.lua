@@ -20,6 +20,7 @@ ENT.IsRobbableEntity = true
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "EntityType" )
     self:NetworkVar( "Entity", 0, "Drill" )
+    self:NetworkVar( "Int", 0, "Zone" )
 end
 
 if SERVER then
@@ -77,13 +78,45 @@ if SERVER then
         entity:Activate()
     end
 
+    function ENT:getZone()
+        return dHeists.zones and dHeists.zones.zones[ self:GetZone() ]
+    end
+
     function ENT:canDeploy()
+        if self:getZone() then
+            local zone = self:getZone()
+
+            if zone:getCooldown() and zone:getCooldown() > CurTime() then
+                return false
+            end
+        end
+
         if IsValid( self:GetDrill() ) then
             local drill = self:GetDrill()
             if drill:isFinished() then return true end
         end
 
         return false
+    end
+
+    function ENT:setDrill( drillEnt )
+        if not self.GetEntityType then return end
+
+        if self.GetDrill and IsValid( self:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
+
+        local tType = dHeists.robbing.getEnt( self:GetEntityType() )
+        if not tType then return end
+
+        drillEnt:SetParent( self )
+        drillEnt:SetPos( tType.drillPos )
+
+        local localAng = self:LocalToWorldAngles( tType.drillAng or Angle( 0, 0, 0 ) )
+        drillEnt:SetAngles( localAng )
+
+        drillEnt:SetDrillStart( CurTime() )
+        drillEnt:SetDrillEnd( CurTime() + 60 )
+
+        self:SetDrill( drillEnt )
     end
 
     function ENT:removeDrill()

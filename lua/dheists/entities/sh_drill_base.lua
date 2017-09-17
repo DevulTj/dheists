@@ -44,26 +44,6 @@ function ENT:Initialize()
     self:SetUseType( SIMPLE_USE )
 end
 
-function ENT:MoveDrillOnEntity( eEnt )
-    if not eEnt.GetEntityType then return end
-
-    if eEnt.GetDrill and IsValid( eEnt:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
-
-    local tType = dHeists.robbing.getEnt( eEnt:GetEntityType() )
-    if not tType then return end
-
-    self:SetParent( eEnt )
-    self:SetPos( tType.drillPos )
-
-    local localAng = eEnt:LocalToWorldAngles( tType.drillAng or Angle( 0, 0, 0 ) )
-    self:SetAngles( localAng )
-
-    self:SetDrillStart( CurTime() )
-    self:SetDrillEnd( CurTime() + 60 )
-
-    eEnt:SetDrill( self )
-end
-
 function ENT:getPercent()
     return math.TimeFraction( self:GetDrillStart(), self:GetDrillEnd(), CurTime() )
 end
@@ -94,7 +74,9 @@ end
 function ENT:StartTouch( eEnt )
     if not IsEntity( eEnt ) then return end
 
-    self:MoveDrillOnEntity( eEnt )
+    if eEnt.IsRobbableEntity and eEnt.setDrill then
+        eEnt:setDrill( self )
+    end
 end
 
 if CLIENT then
