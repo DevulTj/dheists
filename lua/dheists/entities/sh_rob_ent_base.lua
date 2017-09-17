@@ -19,6 +19,7 @@ ENT.IsRobbableEntity = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "EntityType" )
+    self:NetworkVar( "Entity", 0, "Drill" )
 end
 
 function ENT:getLootSpawnPos()
@@ -114,9 +115,9 @@ if CLIENT then
                     drillVector.z = drillVector.z + 1
                 local direction = Vector( entPos.x - drillVector.x, entPos.y - drillVector.y, entPos.z - drillVector.z + 1)
 
-                render.DrawLine( drillVector, drillVector + direction, Color( 0, 150, 0, 150 ) )
+                render.DrawLine( drillVector, drillVector + direction, Color( 250, 50, 50, 150 ) )
                 render.SetColorMaterial()
-                render.DrawSphere( drillVector, 5, 30, 30, Color( 0, 150, 0, 150 ) )
+                render.DrawSphere( drillVector, 5, 30, 30, Color( 250, 50, 50, 150 ) )
             end
         end
     end

@@ -18,6 +18,13 @@ surface.CreateFont( "dHeistsMedium", {
 	antialias = true
 } )
 
+surface.CreateFont( "dHeistsSmall", {
+	font = dHeists.config.fontFace or "Purista",
+	size = 18,
+	weight = ( dHeists.config.fontWeight or 800 ) / 2,
+	antialias = true
+} )
+
 surface.CreateFont( "dHeists_bagText", {
     font = dHeists.config.fontFace or "Purista",
     weight = 800,

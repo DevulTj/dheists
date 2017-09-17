@@ -26,7 +26,8 @@ dHeists.ROBBING_SMALL_VAULT = dHeists.robbing:registerEnt( "Small Vault", {
     material = "phoenix_storms/metalfloor_2-3",
 
     canDrill = true,
-    drillPos = Vector( 0, 30, 0 ),
+    drillPos = Vector( 0, 35, 0 ),
+    drillAng = Angle( 0, -90, 0 ),
 
     loot = {
         "Small Roll of Cash",
