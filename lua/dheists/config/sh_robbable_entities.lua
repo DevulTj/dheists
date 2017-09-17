@@ -9,7 +9,7 @@ hook.Add( "dHeists.robbing.registerEnt", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.ROBBING_SAFETY_DEPOSIT_BOX = dHeists.robbing:registerEnt( "Safety Deposit Box", {
+dHeists.robbing:registerEnt( "Safety Deposit Box", {
     model = "models/hunter/blocks/cube05x05x05.mdl",
     material = "phoenix_storms/dome",
 
@@ -17,11 +17,11 @@ dHeists.ROBBING_SAFETY_DEPOSIT_BOX = dHeists.robbing:registerEnt( "Safety Deposi
     canLockpick = true,
 
     loot = {
-        [ "Small Roll of Cash" ] = true
+        "Small Roll of Cash"
     }
 } )
 
-dHeists.ROBBING_SMALL_VAULT = dHeists.robbing:registerEnt( "Small Vault", {
+dHeists.robbing:registerEnt( "Small Vault", {
     model = "models/hunter/blocks/cube1x1x1.mdl",
     material = "phoenix_storms/metalfloor_2-3",
 
