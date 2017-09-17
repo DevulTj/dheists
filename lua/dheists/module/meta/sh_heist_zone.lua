@@ -59,7 +59,7 @@ function HeistZone:spawnEntities()
 
         eEnt:setEntityType( tData.type )
 
-        dHeists.print( "Spawning heist object " .. tData.type .. ", " .. tostring( tData.pos ) .. ", " .. tostring( tData.ang or Angle( 0, 0, 0 ) ) )
+        dHeists.print( "Spawning " .. tData.type .. ", " .. tostring( tData.pos ) .. ", " .. tostring( tData.ang or Angle( 0, 0, 0 ) ) )
 
         self:addEntity( eEnt )
     end
@@ -69,6 +69,10 @@ function HeistZone:setCooldown( cooldownTime )
     self.nextUse = CurTime() + cooldownTime
 
     return self.nextUse
+end
+
+function HeistZone:getCooldown()
+    return self.nextUse or 0
 end
 
 function HeistZone:resetCooldown()
