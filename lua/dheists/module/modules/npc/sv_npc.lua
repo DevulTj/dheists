@@ -6,16 +6,16 @@
 
 util.AddNetworkString( "dHeists_NPCUse" )
 
-local function spawnNPC( tData, vPos, aAng )
+local function spawnNPC( typeInfo, pos, ang )
     local npc = ents.Create( "dheists_npc_base" )
-    npc:SetPos( vPos )
-    npc:SetAngles( aAng or Angle( 0, 0, 0 ) )
-    npc:SetModel( tData.model )
+    npc:SetPos( pos )
+    npc:SetAngles( ang or Angle( 0, 0, 0 ) )
+    npc:SetModel( typeInfo.model )
 
     npc:Spawn()
-    npc:setNPC( tData )
+    npc:setNPC( typeInfo )
 
-    dHeists.print( "Spawning NPC at " .. tostring( vPos ) .. ", " .. tostring( aAng ) )
+    dHeists.print( "Spawning NPC at " .. tostring( pos ) .. ", " .. tostring( ang ) )
 
     return npc
 end

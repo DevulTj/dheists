@@ -8,22 +8,22 @@ function dHeists.zones:spawnZones()
     self.zones = self.zones or {}
 
     -- Autorefresh support
-    for sName, zZone in pairs( self.zones ) do
+    for zoneName, zone in pairs( self.zones ) do
         -- Clear objects and the zone itself
-        zZone:destroyEntities()
-        self.zones[ sName ] = nil
+        zone:destroyEntities()
+        self.zones[ zoneName ] = nil
     end
 
-    for sName, tData in pairs( self.list ) do
+    for zoneName, typeInfo in pairs( self.list ) do
         -- Create zone object
-        local zHeistZone = HeistZone:new( tData )
+        local zone = HeistZone:new( typeInfo )
         -- Register it in the zones object table
-        self.zones[ sName ] = zHeistZone
+        self.zones[ zoneName ] = zone
 
-        dHeists.print( "Spawning " .. ( tostring( zHeistZone ) ) )
+        dHeists.print( "Spawning " .. ( tostring( zone ) ) )
 
         -- Spawn zone objects
-        zHeistZone:spawnEntities()
+        zone:spawnEntities()
     end
 end
 

@@ -104,13 +104,13 @@ if SERVER then
 
         if self.GetDrill and IsValid( self:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
 
-        local tType = dHeists.robbing.getEnt( self:GetEntityType() )
-        if not tType then return end
+        local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
+        if not typeInfo then return end
 
         drillEnt:SetParent( self )
-        drillEnt:SetPos( tType.drillPos )
+        drillEnt:SetPos( typeInfo.drillPos )
 
-        local localAng = self:LocalToWorldAngles( tType.drillAng or Angle( 0, 0, 0 ) )
+        local localAng = self:LocalToWorldAngles( typeInfo.drillAng or Angle( 0, 0, 0 ) )
         drillEnt:SetAngles( localAng )
 
         drillEnt:SetDrillStart( CurTime() )
@@ -137,11 +137,11 @@ if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
 
-        local tData = dHeists.robbing.getEnt( self:GetEntityType() )
-        if not tData then return end
+        local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
+        if not typeInfo then return end
 
         if dHeists.config.debugEnabled then
-            local lootSpawnPos = tData.lootSpawnPoint
+            local lootSpawnPos = typeInfo.lootSpawnPoint
             local entPos = self:GetPos()
 
             if lootSpawnPos then
@@ -150,7 +150,7 @@ if CLIENT then
                 render.DrawSphere( self:LocalToWorld( lootSpawnPos ), 10, 30, 30, Color( 255, 255, 255, 100 ) )
             end
 
-            local drillPos = tData.drillPos
+            local drillPos = typeInfo.drillPos
             if drillPos then
                 local drillVector = self:LocalToWorld( drillPos )
                     drillVector.z = drillVector.z + 1

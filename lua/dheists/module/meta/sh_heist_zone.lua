@@ -46,20 +46,20 @@ end
 
 function HeistZone:spawnEntities()
     for i = 1, #self.objects do
-        local tData = self.objects[ i ]
-        if not tData then continue end
+        local typeInfo = self.objects[ i ]
+        if not typeInfo then continue end
 
         local eEnt = ents.Create( "dheists_rob_ent_base" )
 
-        eEnt:SetPos( tData.pos )
+        eEnt:SetPos( typeInfo.pos )
 
-        if tData.ang then
-            eEnt:SetAngles( tData.ang )
+        if typeInfo.ang then
+            eEnt:SetAngles( typeInfo.ang )
         end
 
-        eEnt:setEntityType( tData.type )
+        eEnt:setEntityType( typeInfo.type )
 
-        dHeists.print( "Spawning " .. tData.type .. ", " .. tostring( tData.pos ) .. ", " .. tostring( tData.ang or Angle( 0, 0, 0 ) ) )
+        dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
 
         self:addEntity( eEnt )
     end
