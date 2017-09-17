@@ -41,7 +41,7 @@ concommand.Add( "dheists_reload_npc", function( player )
     if not player:IsSuperAdmin() then return end
 
     for _, entity in pairs( ents.GetAll() ) do
-        if entity.IsBaseNPC then
+        if entity.IsDHeistsNPC then
             SafeRemoveEntity( entity )
         end
     end

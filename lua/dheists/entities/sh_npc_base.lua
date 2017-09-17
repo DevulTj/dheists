@@ -13,7 +13,7 @@ ENT.Author = "DevulTj"
 ENT.Category = "dHeists"
 ENT.AutomaticFrameAdvance = false
 
-ENT.IsBaseNPC = true
+ENT.IsDHeistsNPC = true
 
 ENT.physicsBox = {
     mins = Vector( -7, -10, -0 ),
