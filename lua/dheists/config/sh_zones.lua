@@ -12,8 +12,9 @@ hook.Add( "dHeists.zones.registerZones", dHeists.IDENTIFIER, function()
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
 dHeists.zones:registerZone( "Zone", {
-    mins = Vector( -363, 368, -12223 ),
-    maxs = Vector( -25, -167, -12052 ),
+    origin = Vector( 49, -161, -12287 ),
+    mins = Vector( -300, -300, 0 ),
+    maxs = Vector( 300, 300, 100 ),
 
     objects = {
         {
