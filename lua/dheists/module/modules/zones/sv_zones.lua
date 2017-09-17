@@ -30,3 +30,9 @@ end
 hook.Add( "InitPostEntity", "dHeists.zones", function()
     dHeists.zones:spawnZones()
 end )
+
+concommand.Add( "dheists_reload_zones", function( player )
+    if not player:IsSuperAdmin() then return end
+
+    dHeists.zones:spawnZones()
+end )
