@@ -22,14 +22,6 @@ function ENT:SetupDataTables()
     self:NetworkVar( "Entity", 0, "Drill" )
 end
 
-function ENT:getLootSpawnPos()
-    return self:GetNW2Vector( "lootSpawnPos" )
-end
-
-function ENT:getDrillPos()
-    return self:GetNW2Vector( "drillPos" )
-end
-
 if SERVER then
     function ENT:Initialize()
         -- assign a default model, with physics etc.
@@ -63,12 +55,7 @@ if SERVER then
         self:GetPhysicsObject():Wake()
 
         if entData.lootSpawnPoint then
-            self:SetNW2Vector( "lootSpawnPos", entData.lootSpawnPoint )
-            self.lootSpawnPos = entData.lootSpawnPoint
-        end
-
-        if entData.drillPos then
-            self:SetNW2Vector( "drillPos", entData.drillPos )
+            self.lootSpawnPoint = entData.lootSpawnPoint
         end
 
         self.lootItems = entData.loot
@@ -82,7 +69,7 @@ if SERVER then
         if not lootData then return end
 
         local entity = ents.Create( "dheists_loot_base" )
-        entity:SetPos( self:LocalToWorld( self.lootSpawnPos or Vector( 0, 0, 0 ) ) )
+        entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
 
         entity:setLootType( randomItem )
 
@@ -109,6 +96,7 @@ if SERVER then
         if not self:canDeploy() then return end
 
         self:deploy()
+        self:removeDrill()
     end
 end
 
@@ -116,8 +104,11 @@ if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
 
+        local tData = dHeists.robbing.getEnt( self:GetEntityType() )
+        if not tData then return end
+
         if dHeists.config.debugEnabled then
-            local lootSpawnPos = self:getLootSpawnPos()
+            local lootSpawnPos = tData.lootSpawnPoint
             local entPos = self:GetPos()
 
             if lootSpawnPos then
@@ -126,7 +117,7 @@ if CLIENT then
                 render.DrawSphere( self:LocalToWorld( lootSpawnPos ), 10, 30, 30, Color( 255, 255, 255, 100 ) )
             end
 
-            local drillPos = self:getDrillPos()
+            local drillPos = tData.drillPos
             if drillPos then
                 local drillVector = self:LocalToWorld( drillPos )
                     drillVector.z = drillVector.z + 1
