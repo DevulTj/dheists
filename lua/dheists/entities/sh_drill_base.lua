@@ -47,8 +47,6 @@ end
 function ENT:MoveDrillOnEntity( eEnt )
     if not eEnt.GetEntityType then return end
 
-    print( eEnt:GetDrill() )
-
     if eEnt.GetDrill and IsValid( eEnt:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
 
     local tType = dHeists.robbing.getEnt( eEnt:GetEntityType() )
@@ -68,6 +66,10 @@ end
 
 function ENT:getPercent()
     return math.TimeFraction( self:GetDrillStart(), self:GetDrillEnd(), CurTime() )
+end
+
+function ENT:isFinished()
+    return self:getPercent() >= 1
 end
 
 ENT.DrillStates = {

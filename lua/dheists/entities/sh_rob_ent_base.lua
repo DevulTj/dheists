@@ -90,7 +90,24 @@ if SERVER then
         entity:Activate()
     end
 
+    function ENT:canDeploy()
+        if IsValid( self:GetDrill() ) then
+            local drill = self:GetDrill()
+            if drill:isFinished() then return true end
+        end
+
+        return false
+    end
+
+    function ENT:removeDrill()
+        if IsValid( self:GetDrill() ) then
+            SafeRemoveEntity( self:GetDrill() )
+        end
+    end
+
     function ENT:Use()
+        if not self:canDeploy() then return end
+
         self:deploy()
     end
 end
