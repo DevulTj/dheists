@@ -17,6 +17,10 @@ commander.List = {}
 commander.Prefixes = {}
 
 function commander:register( commandData )
+    assert( commandData.command ~= nil, "no command without command" )
+    assert( commandData.global ~= nil, "no global defined for command " .. commandData.command )
+    assert( commandData.func ~= nil, "no function defined for command " .. commandData.command )
+
     local prefix = commandData.prefix or commander.DEFAULT_COMMAND_PREFIX
     local command = commandData.command
 
@@ -25,7 +29,7 @@ function commander:register( commandData )
         prefix = prefix,
         canDo = commandData.canDo,
         func = commandData.func,
-        global = commandData.global or commander.IDENTIFIER
+        global = commandData.global
     }
 
     if not commander.List[ commandData.global ] then
@@ -74,10 +78,10 @@ hook.Add( "PlayerSay", commander.IDENTIFIER, function( player, text )
     if #text < 1 then return end -- Empty command
 
     if commander.Prefixes[ prefix ] then
-        text = string.Explode( "_", text[ 1 ] )
-
+        local command = string.Explode( "_", text[ 1 ] )
+        command = text[ 2 ]
         local global = text[ 1 ]
-        local command = text[ 2 ]
+
         local commandData = commander.List[ global ]
             and commander.List[ global ][ command ]
 
