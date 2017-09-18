@@ -70,7 +70,7 @@ function commander:run( player, text, commandData )
     hook.Run( "commander.onCommand", player, text, commandData ) -- Hook support
 end
 
-hook.Add( "PlayerSay", commander.IDENTIFIER, function( player, text )
+local function processInput( player, text )
     local prefix = string.sub( text, 1, 1 )-- Store prefix
     text = string.sub( text, 2 ) -- Ditch it in the whole text
 
@@ -94,6 +94,16 @@ hook.Add( "PlayerSay", commander.IDENTIFIER, function( player, text )
 
         commander:run( player, text, commandData )
 
-        return ""
+        return true
     end
-end )
+end
+
+if SERVER then
+    hook.Add( "PlayerSay", commander.IDENTIFIER, function( player, text )
+        return processInput( player, text ) and ""
+    end )
+end
+
+if CLIENT then
+    hook.Add( "OnPlayerChat", commander.IDENTIFIER, processInput )
+end
