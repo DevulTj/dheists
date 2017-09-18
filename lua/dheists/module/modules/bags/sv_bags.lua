@@ -107,7 +107,7 @@ function dHeists.collectBag( npc, entity )
     end
 
     dHeists.addMoney( player, moneyGiven )
-    dHeists.addNotification( player, ( dHeists.config.bagCollectedText or "You were given %s for selling %s" ):format( dHeists.formatMoney( moneyGiven ), lootString ) )
+    dHeists.addNotification( player, ( dHeists.config.bagCollectedText or "You were given %s for selling %s" ):format( string.formatMoney( moneyGiven ), lootString ) )
 
     SafeRemoveEntity( entity )
 end

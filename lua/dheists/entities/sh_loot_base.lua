@@ -106,7 +106,7 @@ if CLIENT then
 
         pos.y = pos.y + 20
 
-        local worth = dHeists.formatMoney( lootData.moneyGiven )
+        local worth = string.formatMoney( lootData.moneyGiven )
 		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
 		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )

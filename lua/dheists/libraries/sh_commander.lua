@@ -58,7 +58,7 @@ function commander:run( player, text, commandData )
         return
     end
 
-    canRun, message = commandData.canDo and commandData.canDo( player, commandData )
+    canRun, message = commandData.canDo and commandData.canDo( player, text, commandData )
 
     if canRun == false then
         frotify.notify( message or "Command could not be executed", NOTIFY_ERROR, commander.DEFAULT_NOTIFICATION_LENGTH_TIME, player )
