@@ -14,7 +14,7 @@ function dHeists.zones:spawnZones()
         self.zones[ zoneName ] = nil
     end
 
-    for zoneName, typeInfo in pairs( self.list ) do
+    for zoneName, typeInfo in pairs( self:getZones() ) do
         -- Create zone object
         local zone = HeistZone:new( typeInfo )
         -- Register it in the zones object table

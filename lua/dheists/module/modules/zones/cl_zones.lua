@@ -9,7 +9,7 @@ hook.Add( "PostDrawOpaqueRenderables", "dHeists.zones", function()
 
     render.SetColorMaterial()
 
-	for zoneName, zoneInfo in pairs( dHeists.zones.list ) do
+	for zoneName, zoneInfo in pairs( dHeists.zones.getZones( map ) ) do
         local color = Color( 200, 50, 50, 255 )
         render.DrawWireframeBox( zoneInfo.origin, Angle( 0, 0, 0 ), zoneInfo.mins, zoneInfo.maxs, color, true )
     end

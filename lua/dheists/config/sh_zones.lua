@@ -11,7 +11,7 @@ hook.Add( "dHeists.zones.registerZones", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.zones:registerZone( "Zone", {
+dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
     origin = Vector( 49, -161, -12287 ),
     mins = Vector( -300, -300, 0 ),
     maxs = Vector( 300, 300, 100 ),

@@ -7,15 +7,20 @@
 dHeists.zones = dHeists.zones or {}
 dHeists.zones.list = {}
 
-function dHeists.zones:registerZone( zoneName, data )
+function dHeists.zones:registerZone( map, zoneName, data )
     if not zoneName then return end
 
     data.name = zoneName
-    dHeists.zones.list[ zoneName ] = data
+    self.list[ map ] = self.list[ map ] or {}
+    self.list[ map ][ zoneName ] = data
 end
 
-function dHeists.zones.getZone( zoneName )
-    return dHeists.zones.list[ zoneName ]
+function dHeists.zones:getZone( zoneName )
+    return self.list[ dHeists.CURRENT_LEVEL or game.GetMap() ][ zoneName ]
+end
+
+function dHeists.zones:getZones( map )
+    return self.list[ map or dHeists.CURRENT_LEVEL or game.GetMap() ]
 end
 
 hook.Run( "dHeists.zones.registerZones" )
