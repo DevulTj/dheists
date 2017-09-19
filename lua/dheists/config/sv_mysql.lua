@@ -4,7 +4,7 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-dHeistsDBConfig = {
+MySQLite_config = {
     EnableMySQL = false,
     Host = "localhost",
     Username = "root",
