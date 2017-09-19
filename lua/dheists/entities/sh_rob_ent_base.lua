@@ -53,6 +53,8 @@ if SERVER then
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
+        self:SetUseType( SIMPLE_USE )
+
         self:GetPhysicsObject():Wake()
 
         if entData.lootSpawnPoint then
@@ -76,24 +78,34 @@ if SERVER then
 
         entity:Spawn()
         entity:Activate()
+
+        if self.typeInfo then
+            self.typeInfo.onFinish( self, entity )
+        end
     end
 
     function ENT:getZone()
         return dHeists.zones and dHeists.zones.zones[ self:GetZone() ]
     end
 
-    function ENT:canDeploy()
+    function ENT:canDeploy( player )
         if self:getZone() then
             local zone = self:getZone()
 
             if zone:getCooldown() and zone:getCooldown() > CurTime() then
+                dHeists.addNotification( player, "Cooldown is active" )
                 return false
             end
         end
 
         if IsValid( self:GetDrill() ) then
             local drill = self:GetDrill()
-            if drill:isFinished() then return true end
+            if drill:isFinished() then
+                return true
+            else
+                dHeists.addNotification( player, "Drill is active" )
+                return false
+            end
         end
 
         return false
@@ -107,6 +119,8 @@ if SERVER then
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
 
+        self.typeInfo = typeInfo
+
         drillEnt:SetParent( self )
         drillEnt:SetPos( typeInfo.drillPos )
 
@@ -114,7 +128,7 @@ if SERVER then
         drillEnt:SetAngles( localAng )
 
         drillEnt:SetDrillStart( CurTime() )
-        drillEnt:SetDrillEnd( CurTime() + 60 )
+        drillEnt:SetDrillEnd( CurTime() + 10 )
 
         self:SetDrill( drillEnt )
     end
@@ -125,8 +139,9 @@ if SERVER then
         end
     end
 
-    function ENT:Use()
-        if not self:canDeploy() then return end
+    function ENT:Use( activator, player )
+        print( player, "test?" )
+        if not self:canDeploy( player ) then return end
 
         self:deploy()
         self:removeDrill()
@@ -154,7 +169,7 @@ if CLIENT then
             if drillPos then
                 local drillVector = self:LocalToWorld( drillPos )
                     drillVector.z = drillVector.z + 1
-                local direction = Vector( entPos.x - drillVector.x, entPos.y - drillVector.y, entPos.z - drillVector.z + 1)
+                local direction = Vector( entPos.x - drillVector.x, entPos.y - drillVector.y, entPos.z - drillVector.z + 1 )
 
                 render.DrawLine( drillVector, drillVector + direction, Color( 250, 50, 50, 150 ) )
                 render.SetColorMaterial()

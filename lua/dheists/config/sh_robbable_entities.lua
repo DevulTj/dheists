@@ -22,12 +22,11 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
 } )
 
 dHeists.robbing:registerEnt( "Small Vault", {
-    model = "models/hunter/blocks/cube1x1x1.mdl",
-    material = "phoenix_storms/metalfloor_2-3",
+    model = "models/devultj/safe.mdl",
 
     canDrill = true,
-    drillPos = Vector( 0, 35, 0 ),
-    drillAng = Angle( 0, -90, 0 ),
+    drillPos = Vector( 38, 0, 25 ),
+    drillAng = Angle( 0, 180, 0 ),
 
     loot = {
         "Small Roll of Cash",
@@ -35,7 +34,11 @@ dHeists.robbing:registerEnt( "Small Vault", {
         "SecuroServ Golden Figure",
         "SecuroServ Silver Figure"
     },
-    lootSpawnPoint = Vector( 0, 50, 0 )
+    lootSpawnPoint = Vector( 0, 50, 0 ),
+
+    onFinish = function( entity )
+        entity:SetSequence( entity:LookupSequence( "open" ) )
+    end
 } )
 
 -- DO NOT EDIT ANYTHING BELOW THIS LINE!
