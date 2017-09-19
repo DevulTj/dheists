@@ -60,6 +60,8 @@ if SERVER then
             self.lootSpawnPoint = entData.lootSpawnPoint
         end
 
+        self:SetMaterial( "" )
+
         self.lootItems = entData.loot
     end
 
@@ -73,10 +75,10 @@ if SERVER then
         local entity = ents.Create( "dheists_loot_base" )
         entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
 
-        entity:setLootType( randomItem )
-
         entity:Spawn()
         entity:Activate()
+
+        entity:setLootType( randomItem )
 
         if self.typeInfo then
             self.typeInfo.onFinish( self, entity )
