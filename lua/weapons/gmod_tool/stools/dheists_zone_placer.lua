@@ -18,9 +18,11 @@ TOOL.SHAPE_COLOR = color_white
 
 function TOOL:LeftClick( trace )
     if CLIENT then
-        if self.currentStage == 0 then
+        self.currentStage = ( self.currentStage or -1 ) + 1
+
+        if self.currentStage % 2 == 0 then
             self:SetConVar( "mins", tostring( trace.HitPos:ceil() ) )
-        elseif self.currentStage == 1 then
+        else
             self.maxs = trace.HitPos:ceil()
             self.maxs.z = self.maxs.z + self:GetClientInfo( "z" )
 
@@ -29,12 +31,6 @@ function TOOL:LeftClick( trace )
             self:SetConVar( "maxs", tostring( self.maxs ) )
 
             self:drawBox()
-        end
-
-        self.currentStage = self.currentStage + 1
-
-        if self.currentStage > 1 then
-            self.currentStage = 0
         end
     end
 
@@ -65,7 +61,7 @@ end
 
 function TOOL:Holster()
     if CLIENT then
-        self.currentStage = 0
+        self.currentStage = -1
         hook.Remove( "PostDrawOpaqueRenderables", "zonePlacer" )
     end
 end
