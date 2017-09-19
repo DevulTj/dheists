@@ -58,17 +58,17 @@ function dHeists.DrawAction()
 
 		if alpha > 0 then
 			local w, h = 170, 170
-			local x, y = scrW * 0.5, scrH * 0.65
+			local x, y = scrW * 0.5, scrH * 0.75
 
             local color = Color( actionColor.r, actionColor.g, actionColor.b, 255 )
             dHeists.DrawActionCircle( x + 2, y + 2, w, h, fraction, Color( 0, 0, 0, 100 ), circleMat )
             dHeists.DrawActionCircle( x, y, w, h, fraction, color, circleMat )
 
-			draw.SimpleText( timeRemainingText, "dHeists_bagTextItalics", x + 2, y + 7, Color( 0, 0, 0, 100 ), TEXT_ALIGN_CENTER )
+			draw.SimpleText( timeRemainingText, "dHeists_bagTextItalics", x + 2, y + 7, Color( 0, 0, 0, 150 ), TEXT_ALIGN_CENTER )
 			draw.SimpleText( timeRemainingText, "dHeists_bagTextItalics", x, y + 5, color_white, TEXT_ALIGN_CENTER )
 
 			local remainingTime = string.FormattedTime( math.max( finish - curTime, 0 ), "%02i:%02i:%02i" )
-			draw.SimpleText( remainingTime, "dHeistsLarge", x, y - 5, Color( 0, 0, 0, 100 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( remainingTime, "dHeistsLarge", x, y - 5, Color( 0, 0, 0, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			draw.SimpleText( remainingTime, "dHeistsLarge", x, y - 7, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 	end
