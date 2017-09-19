@@ -57,6 +57,12 @@ function TOOL:RightClick( trace )
     return true
 end
 
+function TOOL:Reload()
+    self:Holster()
+
+    return true
+end
+
 function TOOL:Holster()
     if CLIENT then
         self.currentStage = 0
