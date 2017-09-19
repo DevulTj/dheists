@@ -57,14 +57,14 @@ function HeistZone:spawnEntities()
             eEnt:SetAngles( typeInfo.ang )
         end
 
-        eEnt:setEntityType( typeInfo.type )
-
         dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
 
         self:addEntity( eEnt )
 
         eEnt:Spawn()
         eEnt:Activate()
+
+        eEnt:setEntityType( typeInfo.type )
     end
 end
 
