@@ -19,7 +19,7 @@ dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
     objects = {
         {
             type = "Small Vault",
-            pos = Vector( -200, -126, -12150 ),
+            pos = Vector( -200, -126, -12287 ),
             ang = Angle( 0, 90, 0 )
         }
     }

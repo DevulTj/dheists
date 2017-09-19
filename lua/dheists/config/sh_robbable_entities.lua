@@ -34,10 +34,17 @@ dHeists.robbing:registerEnt( "Small Vault", {
         "SecuroServ Golden Figure",
         "SecuroServ Silver Figure"
     },
-    lootSpawnPoint = Vector( 0, 0, 25 ),
+    lootSpawnPoint = Vector( 40, 0, 25 ),
 
     onFinish = function( entity )
-        entity:SetSequence( entity:LookupSequence( "open" ) )
+        entity:SetPlaybackRate( 0.2 )
+        entity:SetSequence( 1 )
+
+        timer.Simple( 5, function()
+            if not IsValid( entity ) then return end
+
+            entity:SetSequence( 3 )
+        end )
     end
 } )
 
