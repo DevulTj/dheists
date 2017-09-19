@@ -2,12 +2,10 @@
 TOOL.Category = "dHeists"
 TOOL.Name = "Zone Placer"
 
-TOOL.ClientConVar[ "origin_x" ] = 0
-TOOL.ClientConVar[ "origin_y" ] = 0
-TOOL.ClientConVar[ "origin_z" ] = 0
-TOOL.ClientConVar[ "depth_x" ] = 100
-TOOL.ClientConVar[ "depth_y" ] = 100
-TOOL.ClientConVar[ "depth_z" ] = 100
+TOOL.ClientConVar[ "origin" ] = "0 0 0"
+TOOL.ClientConVar[ "mins" ] = "0 0 0"
+TOOL.ClientConVar[ "maxs" ] = "0 0 0"
+TOOL.ClientConVar[ "z" ] = 100
 
 TOOL.Information = {
     { name = "left" },
@@ -20,30 +18,37 @@ TOOL.SHAPE_COLOR = color_white
 
 function TOOL:LeftClick( trace )
     if CLIENT then
-        local origin = trace.HitPos
+        if self.currentStage == 0 then
+            self:SetConVar( "mins", tostring( trace.HitPos:ceil() ) )
+        elseif self.currentStage == 1 then
+            self.maxs = trace.HitPos:ceil()
+            self.maxs.z = self.maxs.z + self:GetClientInfo( "z" )
 
-        RunConsoleCommand( "dheists_zone_placer_origin_x", math.ceil( origin.x ) )
-        RunConsoleCommand( "dheists_zone_placer_origin_y", math.ceil( origin.y ) )
-        RunConsoleCommand( "dheists_zone_placer_origin_z", math.ceil( origin.z ) )
+            self.maxs = self.maxs - Vector( self:GetClientInfo( "mins" ) )
 
-        hook.Add( "PostDrawOpaqueRenderables", "zonePlacer", function()
-            local origin = Vector(
-                self:GetClientInfo( "origin_x" ),
-                self:GetClientInfo( "origin_y" ),
-                self:GetClientInfo( "origin_z" )
-            )
+            self:SetConVar( "maxs", tostring( self.maxs ) )
 
-            local depth = Vector(
-                self:GetClientInfo( "depth_x" ),
-                self:GetClientInfo( "depth_y" ),
-                self:GetClientInfo( "depth_z" )
-            )
+            self:drawBox()
+        end
 
-            render.DrawWireframeBox( origin, self.ANGLE_ZERO, self.VECTOR_ZERO, depth, self.SHAPE_COLOR, true )
-        end )
+        self.currentStage = self.currentStage + 1
+
+        if self.currentStage > 1 then
+            self.currentStage = 0
+        end
     end
 
     return true
+end
+
+function TOOL:drawBox()
+    hook.Add( "PostDrawOpaqueRenderables", "zonePlacer", function()
+        local mins, maxs =
+            Vector( self:GetClientInfo( "mins" ) ),
+            Vector( self:GetClientInfo( "maxs" ) )
+
+        render.DrawWireframeBox( mins, self.ANGLE_ZERO, self.VECTOR_ZERO, maxs, self.SHAPE_COLOR, true )
+    end )
 end
 
 function TOOL:RightClick( trace )
@@ -54,31 +59,20 @@ end
 
 function TOOL:Holster()
     if CLIENT then
+        self.currentStage = 0
         hook.Remove( "PostDrawOpaqueRenderables", "zonePlacer" )
     end
 end
 
-if CLIENT then
-    function TOOL:BuildCPanel()
-        self:AddControl( "Slider",  {
-            Label	= "Depth on the x-axis",
-            Type	= "Int",
-            Min		= -1000,
-            Max		= 1000,
-            Command = "dheists_zone_placer_depth_x" })
+function TOOL:SetConVar( key, value )
+    RunConsoleCommand( "dheists_zone_placer_" .. key, value )
+end
 
-        self:AddControl( "Slider",  {
-            Label	= "Depth on the y-axis",
-            Type	= "Int",
-            Min		= -1000,
-            Max		= 1000,
-            Command = "dheists_zone_placer_depth_y" })
-
-        self:AddControl( "Slider",  {
-            Label	= "Depth on the z-axis",
-            Type	= "Int",
-            Min		= -1000,
-            Max		= 1000,
-            Command = "dheists_zone_placer_depth_z" })
-    end
+function TOOL:BuildCPanel()
+    self:AddControl( "Slider", {
+        Label = "Height of the box",
+        Command = "dheists_zone_placer_z",
+        Min = -1000,
+        Max = 1000
+    } )
 end
