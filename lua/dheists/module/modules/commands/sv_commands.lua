@@ -31,7 +31,7 @@ if SERVER then
             local canDo, reason = commandData.canDo and commandData.canDo( player, commandData )
             if canDo == false then
                 if reason then
-                    dHeists.addNotification( player, reason )
+                    frotify.notify( reason, NOTIFY_ERROR, 4, player )
                 end
 
                 return ""

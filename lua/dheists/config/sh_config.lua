@@ -55,7 +55,3 @@ end
 dHeists.config.addMoneyFunction = function( player, amount )
     return player:addMoney( amount )
 end
-
-dHeists.config.addNotificationFunction = function( player, text )
-    return DarkRP and DarkRP.notify( player, 0, 4, text ) or player:ChatPrint( text )
-end

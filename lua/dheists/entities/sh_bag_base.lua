@@ -135,7 +135,8 @@ if SERVER then
 
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
             dHeists.addMoney( player, moneyGiven )
-            dHeists.addNotification( player, ( dHeists.config.confiscateBagText or "You were given %s" ):format( string.formatMoney( moneyGiven ) ) )
+
+            frotify.notify( ( dHeists.config.confiscateBagText or "You were given %s" ):format( string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC, 4, player )
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,

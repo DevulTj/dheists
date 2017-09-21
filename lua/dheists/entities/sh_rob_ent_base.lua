@@ -94,7 +94,7 @@ if SERVER then
             local zone = self:getZone()
 
             if zone:getCooldown() and zone:getCooldown() > CurTime() then
-                dHeists.addNotification( player, "Cooldown is active" )
+                frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
                 return false
             end
         end
@@ -104,7 +104,7 @@ if SERVER then
             if drill:isFinished() then
                 return true
             else
-                dHeists.addNotification( player, "Drill is active" )
+                frotify.notify( "Drill is active", NOTIFY_ERROR, 4, player )
                 return false
             end
         end

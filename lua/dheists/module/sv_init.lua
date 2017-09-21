@@ -7,7 +7,3 @@
 function dHeists.addMoney( player, amount )
     return dHeists.config.addMoneyFunction and dHeists.config.addMoneyFunction( player, amount ) or player.addMoney and player:addMoney( amount )
 end
-
-function dHeists.addNotification( player, text )
-    return dHeists.config.addNotificationFunction( player, text )
-end

@@ -7,16 +7,18 @@
 util.AddNetworkString( "dHeists.sendBagItems" )
 util.AddNetworkString( "dHeists.dropBag" )
 
-concommand.Add( "dheists_debug_setbagtype", function( player, cmd, args )
-    if not player:IsSuperAdmin() then return end
+concommand.Add( "dheists_debug_setbagtype", function( player, command, arguments )
+    CAMI.PlayerHasAccess( dHeists.privileges.DEBUG_SETBAGTYPE, function( hasAccess )
+        if not hasAccess then return end
 
-    args = table.concat( args, " " )
-    if not tonumber( args ) then return end
+        arguments = table.concat( arguments, " " )
+        if not tonumber( arguments ) then return end
 
-    local entity = player:GetEyeTrace().Entity
-    if not IsValid( entity ) or not entity.IsBag then return end
+        local entity = player:GetEyeTrace().Entity
+        if not IsValid( entity ) or not entity.IsBag then return end
 
-    entity:setBagType( args )
+        entity:setBagType( arguments )
+    end )
 end )
 
 function dHeists.dropBag( player )
@@ -107,7 +109,10 @@ function dHeists.collectBag( npc, entity )
     end
 
     dHeists.addMoney( player, moneyGiven )
-    dHeists.addNotification( player, ( dHeists.config.bagCollectedText or "You were given %s for selling %s" ):format( string.formatMoney( moneyGiven ), lootString ) )
+
+    frotify.notify(
+        ( dHeists.config.bagCollectedText or "You were given %s for selling %s" ):format( string.formatMoney( moneyGiven ), lootString ),
+        NOTIFY_GENERIC, 4, player )
 
     SafeRemoveEntity( entity )
 end
