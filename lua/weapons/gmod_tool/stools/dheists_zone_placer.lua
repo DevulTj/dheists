@@ -1,6 +1,8 @@
 
 TOOL.Category = "dHeists"
 TOOL.Name = "Zone Placer"
+TOOL.Author = "fruitwasp"
+TOOL.AuthorUrl = "https://steamcommunity.com/id/fruitwasp"
 
 TOOL.ClientConVar[ "origin" ] = "0 0 0"
 TOOL.ClientConVar[ "mins" ] = "0 0 0"
