@@ -7,3 +7,11 @@
 hook.Add( "InitPostEntity", dHeists.IDENTIFIER .. "cache", function()
     dHeists.CURRENT_LEVEL = game.GetMap()
 end )
+
+
+hook.Add( "OnReloaded", dHeists.IDENTIFIER .. "reload", function()
+    hook.Run( "dHeists.zones.registerZones" )
+    hook.Run( "dHeists.robbing.registerEnt" )
+    hook.Run( "dHeists.loot.registerLoot" )
+    hook.Run( "dHeists.npc.registerNPCs" )
+end )

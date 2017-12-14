@@ -32,9 +32,5 @@ hook.Add( "InitPostEntity", "dHeists.zones", function()
 end )
 
 concommand.Add( "dheists_reload_zones", function( player )
-    CAMI.PlayerHasAccess( dHeists.privileges.RELOAD_ZONES, function( hasAccess )
-        if not hasAccess then return end
-
-        dHeists.zones:spawnZones()
-    end )
+    dHeists.zones:spawnZones()
 end )

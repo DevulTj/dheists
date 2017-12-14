@@ -2,7 +2,7 @@
 dHeists.privileges = {
     RELOAD_ZONES = "dHeists_reload_zones",
     RELOAD_NPCS = "dHeists_reload_npcs",
-    DEBUG_SETBAGTYPE = "dHeists_debug_set_bag_type",
+    DEBUG_SET_BAG_TYPE = "dHeists_debug_set_bag_type",
 }
 
 CAMI.RegisterPrivilege {
