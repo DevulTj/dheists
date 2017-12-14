@@ -9,9 +9,27 @@ hook.Add( "dHeists.masks.registerMasks", dHeists.IDENTIFIER, function()
 
 -- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
-dHeists.LOOT_CASH_ROLL_SMALL = dHeists.masks:registerMask( "Dallas Mask", {
+dHeists.MASK_DALLAS = dHeists.masks:registerMask( "Dallas Mask", {
     model = "models/shaklin/payday2/masks/pd2_mask_dallas.mdl",
     pos = Vector( 1, 0, -3 ),
+    ang = Angle( 90, 180, 90 )
+} )
+
+dHeists.MASK_CHAINS = dHeists.masks:registerMask( "Chains Mask", {
+    model = "models/shaklin/payday2/masks/pd2_mask_chains.mdl",
+    pos = Vector( 1, 0, -3 ),
+    ang = Angle( 90, 180, 90 )
+} )
+
+dHeists.MASK_HOXTON = dHeists.masks:registerMask( "Hoxton Mask", {
+    model = "models/shaklin/payday2/masks/pd2_mask_hoxton.mdl",
+    pos = Vector( 1, 0, -2 ),
+    ang = Angle( 90, 180, 90 )
+} )
+
+dHeists.MASK_WOLF = dHeists.masks:registerMask( "Wolf Mask", {
+    model = "models/shaklin/payday2/masks/pd2_mask_wolf.mdl",
+    pos = Vector( 1, 0, -2 ),
     ang = Angle( 90, 180, 90 )
 } )
 
