@@ -20,6 +20,11 @@ function PLAYER:getMask()
 end
 
 if SERVER then
+    function PLAYER:runMaskEffect()
+        self:ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 0.6, 0.1 )
+        self:EmitSound( "npc/combine_soldier/gear" .. math.random( 1, 3 ) .. ".wav" )
+    end
+
     function PLAYER:equipMask()
         if not self:getMask() then return end
 
@@ -28,11 +33,13 @@ if SERVER then
 
         dHeists.actions.doAction( self, dHeists.config.equipMaskTime or 1.5, function()
             self:setDevBool( "maskEquipped", true )
+            self:runMaskEffect()
 
             renderObjects:setObject( self, "mask_" .. maskInfo.name )
         end, {
             -- Will edit values later
-            ActionTimeRemainingText = "EQUIPPING MASK"
+            ActionTimeRemainingText = "EQUIPPING MASK",
+            HoldKey = KEY_H
         } )
     end
 
@@ -44,11 +51,13 @@ if SERVER then
 
         dHeists.actions.doAction( self, dHeists.config.unEquipMaskTime or 1.5, function()
             self:setDevBool( "maskEquipped", false )
+            self:runMaskEffect()
 
             renderObjects:clearObject( self, "mask_" .. maskInfo.name )
         end, {
             -- Will edit values later
-            ActionTimeRemainingText = "UN-EQUIPPING MASK"
+            ActionTimeRemainingText = "UN-EQUIPPING MASK",
+            HoldKey = KEY_H
         } )
     end
 

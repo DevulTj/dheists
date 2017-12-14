@@ -135,4 +135,9 @@ hook.Add( "HUDPaint", "dHeists.Actions", function()
 			timer.Destroy( "dHeists.ActionTimer" )
 		end
 	end
+
+	if extraData.HoldKey and not input.IsKeyDown( extraData.HoldKey ) then
+		dHeists.ClearAction()
+		timer.Destroy( "dHeists.ActionTimer" )
+	end
 end )
