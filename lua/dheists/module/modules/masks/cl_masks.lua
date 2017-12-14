@@ -4,7 +4,7 @@
     without permission of its author (devultj@gmail.com).
 ]]
 
-local hudX, hudY = ScrW() - 4, ScrH() * 0.7
+local hudX, hudY = ScrW() - 4, ScrH() * 0.57
 
 
 hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
