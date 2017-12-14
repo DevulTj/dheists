@@ -34,9 +34,8 @@ local carryingText = "CARRYING:"
 local itemText = "BAG OF CASH"
 
 hook.Add( "HUDPaint", "dHeists.drawBag", function()
-    local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] TO THROW"
-
     if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
+        local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] TO THROW"
         local itemsText = LocalPlayer()._dHeistsLootItems or "NO ITEMS"
 
         surface.SetFont( "dHeists_bagText" )

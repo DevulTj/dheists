@@ -39,7 +39,7 @@ if SERVER then
         end, {
             -- Will edit values later
             ActionTimeRemainingText = "EQUIPPING MASK",
-            HoldKey = KEY_H
+            HoldKey = dHeists.config.maskEquipKey
         } )
     end
 
@@ -57,7 +57,7 @@ if SERVER then
         end, {
             -- Will edit values later
             ActionTimeRemainingText = "UN-EQUIPPING MASK",
-            HoldKey = KEY_H
+            HoldKey = dHeists.config.maskEquipKey
         } )
     end
 

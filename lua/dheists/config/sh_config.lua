@@ -30,6 +30,8 @@ dHeists.config.holdingBagAngleOffset = 5 -- 10 degrees
 dHeists.config.dropBagCommand = "dheists_dropbag"
 dHeists.config.dropBagKey = KEY_G
 
+dHeists.config.maskEquipKey = KEY_H
+
 dHeists.config.confiscateBagActionColor = Color( 20, 20, 151 )
 dHeists.config.confiscateBagActionText = "CONFISCATING BAG"
 dHeists.config.confiscateBagMoneyPrize = 1250
