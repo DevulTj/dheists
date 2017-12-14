@@ -35,7 +35,7 @@ end
 
 function renderObjects:setPlayer( player )
     local entIndex = player:EntIndex()
-    self.objectList[ entIndex ] = self.objectList[ player ] or {}
+    self.objectList[ entIndex ] = self.objectList[ entIndex ] or {}
 
     hook.Run( "renderObjects.setPlayer", player, objectData )
 
@@ -64,6 +64,7 @@ end
 
 function renderObjects:setObject( player, objectName )
     local playerData = self:setPlayer( player )
+
     playerData[ objectName ] = true
 
     hook.Run( "renderObjects.setObject", player, objectName )
