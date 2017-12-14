@@ -15,6 +15,18 @@ function PLAYER:addMask( mask )
     return true
 end
 
+function PLAYER:dropMask()
+    if #self:getMask() == 0 then return end
+    if self:getDevBool( "maskEquipped", false ) then
+        frotify.notify( "Please un-equip your mask before dropping it.", NOTIFY_GENERIC, 4, self )
+
+        return 
+    end
+
+    self:setDevString( "currentMask", nil )
+    frotify.notify( "You dropped your Mask.", NOTIFY_GENERIC, 4, self )
+end
+
 function PLAYER:getMask()
     return self:getDevString( "currentMask", nil )
 end
