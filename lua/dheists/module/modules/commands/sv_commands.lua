@@ -54,6 +54,7 @@ if SERVER then
         if dHeists.commands.prefixes[ prefix ] then
             local command = text[ 1 ]
             local commandData = dHeists.commands.list[ command ] -- Check if the command exists
+            if not commandData then return end
 
             -- Make sure the prefix is valid
             if prefix ~= commandData.prefix then return end
