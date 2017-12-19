@@ -15,16 +15,33 @@ function PLAYER:addMask( mask )
     return true
 end
 
-function PLAYER:dropMask()
-    if #self:getMask() == 0 then return end
-    if self:getDevBool( "maskEquipped", false ) then
-        frotify.notify( "Please un-equip your mask before dropping it.", NOTIFY_GENERIC, 4, self )
+if SERVER then
+    function PLAYER:dropMask()
+        if #self:getMask() == 0 then return end
+        if self:getDevBool( "maskEquipped", false ) then
+            frotify.notify( "Please un-equip your mask before dropping it.", NOTIFY_GENERIC, 4, self )
 
-        return 
+            return 
+        end
+
+        local currentMask = self:getDevString( "currentMask", nil )
+        if not currentMask then
+            -- Something that shouldn't ever happen, right here!
+
+            return
+        end
+
+        self:setDevString( "currentMask", nil )
+        frotify.notify( "You dropped your Mask.", NOTIFY_GENERIC, 4, self )
+
+        local mask = ents.Create( "dheists_mask_base" )
+        mask:SetPos( self:GetPos() + ( self:GetUp() * 50 ) + ( self:GetForward() * 20 ) )
+
+        mask:Spawn()
+        mask:Activate()
+        
+        mask:setMaskType( currentMask )
     end
-
-    self:setDevString( "currentMask", nil )
-    frotify.notify( "You dropped your Mask.", NOTIFY_GENERIC, 4, self )
 end
 
 function PLAYER:getMask()
@@ -43,16 +60,27 @@ if SERVER then
         local maskInfo = dHeists.masks.getMask( self:getMask() )
         if not maskInfo then return end
 
-        dHeists.actions.doAction( self, dHeists.config.equipMaskTime or 1.5, function()
-            self:setDevBool( "maskEquipped", true )
-            self:runMaskEffect()
+        -- Two types here, if the specified key is down, we drop the mask, if not, we equip it.
+        if self:KeyDown( IN_SPEED ) then
+            dHeists.actions.doAction( self, dHeists.config.equipMaskTime or 1.5, function()
+                self:dropMask()
+            end, {
+                -- Will edit values later
+                ActionTimeRemainingText = "DROPPING MASK",
+                HoldKey = dHeists.config.maskEquipKey
+            } )
+        else
+            dHeists.actions.doAction( self, dHeists.config.equipMaskTime or 1.5, function()
+                self:setDevBool( "maskEquipped", true )
+                self:runMaskEffect()
 
-            renderObjects:setObject( self, "mask_" .. maskInfo.name )
-        end, {
-            -- Will edit values later
-            ActionTimeRemainingText = "EQUIPPING MASK",
-            HoldKey = dHeists.config.maskEquipKey
-        } )
+                renderObjects:setObject( self, "mask_" .. maskInfo.name )
+            end, {
+                -- Will edit values later
+                ActionTimeRemainingText = "EQUIPPING MASK",
+                HoldKey = dHeists.config.maskEquipKey
+            } )
+        end
     end
 
     function PLAYER:unEquipMask()
