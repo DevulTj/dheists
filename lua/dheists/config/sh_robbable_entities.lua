@@ -23,27 +23,35 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
 
 dHeists.robbing:registerEnt( "Small Vault", {
     model = "models/devultj/safe.mdl",
-
-    canDrill = true,
-    drillPos = Vector( 38, 0, 25 ),
-    drillAng = Angle( 0, 180, 0 ),
-
     loot = {
         "Small Roll of Cash",
         "Case of Cash",
         "SecuroServ Golden Figure",
         "SecuroServ Silver Figure"
     },
+
+    -- Positions, angles
+    drillPos = Vector( 38, 0, 25 ),
+    drillAng = Angle( 0, 180, 0 ),
     lootSpawnPoint = Vector( 40, 0, 25 ),
 
-    onFinish = function( entity )
-        entity:SetPlaybackRate( 0.2 )
-        entity:SetSequence( 1 )
+    canDrill = true,
+    -- Ensures that the loot doesn't spawn automatically
+    customLootSpawn = true,
 
-        timer.Simple( 5, function()
+    onFinish = function( entity )
+        -- Run the open sequence
+        local sequenceId = entity:LookupSequence( "open" )
+        entity:ResetSequence( sequenceId )
+
+        -- Delay spawning & animation reset until the open animation has finished
+        timer.Simple( entity:SequenceDuration( sequenceId ), function()
             if not IsValid( entity ) then return end
 
-            entity:SetSequence( 3 )
+            -- Manually spawn loot
+            entity.spawnLoot()
+
+            entity:ResetSequence( entity:LookupSequence( "close" ) )
         end )
     end
 } )

@@ -11,6 +11,7 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Robbable Entity"
 ENT.Category = "dHeists"
+ENT.AutomaticFrameAdvance = true
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -63,25 +64,36 @@ if SERVER then
         self:SetMaterial( "" )
 
         self.lootItems = entData.loot
+
+        if entData.onSpawn then
+            entData.onSpawn( self )
+        end
     end
 
     function ENT:deploy()
-        local lootItems = self.lootItems
-        local randomItem = lootItems[ math.random( 1, #lootItems ) ]
+        self.spawnLoot = function()
+            local lootItems = self.lootItems
+            local randomItem = lootItems[ math.random( 1, #lootItems ) ]
 
-        local lootData = dHeists.loot.getLoot( randomItem )
-        if not lootData then return end
+            local lootData = dHeists.loot.getLoot( randomItem )
+            if not lootData then return end
 
-        local entity = ents.Create( "dheists_loot_base" )
-        entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
+            local entity = ents.Create( "dheists_loot_base" )
+            entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
 
-        entity:Spawn()
-        entity:Activate()
+            entity:Spawn()
+            entity:Activate()
 
-        entity:setLootType( randomItem )
-
-        if self.typeInfo then
-            self.typeInfo.onFinish( self, entity )
+            entity:setLootType( randomItem )
+        end
+        
+        local data = self.typeInfo
+        if data then
+            if not data.customLootSpawn then
+                self.spawnLoot()
+            end
+            
+            data.onFinish( self, entity )
         end
     end
 
