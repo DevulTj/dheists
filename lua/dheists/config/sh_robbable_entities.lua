@@ -49,7 +49,7 @@ dHeists.robbing:registerEnt( "Small Vault", {
             if not IsValid( entity ) then return end
 
             -- Manually spawn loot
-            entity.spawnLoot()
+            entity:spawnLoot()
 
             entity:ResetSequence( entity:LookupSequence( "close" ) )
         end )

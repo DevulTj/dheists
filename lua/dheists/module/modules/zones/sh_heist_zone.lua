@@ -12,7 +12,9 @@ function HeistZone:new( data )
         },
 
         objects = {},
-        entities = {}
+        entities = {},
+
+        cooldownTime = data.cooldownTime or 60
     }
 
     -- Assign a zone ID
@@ -65,27 +67,47 @@ function HeistZone:spawnEntities()
         eEnt:Activate()
 
         eEnt:setEntityType( typeInfo.type )
+        eEnt:setZone( self )
     end
 end
 
-function HeistZone:setCooldown( cooldownTime )
-    self.nextUse = CurTime() + cooldownTime
+local TIMER_NAME = "HeistZone_%i_Timer"
+function HeistZone:activate()
+    if self:getRobberyActive() then return end
+    
+    self:setRobberyActive( true )
+    self.deActivationTime = CurTime() + dHeists.config.robberyTime
 
-    return self.nextUse
+    print( "Heist Started" )
+    
+    timer.Create( TIMER_NAME:format( self:getId() ), dHeists.config.robberyTime, 1, function()
+        self:setRobberyActive( false )
+        self.deActivationTime = nil
+
+        self.nextActivation = CurTime() + self.cooldownTime
+
+        print( "Heist Ended" )
+    end )
 end
 
-function HeistZone:getCooldown()
-    return self.nextUse or 0
+function HeistZone:canRob()
+    return self.nextActivation == nil or self.nextActivation < CurTime()
 end
 
-function HeistZone:resetCooldown()
-    self.nextUse = nil
+function HeistZone:setRobberyActive( bool )
+    self.isActive = bool
+end
+
+function HeistZone:getRobberyActive()
+    return self.isActive
+end
+
+function HeistZone:getCooldownTime()
+    return self.cooldownTime or 0
 end
 
 function HeistZone:destroyEntities()
-    for index = 1, #self.entities do
-        local entity = self.entities[ index ]
-
+    for index, entity in pairs( self.entities ) do
         if IsValid( entity ) then
             SafeRemoveEntity( entity )
         end

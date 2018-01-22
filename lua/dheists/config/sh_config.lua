@@ -5,7 +5,7 @@
 ]]
 
 --dHeists.config.debugEnabled = not game.IsDedicated()
-dHeists.config.debugEnabled = true
+dHeists.config.debugEnabled = false
 
 dHeists.config.drillModel = "models/monmonstar/pd2_drill/drill_small.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
@@ -49,6 +49,8 @@ dHeists.config.stealPickUpBagTime = 4
 
 dHeists.config.pickUpLootActionColor = Color( 20, 151, 20 )
 dHeists.config.pickUpLootActionText = "PICKING UP LOOT"
+
+dHeists.config.robberyTime = 60
 
 dHeists.config.isPoliceFunction = function( player )
     return player:getJobTable().category == "Civil Protection"

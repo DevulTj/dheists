@@ -21,7 +21,6 @@ ENT.IsRobbableEntity = true
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "EntityType" )
     self:NetworkVar( "Entity", 0, "Drill" )
-    self:NetworkVar( "Int", 0, "Zone" )
 end
 
 if SERVER then
@@ -40,6 +39,14 @@ if SERVER then
         end
 
         self:setEntityType( randomEntData )
+    end
+
+    function ENT:getZone()
+        return zone
+    end
+
+    function ENT:setZone( zone )
+        self.zone = zone
     end
 
     function ENT:setEntityType( entType )
@@ -70,45 +77,37 @@ if SERVER then
         end
     end
 
+    function ENT:spawnLoot()
+        local lootItems = self.lootItems
+        local randomItem = lootItems[ math.random( 1, #lootItems ) ]
+
+        local lootData = dHeists.loot.getLoot( randomItem )
+        if not lootData then return end
+
+        local entity = ents.Create( "dheists_loot_base" )
+        entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
+
+        entity:Spawn()
+        entity:Activate()
+
+        entity:setLootType( randomItem )
+    end
+
     function ENT:deploy()
-        self.spawnLoot = function()
-            local lootItems = self.lootItems
-            local randomItem = lootItems[ math.random( 1, #lootItems ) ]
-
-            local lootData = dHeists.loot.getLoot( randomItem )
-            if not lootData then return end
-
-            local entity = ents.Create( "dheists_loot_base" )
-            entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
-
-            entity:Spawn()
-            entity:Activate()
-
-            entity:setLootType( randomItem )
-        end
-        
         local data = self.typeInfo
         if data then
             if not data.customLootSpawn then
-                self.spawnLoot()
+                self:spawnLoot()
             end
             
             data.onFinish( self, entity )
         end
     end
 
-    function ENT:getZone()
-        return dHeists.zones and dHeists.zones.zones[ self:GetZone() ]
-    end
-
     function ENT:canDeploy( player )
         if self:getZone() then
             local zone = self:getZone()
-
-            if zone:getCooldown() and zone:getCooldown() > CurTime() then
-                frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
-                return false
-            end
+            if not zone:canRob() then return end
         end
 
         if IsValid( self:GetDrill() ) then
@@ -153,7 +152,6 @@ if SERVER then
     end
 
     function ENT:Use( activator, player )
-        print( player, "test?" )
         if not self:canDeploy( player ) then return end
 
         self:deploy()
