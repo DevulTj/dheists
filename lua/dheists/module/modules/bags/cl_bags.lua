@@ -5,6 +5,7 @@
 ]]
 
 hook.Add( "PlayerButtonDown", "dHeists.dropBag", function( player, buttonId )
+    if not IsFirstTimePredicted() then return end        
     if player ~= LocalPlayer() then return end
     if buttonId ~= dHeists.config.dropBagKey then return end
 
