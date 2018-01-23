@@ -30,30 +30,19 @@ dHeists.robbing:registerEnt( "Small Vault", {
         "SecuroServ Silver Figure"
     },
 
+    -- Cooldown between robberies
+    cooldown = 30,
+
+    -- Animation properties
+    openSequence = "open",
+    closeSequence = "close",
+
     -- Positions, angles
     drillPos = Vector( 38, 0, 25 ),
     drillAng = Angle( 0, 180, 0 ),
     lootSpawnPoint = Vector( 40, 0, 25 ),
 
-    canDrill = true,
-    -- Ensures that the loot doesn't spawn automatically
-    customLootSpawn = true,
-
-    onFinish = function( entity )
-        -- Run the open sequence
-        local sequenceId = entity:LookupSequence( "open" )
-        entity:ResetSequence( sequenceId )
-
-        -- Delay spawning & animation reset until the open animation has finished
-        timer.Simple( entity:SequenceDuration( sequenceId ), function()
-            if not IsValid( entity ) then return end
-
-            -- Manually spawn loot
-            entity:spawnLoot()
-
-            entity:ResetSequence( entity:LookupSequence( "close" ) )
-        end )
-    end
+    canDrill = true
 } )
 
 -- DO NOT EDIT ANYTHING BELOW THIS LINE!

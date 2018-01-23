@@ -96,18 +96,53 @@ if SERVER then
     function ENT:deploy()
         local data = self.typeInfo
         if data then
-            if not data.customLootSpawn then
-                self:spawnLoot()
+            if data.onFinish then 
+                data.onFinish( self, entity )
             end
-            
-            data.onFinish( self, entity )
+
+            if data.openSequence then
+                -- Run the open sequence
+                local sequenceId = self:LookupSequence( data.openSequence )
+                self:ResetSequence( sequenceId )
+
+                -- Delay spawning & animation reset until the open animation has finished
+                timer.Simple( self:SequenceDuration( sequenceId ), function()
+                    if not IsValid( self ) then return end
+
+                    -- Manually spawn loot
+                    if not data.customLootSpawn then
+                        self:spawnLoot()
+                    end
+
+                    timer.Simple( data.cooldown or 60, function()
+                        if not IsValid( self ) then return end
+
+                        self:ResetSequence( self:LookupSequence( data.closeSequence or "idle" ) )
+                    end )
+                end )
+            else
+                if not data.customLootSpawn then
+                    self:spawnLoot()
+                end
+            end
         end
     end
 
+    function ENT:getCooldown()
+        return self.cooldown
+    end
+
+    function ENT:setCooldown( amount )
+        self.cooldown = CurTime() + ( amount or 60 )
+    end
+
     function ENT:canDeploy( player )
-        if self:getZone() then
-            local zone = self:getZone()
-            if not zone:canRob() then return end
+        if self:getCooldown() then
+            if self:getCooldown() > CurTime() then
+                frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
+
+                return
+            end
         end
 
         if IsValid( self:GetDrill() ) then
@@ -156,6 +191,11 @@ if SERVER then
 
         self:deploy()
         self:removeDrill()
+
+        local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
+        if not typeInfo then return end
+
+        self:setCooldown( typeInfo.cooldown or 60 )
     end
 end
 
