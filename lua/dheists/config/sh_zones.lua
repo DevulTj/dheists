@@ -27,7 +27,7 @@ dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
 
 dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
     origin = Vector( -33, -323, -83 ),
-    mins = Vector( -300, -300, 0 ),
+    mins = Vector( -300, -300, -50 ),
     maxs = Vector( 300, 300, 10 ),
 
     objects = {
