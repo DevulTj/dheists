@@ -1,5 +1,5 @@
 
-local version = 2
+local version = 3
 
 if i18n and i18n.VERSION >= version then return end
 
@@ -11,7 +11,8 @@ i18n = {
     IDENTIFIER = "i18n"
 }
 
-local selectedLanguage = GetConVar( "gmod_language" )
+local selectedLanguage = CreateConVar( "i18n_language", "" )
+local gameLanguage = GetConVar( "gmod_language" )
 
 local _phrases = {}
 
@@ -27,7 +28,10 @@ function i18n.registerPhrases( languageId, phrases )
 end
 
 function i18n.getPhrase( identifier, ... )
-    local phrases = _phrases[ selectedLanguage:GetString() ] or _phrases.en
+    local phrases = 
+        _phrases[ selectedLanguage:GetString() ] 
+        or _phrases[ gameLanguage:GetString() ] 
+        or _phrases.en
 
     if not phrases[ identifier ] then
         if not _phrases.en[ identifier ] then return identifier end
