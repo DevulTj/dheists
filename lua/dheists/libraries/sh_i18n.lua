@@ -30,10 +30,14 @@ function i18n.getPhrase( identifier, ... )
     local phrases = _phrases[ selectedLanguage:GetString() ] or _phrases.en
 
     if not phrases[ identifier ] then
-        if not _phrases.en[ identifier ] then return nil end
+        if not _phrases.en[ identifier ] then return identifier end
 
         return string.format( _phrases.en[ identifier ], ... )
     end
 
     return string.format( phrases[ identifier ], ... )
+end
+
+function L( identifier )
+    return i18n.getPhrase( identifier )
 end
