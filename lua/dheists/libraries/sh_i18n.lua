@@ -1,5 +1,5 @@
 
-local version = 1
+local version = 2
 
 if i18n and i18n.VERSION >= version then return end
 
@@ -38,6 +38,6 @@ function i18n.getPhrase( identifier, ... )
     return string.format( phrases[ identifier ], ... )
 end
 
-function L( identifier )
-    return i18n.getPhrase( identifier )
+function i18n.__call( self, ... )
+    return i18n.getPhrase( ... )
 end
