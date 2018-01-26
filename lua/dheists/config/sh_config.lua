@@ -19,7 +19,7 @@ dHeists.config.fontFace = "Purista"
 dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 
 dHeists.config.bagPickUpTime = 2
-dHeists.config.alternateBagPos = false
+dHeists.config.alternateBagPos = false -- Places bags rotated on the player's back.
 
 dHeists.config.holdingBagMovementModifierPerItem = 0.1 -- 10% less per item
 dHeists.config.holdingBagMovementModifierMax = 0.3 -- 30% max movement speed reduction
@@ -33,22 +33,15 @@ dHeists.config.dropBagKey = KEY_G
 dHeists.config.maskEquipKey = KEY_H
 
 dHeists.config.confiscateBagActionColor = Color( 20, 20, 151 )
-dHeists.config.confiscateBagActionText = "CONFISCATING BAG"
 dHeists.config.confiscateBagMoneyPrize = 1250
 dHeists.config.bagConfiscateTime = 4
 
-dHeists.config.confiscateBagText = "You gained %s from confiscating a Bag"
-dHeists.config.bagCollectedText = "You gained %s from selling %s"
-
 dHeists.config.pickUpBagActionColor = Color( 20, 151, 20 )
-dHeists.config.pickUpBagActionText = "PICKING UP BAG"
 
 dHeists.config.stealPickUpBagActionColor = Color( 255, 165, 20 )
-dHeists.config.stealPickUpBagActionText = "STEALING BAG"
 dHeists.config.stealPickUpBagTime = 4
 
 dHeists.config.pickUpLootActionColor = Color( 20, 151, 20 )
-dHeists.config.pickUpLootActionText = "PICKING UP LOOT"
 
 dHeists.config.robberyTime = 60
 

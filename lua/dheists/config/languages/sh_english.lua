@@ -5,9 +5,6 @@
 ]]
 
 i18n.registerPhrases( "en", {
-    cooldown_3d = "COOLDOWN",
-    loot_worth = "worth %s",
-
     -- bag names
     bag_regular = "Regular Bag",
     bag_luxury = "Luxury Bag",
@@ -19,4 +16,20 @@ i18n.registerPhrases( "en", {
     loot_silver_figure = "SecuroServ Silver Figure",
     loot_cash_case = "Case of Cash",
     loot_cash_pallet = "Pallet of Cash",
+
+    -- general
+    cooldown_3d = "COOLDOWN",
+    loot_worth = "worth %s",
+
+    stealing_bag = "STEALING BAG",
+    picking_up_loot = "PICKING UP LOOT",
+    picking_up_bag = "PICKING UP BAG",
+    confiscating_bag = "CONFISCATING BAG",
+    confiscate_bag_text = "You gained %s from confiscating a bag",
+    bag_sold_text = "You gained %s from selling %s",
+
+    -- bags
+    no_items = "NO ITEMS",
+    carrying_text = "CARRYING:",
+    throw_item = "THROW",
 } )

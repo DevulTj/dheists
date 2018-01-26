@@ -115,8 +115,8 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = playerIsOwner and dHeists.config.pickUpBagActionColor or dHeists.config.stealPickUpBagActionColor,
-            ActionTimeRemainingText = playerIsOwner and dHeists.config.pickUpBagActionText
-                or dHeists.config.stealPickUpBagActionText .. ( IsValid( entityOwner ) and ( " FROM " .. entityOwner:Nick():upper() ) or "" )
+            ActionTimeRemainingText = playerIsOwner and i18n.getPhrase( "picking_up_bag" )
+                or i18n.getPhrase( "stealing_bag" ) .. ( IsValid( entityOwner ) and ( " FROM " .. entityOwner:Nick():upper() ) or "" )
         } )
     end
 
@@ -136,11 +136,11 @@ if SERVER then
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
             dHeists.addMoney( player, moneyGiven )
 
-            frotify.notify( ( dHeists.config.confiscateBagText or "You were given %s" ):format( string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC, 4, player )
+            frotify.notify( i18n.getPhrase( "confiscate_bag_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC, 4, player )
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,
-            ActionTimeRemainingText = dHeists.config.confiscateBagActionText
+            ActionTimeRemainingText = i18n.getPhrase( "confiscating_bag" )
         } )
     end
 

@@ -111,7 +111,7 @@ function dHeists.collectBag( npc, entity )
     dHeists.addMoney( player, moneyGiven )
 
     frotify.notify(
-        ( dHeists.config.bagCollectedText or "You were given %s for selling %s" ):format( string.formatMoney( moneyGiven ), lootString ),
+        i18n.getPhrase( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ),
         NOTIFY_GENERIC, 4, player )
 
     SafeRemoveEntity( entity )
