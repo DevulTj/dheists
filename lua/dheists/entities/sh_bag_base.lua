@@ -115,8 +115,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = playerIsOwner and dHeists.config.pickUpBagActionColor or dHeists.config.stealPickUpBagActionColor,
-            ActionTimeRemainingText = playerIsOwner and i18n.getPhrase( "picking_up_bag" )
-                or i18n.getPhrase( "stealing_bag" ) .. ( IsValid( entityOwner ) and ( " FROM " .. entityOwner:Nick():upper() ) or "" )
+            ActionTimeRemainingTextPhrase = playerIsOwner and "picking_up_bag" or "stealing_bag"
         } )
     end
 
@@ -140,7 +139,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,
-            ActionTimeRemainingText = i18n.getPhrase( "confiscating_bag" )
+            ActionTimeRemainingTextPhrase = i18n.getPhrase( "confiscating_bag" )
         } )
     end
 

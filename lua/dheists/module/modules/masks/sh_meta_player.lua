@@ -66,7 +66,7 @@ if SERVER then
                 self:dropMask()
             end, {
                 -- Will edit values later
-                ActionTimeRemainingText = "DROPPING MASK",
+                ActionTimeRemainingTextPhrase = "dropping_mask",
                 HoldKey = dHeists.config.maskEquipKey
             } )
         else
@@ -77,7 +77,7 @@ if SERVER then
                 renderObjects:setObject( self, "mask_" .. maskInfo.name )
             end, {
                 -- Will edit values later
-                ActionTimeRemainingText = "EQUIPPING MASK",
+                ActionTimeRemainingTextPhrase = "equipping_mask",
                 HoldKey = dHeists.config.maskEquipKey
             } )
         end
@@ -96,7 +96,7 @@ if SERVER then
             renderObjects:clearObject( self, "mask_" .. maskInfo.name )
         end, {
             -- Will edit values later
-            ActionTimeRemainingText = "UN-EQUIPPING MASK",
+            ActionTimeRemainingTextPhrase = "un_equipping_mask",
             HoldKey = dHeists.config.maskEquipKey
         } )
     end

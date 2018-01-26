@@ -50,7 +50,7 @@ function dHeists.DrawAction()
 	local curTime = CurTime()
 	local scrW, scrH = ScrW(), ScrH()
 
-	local timeRemainingText = actionData.ActionTimeRemainingText or "TIME REMAINING"
+	local timeRemainingText = actionData.ActionTimeRemainingTextPhrase and i18n.getPhrase( actionData.ActionTimeRemainingTextPhrase ) or actionData.ActionTimeRemainingText or "TIME REMAINING"
 
 	if finish > curTime then
 		local fraction = math.TimeFraction( start, finish, curTime )

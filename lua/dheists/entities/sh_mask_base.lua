@@ -70,7 +70,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpMaskActionColor,
-            ActionTimeRemainingText = dHeists.config.pickUpMaskActionText
+            ActionTimeRemainingTextPhrase = "picking_up_mask"
         } )
     end
 end

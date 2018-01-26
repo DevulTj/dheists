@@ -70,7 +70,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpLootActionColor,
-            ActionTimeRemainingText = i18n.getPhrase( "picking_up_loot" )
+            ActionTimeRemainingTextPhrase = i18n.getPhrase( "picking_up_loot" )
         } )
     end
 
