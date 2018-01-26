@@ -21,6 +21,9 @@ ENT.IsRobbableEntity = true
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "EntityType" )
     self:NetworkVar( "Entity", 0, "Drill" )
+
+    self:NetworkVar( "Int", 1, "CooldownStart" )
+    self:NetworkVar( "Int", 1, "CooldownEnd" )
 end
 
 if SERVER then
@@ -134,6 +137,9 @@ if SERVER then
 
     function ENT:setCooldown( amount )
         self.cooldown = CurTime() + ( amount or 60 )
+
+        self:SetCooldownStart( CurTime() )
+        self:SetCooldownEnd( self.cooldown )
     end
 
     function ENT:canDeploy( player )
@@ -206,8 +212,10 @@ if CLIENT then
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
 
+        local lootSpawnPos = typeInfo.lootSpawnPoint
+
         if dHeists.config.debugEnabled then
-            local lootSpawnPos = typeInfo.lootSpawnPoint
+            
             local entPos = self:GetPos()
 
             if lootSpawnPos then
@@ -226,6 +234,32 @@ if CLIENT then
                 render.SetColorMaterial()
                 render.DrawSphere( drillVector, 5, 30, 30, Color( 250, 50, 50, 150 ) )
             end
+        end
+
+        if lootSpawnPos then
+            local cooldownStart = self:GetCooldownStart()
+            local cooldownEnd = self:GetCooldownEnd()
+
+            if cooldownStart <= 0 or cooldownEnd <= 0 then return end
+            if cooldownEnd < CurTime() then return end
+
+            -- 3D
+            self.camPos = self:LocalToWorld( lootSpawnPos )
+            self.camAng = self:GetAngles()
+            self.camAng:RotateAroundAxis( self.camAng:Right(), 0 )
+            self.camAng:RotateAroundAxis( self.camAng:Up(), 90 )
+            self.camAng:RotateAroundAxis( self.camAng:Forward(), 90 )
+
+
+            local width, height = 256, 186
+            local xPos, yPos = -( width / 2 ), -( height / 2 )
+            cam.Start3D2D( self.camPos, self.camAng, .1 )
+                surface.DrawCuteRect( xPos, yPos, width, height, 3 )
+                
+                local remainingTime = string.FormattedTime( math.max( cooldownEnd - CurTime(), 0 ), "%02i:%02i:%02i" )
+                draw.SimpleText( "COOLDOWN", "dHeistsHuge", 0, - 48, Color( 255, 50, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+                draw.SimpleText( remainingTime, "dHeistsMassive", 0, 24, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+            cam.End3D2D()
         end
     end
 

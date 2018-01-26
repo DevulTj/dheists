@@ -4,6 +4,20 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
+surface.CreateFont( "dHeistsMassive", {
+	font = dHeists.config.fontFace or "Purista",
+	size = 70,
+	weight = dHeists.config.fontWeight or 800,
+	antialias = true
+} )
+
+surface.CreateFont( "dHeistsHuge", {
+	font = dHeists.config.fontFace or "Purista",
+	size = 48,
+	weight = dHeists.config.fontWeight or 800,
+	antialias = true
+} )
+
 surface.CreateFont( "dHeistsLarge", {
 	font = dHeists.config.fontFace or "Purista",
 	size = 32,
