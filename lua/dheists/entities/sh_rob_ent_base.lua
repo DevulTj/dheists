@@ -1,5 +1,5 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
@@ -257,7 +257,7 @@ if CLIENT then
                 surface.DrawCuteRect( xPos, yPos, width, height, 3 )
                 
                 local remainingTime = string.FormattedTime( math.max( cooldownEnd - CurTime(), 0 ), "%02i:%02i:%02i" )
-                draw.SimpleText( "COOLDOWN", "dHeistsHuge", 0, - 48, Color( 255, 50, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+                draw.SimpleText( i18n.getPhrase( "cooldown_3d" ), "dHeistsHuge", 0, - 48, Color( 255, 50, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
                 draw.SimpleText( remainingTime, "dHeistsMassive", 0, 24, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
             cam.End3D2D()
         end

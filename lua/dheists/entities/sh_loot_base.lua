@@ -1,5 +1,5 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
@@ -106,9 +106,9 @@ if CLIENT then
 
         pos.y = pos.y + 20
 
-        local worth = string.formatMoney( lootData.moneyGiven )
-		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
-		draw.SimpleText( "worth " .. worth, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
+        local worthText = i18n.getPhrase( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
+		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
+		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )
 
 	function ENT:Initialize()

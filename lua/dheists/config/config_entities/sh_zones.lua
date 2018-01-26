@@ -1,15 +1,8 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
-
-dHeists.zones = dHeists.zones or {}
-dHeists.zones.list = dHeists.zones.list or {}
-
-hook.Add( "dHeists.zones.registerZones", dHeists.IDENTIFIER, function()
-
--- DO NOT EDIT ANYTHING ABOVE THIS LINE!
 
 dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
     origin = Vector( 49, -161, -12287 ),
@@ -38,7 +31,3 @@ dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
         }
     }
 } )
-
--- DO NOT EDIT ANYTHING BELOW THIS LINE!
-
-end )

@@ -1,5 +1,5 @@
 --[[
-    © 2017 devultj.co.uk, do not share, re-distribute or modify
+    © 2018 devultj.co.uk, do not share, re-distribute or modify
 
     without permission of its author (devultj@gmail.com).
 ]]
@@ -63,3 +63,6 @@ hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, comm
         moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
     end
 end )
+
+-- Include configuration for bags
+frile.includeFile( "dheists/config/config_entities/sh_bags.lua" )

@@ -1,5 +1,5 @@
 --[[
-    © 2017 devultj.co.uk, do not share, re-distribute or modify
+    © 2018 devultj.co.uk, do not share, re-distribute or modify
 
     without permission of its author (devultj@gmail.com).
 ]]
@@ -24,3 +24,6 @@ function dHeists.zones:getZones( map )
 end
 
 hook.Run( "dHeists.zones.registerZones" )
+
+-- Include configuration for zones
+frile.includeFile( "dheists/config/config_entities/sh_zones.lua" )

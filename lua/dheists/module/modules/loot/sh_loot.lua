@@ -1,5 +1,5 @@
 --[[
-    © 2017 devultj.co.uk, do not share, re-distribute or modify
+    © 2018 devultj.co.uk, do not share, re-distribute or modify
 
     without permission of its author (devultj@gmail.com).
 ]]
@@ -19,3 +19,8 @@ function dHeists.loot.getLoot( lootName )
 end
 
 hook.Run( "dHeists.loot.registerLoot" )
+
+-- Include configuration for loot
+frile.includeFile( "dheists/config/config_entities/sh_loot.lua" )
+
+

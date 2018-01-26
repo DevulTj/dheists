@@ -41,7 +41,3 @@ function i18n.getPhrase( identifier, ... )
 
     return string.format( phrases[ identifier ], ... )
 end
-
-function i18n.__call( self, ... )
-    return i18n.getPhrase( ... )
-end

@@ -1,5 +1,5 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
@@ -68,8 +68,9 @@ end
 
  -- Load everything
 frile.includeFolder( "dheists/libraries/" )
+frile.includeFolder( "dheists/config/", nil, true )
+frile.includeFolder( "dheists/config/languages/" )
 frile.includeFolder( "dheists/entities/" )
-frile.includeFolder( "dheists/config/" )
 frile.includeFolder( "dheists/module/" )
 
 if SERVER then

@@ -1,8 +1,11 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
+
+dHeists.npc.list = {}
+dHeists.npc.locations = {}
 
 function dHeists.npc.create( name, data )
     local npc = data
@@ -25,3 +28,6 @@ function dHeists.npc.getNPCLocations( name )
 end
 
 hook.Call( "dHeists.npc.registerNPCs" )
+
+-- Include configuration for npcs
+frile.includeFile( "dheists/config/config_entities/sh_npcs.lua" )

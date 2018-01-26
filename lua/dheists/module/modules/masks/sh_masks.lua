@@ -1,5 +1,5 @@
 --[[
-    © 2017 devultj.co.uk, do not share, re-distribute or modify
+    © 2018 devultj.co.uk, do not share, re-distribute or modify
 
     without permission of its author (devultj@gmail.com).
 ]]
@@ -30,3 +30,6 @@ function dHeists.masks.getMask( maskName )
 end
 
 hook.Run( "dHeists.masks.registerMasks" )
+
+-- Include configuration for masks
+frile.includeFile( "dheists/config/config_entities/sh_masks.lua" )
