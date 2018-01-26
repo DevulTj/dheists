@@ -37,8 +37,8 @@ i18n.registerPhrases( "de", {
     un_equip_mask = "MASKE ABNEHMEN",
     equip_mask = "MASKE AUFZIEHEN",
     drop_action_text = "[SHIFT+%s] ZUM ABWERFEN",
-    picking_up_mask = "PICKING UP MASK",
-    dropping_mask = "DROPPING MASK",
-    equipping_mask = "EQUIPPING MASK",
-    un_equipping_mask = "UN-EQUIPPING MASK",
+    picking_up_mask = "MASKE AUFHEBEN",
+    dropping_mask = "MASKE ABLEGEN",
+    equipping_mask = "MASKE AUFZIEHEN",
+    un_equipping_mask = "MASKE ABNEHMEN",
 } )
