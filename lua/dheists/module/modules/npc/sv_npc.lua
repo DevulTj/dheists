@@ -38,7 +38,7 @@ end
 hook.Add( "InitPostEntity", "dHeists_createNPCs", dHeists.npc.spawnNPCs )
 
 concommand.Add( "dheists_reload_npc", function( player )
-    CAMI.PlayerHasAccess( dHeists.privileges.RELOAD_NPCS, function( hasAccess )
+    local function hasAccessCallback( hasAccess )
         if not hasAccess then return end
 
         for _, entity in pairs( ents.GetAll() ) do
@@ -48,7 +48,15 @@ concommand.Add( "dheists_reload_npc", function( player )
         end
 
         dHeists.npc.spawnNPCs()
-    end )
+    end
+
+    if not IsValid( player ) then
+        hasAccessCallback( true )
+
+        return 
+    end
+
+    CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_NPCS, hasAccessCallback )
 end )
 
 hook.Add( "dHeists_NPCUsed", "dHeists.useNPC", function( npc, name, activator, caller )

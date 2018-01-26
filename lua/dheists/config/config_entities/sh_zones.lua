@@ -31,3 +31,17 @@ dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
         }
     }
 } )
+
+dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
+    origin = Vector(  1276, -6720, 200 ),
+    mins = Vector( -100, -100, -64 ),
+    maxs = Vector( 100, 100, 70 ),
+
+    objects = {
+        {
+            type = "Small Vault",
+            pos = Vector( 1366, -6653, 136 ),
+            ang = Angle( 0, -180, 0 )
+        }
+    }
+} )
