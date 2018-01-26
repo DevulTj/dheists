@@ -32,4 +32,8 @@ i18n.registerPhrases( "en", {
     no_items = "NO ITEMS",
     carrying_text = "CARRYING:",
     throw_item = "THROW",
+
+    -- masks
+    mask_action_text = "[%s] %s MASK",
+    drop_action_text = "[SHIFT+%s] DROP",
 } )
