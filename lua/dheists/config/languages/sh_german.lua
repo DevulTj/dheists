@@ -5,35 +5,35 @@
 ]]
 
 i18n.registerPhrases( "de", {
-    -- bag names
-    bag_regular = "Regular Bag",
-    bag_luxury = "Luxury Bag",
-    bag_enhanced = "Enhanced Bag",
+    -- taschen namen
+    bag_regular = "Reguläre Tasche",
+    bag_luxury = "Luxsus Tasche",
+    bag_enhanced = "Verbesserte Tasche",
 
-    -- loot names
-    loot_cash_roll_small = "Small Roll of Cash",
-    loot_golden_figure = "SecuroServ Golden Figure",
-    loot_silver_figure = "SecuroServ Silver Figure",
-    loot_cash_case = "Case of Cash",
-    loot_cash_pallet = "Pallet of Cash",
+    -- raubgut namen
+    loot_cash_roll_small = "Kleine Rolle Bargeld",
+    loot_golden_figure = "SecuroServ Goldene Figure",
+    loot_silver_figure = "SecuroServ Silberne Figure",
+    loot_cash_case = "Koffer voll Geld",
+    loot_cash_pallet = "Palette voll Geld",
 
-    -- general
-    cooldown_3d = "COOLDOWN",
-    loot_worth = "worth %s",
+    -- genereles
+    cooldown_3d = "Abklingzeit",
+    loot_worth = "wert %s",
 
-    stealing_bag = "DIEBSTAHLBEUTEL",
-    picking_up_loot = "BEUTE EINSAMMELN",
-    picking_up_bag = "AUFNAHMETASCHE",
-    confiscating_bag = "CONFISCATING BAG",
-    confiscate_bag_text = "Du hast %s gewonnen, weil du eine Tasche konfisziert hast.",
-    bag_sold_text = "Sie haben %s gewonnen, indem Sie %s verkauft haben."
+    stealing_bag = "KLAUE TASCHE",
+    picking_up_loot = "BEUTE AUFHEBEN",
+    picking_up_bag = "TASCHE AUFHEBEN",
+    confiscating_bag = "TASCHE BESCHLAGNAHMEN",
+    confiscate_bag_text = "Du hast %s verdient, durch das beschlagnahmen einer Tasche",
+    bag_sold_text = "Du hast %s verdient, durch das verkaufen von %s",
 
-    -- bags
-    no_items = "NO ITEMS",
-    carrying_text = "CARRYING:",
-    throw_item = "THROW",
+    -- taschen
+    no_items = "KEINE GEGENSTÄNDE",
+    carrying_text = "SIE TRAGEN:",
+    throw_item = "UM ZU WERFEN",
 
-    -- masks
-    mask_action_text = "[%s] %s MASK",
-    drop_action_text = "[SHIFT+%s] DROP",
+    -- masken
+    mask_action_text = "[%s] %s MASKE",
+    drop_action_text = "[SHIFT+%s] ZUM ABWERFEN",
 } )
