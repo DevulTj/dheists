@@ -75,6 +75,8 @@ if SERVER then
                 self:runMaskEffect()
 
                 renderObjects:setObject( self, "mask_" .. maskInfo.name )
+                
+                if dHeists.config.playMaskEquipSound then self:playMaskEquipSound() end
             end, {
                 -- Will edit values later
                 ActionTimeRemainingTextPhrase = "equipping_mask",
@@ -99,6 +101,15 @@ if SERVER then
             ActionTimeRemainingTextPhrase = "un_equipping_mask",
             HoldKey = dHeists.config.maskEquipKey
         } )
+    end
+
+    function PLAYER:playMaskEquipSound()
+        local isFemale = string.find( self:GetModel(), "female" )
+    
+        local sounds = dHeists.config.maskOnSounds[ isFemale and "female" or "male" ]
+        local selectedSound = sounds[ math.random( 1, #sounds ) ]
+        
+        self:EmitSound( selectedSound )
     end
 
     function PLAYER:toggleMask()

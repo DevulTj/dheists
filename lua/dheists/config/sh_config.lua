@@ -52,3 +52,18 @@ end
 dHeists.config.addMoneyFunction = function( player, amount )
     return player:addMoney( amount )
 end
+
+dHeists.config.playMaskEquipSound = true
+dHeists.config.maskOnSounds = {
+    male = {
+        "vo/npc/male01/getdown02.wav",
+        "vo/npc/male01/letsgo01.wav",
+        "vo/npc/male01/letsgo02.wav",
+        "vo/npc/male01/okimready01.wav"
+    },
+    female = {
+        "vo/npc/female01/getdown02.wav",
+        "vo/npc/female01/letsgo01.wav",
+        "vo/npc/female01/letsgo02.wav"
+    }
+}
