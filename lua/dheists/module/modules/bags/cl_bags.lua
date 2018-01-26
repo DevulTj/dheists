@@ -79,6 +79,8 @@ net.Receive( "dHeists.sendBagItems", function()
 
     local lootString = ""
     for itemName, amount in pairs( lootStuff ) do
+        itemName = i18n.getPhrase( itemName )
+        
         lootString = lootString .. "" .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. itemName:upper() .. "\n"
     end
 
