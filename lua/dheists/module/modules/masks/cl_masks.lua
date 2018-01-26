@@ -5,11 +5,17 @@
 ]]
 
 local hudX, hudY = ScrW() - 4, ScrH() * 0.57
-
+local maskVignette = Material( "devultj/mask_vignette.png" )
 
 hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
     if #LocalPlayer():getDevString( "currentMask", nil ) ~= 0 then
         local isEquipped = LocalPlayer():getDevBool( "maskEquipped", false )
+
+        if isEquipped then
+            surface.SetDrawColor( Color( 255, 255, 255, 200 ) )
+            surface.SetMaterial( maskVignette )
+            surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
+        end
         local keyName = input.GetKeyName( dHeists.config.maskEquipKey ):upper()
         local throwText = ("[%s] "):format( keyName ) .. i18n.getPhrase( isEquipped and "un_equip_mask" or "equip_mask" )
 
