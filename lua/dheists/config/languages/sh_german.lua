@@ -21,7 +21,7 @@ i18n.registerPhrases( "de", {
     cooldown_3d = "Abklingzeit",
     loot_worth = "wert %s",
 
-    stealing_bag = "KLAUE TASCHE",
+    stealing_bag = "TASCHE AUFHEBEN",
     picking_up_loot = "BEUTE AUFHEBEN",
     picking_up_bag = "TASCHE AUFHEBEN",
     confiscating_bag = "TASCHE BESCHLAGNAHMEN",
@@ -34,6 +34,11 @@ i18n.registerPhrases( "de", {
     throw_item = "UM ZU WERFEN",
 
     -- masken
-    mask_action_text = "[%s] %s MASKE",
+    un_equip_mask = "MASKE ABNEHMEN",
+    equip_mask = "MASKE AUFZIEHEN",
     drop_action_text = "[SHIFT+%s] ZUM ABWERFEN",
+    picking_up_mask = "PICKING UP MASK",
+    dropping_mask = "DROPPING MASK",
+    equipping_mask = "EQUIPPING MASK",
+    un_equipping_mask = "UN-EQUIPPING MASK",
 } )

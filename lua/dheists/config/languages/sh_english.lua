@@ -34,8 +34,9 @@ i18n.registerPhrases( "en", {
     throw_item = "THROW",
 
     -- masks
-    mask_action_text = "[%s] %s MASK",
     drop_action_text = "[SHIFT+%s] DROP",
+    un_equip_mask = "UN-EQUIP MASK",
+    equip_mask = "EQUIP MASK",
     picking_up_mask = "PICKING UP MASK",
     dropping_mask = "DROPPING MASK",
     equipping_mask = "EQUIPPING MASK",

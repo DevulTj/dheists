@@ -11,7 +11,7 @@ hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
     if #LocalPlayer():getDevString( "currentMask", nil ) ~= 0 then
         local isEquipped = LocalPlayer():getDevBool( "maskEquipped", false )
         local keyName = input.GetKeyName( dHeists.config.maskEquipKey ):upper()
-        local throwText = i18n.getPhrase( "mask_action_text", keyName, isEquipped and "UN-EQUIP" or "EQUIP" )
+        local throwText = ("[%s] "):format( keyName ) .. i18n.getPhrase( isEquipped and "un_equip_mask" or "equip_mask" )
 
         if not isEquipped then
             local dropText = i18n.getPhrase( "drop_action_text", keyName )

@@ -101,8 +101,8 @@ if CLIENT then
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText( lootData.name, "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( lootData.name, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( i18n.getPhrase( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( i18n.getPhrase( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 
