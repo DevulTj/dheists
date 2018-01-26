@@ -12,17 +12,17 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
     canLockpick = true,
 
     loot = {
-        "Small Roll of Cash"
+        "loot_cash_roll_small"
     }
 } )
-
+--
 dHeists.robbing:registerEnt( "Small Vault", {
     model = "models/devultj/safe.mdl",
     loot = {
-        "Small Roll of Cash",
-        "Case of Cash",
-        "SecuroServ Golden Figure",
-        "SecuroServ Silver Figure"
+        "loot_cash_roll_small",
+        "loot_cash_case",
+        "loot_golden_figure",
+        "loot_silver_figure"
     },
 
     -- Cooldown between robberies
