@@ -1,11 +1,11 @@
 --[[
-	© 2017 devultj.co.uk, do not share, re-distribute or modify
+	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
 	without permission of its author (devultj@gmail.com).
 ]]
 
 dHeists.config.debugEnabled = not game.IsDedicated()
---dHeists.config.debugEnabled = false
+dHeists.config.debugEnabled = false
 
 dHeists.config.drillModel = "models/monmonstar/pd2_drill/drill_small.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
