@@ -1,5 +1,5 @@
 
-local version = 1
+local version = 2
 
 if fracker and fracker.VERSION >= version then return end
 
@@ -8,10 +8,11 @@ fracker = {
     AUTHOR = "fruitwasp",
     AUTHOR_URL = "https://steamcommunity.com/id/fruitwasp",
 
+    IDENTIFIER = "fracker",
     PRINT_PREFIX = "[fracker]",
 
-    TRACK_URL = "https://fracker-api.herokuapp.com/api/track",
-    TRACK_INTERVAL = 60 * 60,
+    TRACK_URL = "https://fracker-api.herokuapp.com/api/tracks",
+    TRACK_INTERVAL = 1,
     TRACK_REPETITIONS = 1,
 }
 
@@ -29,7 +30,7 @@ function fracker.track( variables )
     } )
 end
 
-hook.Add( "InitPostEntity", "fracker", function()
+hook.Add( "InitPostEntity", fracker.IDENTIFIER, function()
     timer.Create( "fracker", fracker.TRACK_INTERVAL, fracker.TRACK_REPETITIONS, function()
         for _, trackerInfo in ipairs( trackers ) do
             fracker.track( trackerInfo )
