@@ -16,6 +16,9 @@ hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
             surface.SetMaterial( maskVignette )
             surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
         end
+
+        hook.Run( "dHeistsHUDPaint" )
+
         local keyName = input.GetKeyName( dHeists.config.maskEquipKey ):upper()
         local throwText = ("[%s] "):format( keyName ) .. i18n.getPhrase( isEquipped and "un_equip_mask" or "equip_mask" )
 

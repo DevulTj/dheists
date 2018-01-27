@@ -29,7 +29,7 @@ end )
 local hudX, hudY = ScrW() - 4, ScrH() * 0.6
 local width, height = 230, 40
 
-hook.Add( "HUDPaint", "dHeists.drawBag", function()
+hook.Add( "dHeistsHUDPaint", "dHeists.drawBag", function()
     if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
         local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] " .. i18n.getPhrase( "throw_item" )
         local itemsText = LocalPlayer()._dHeistsLootItems or i18n.getPhrase( "no_items" )

@@ -63,10 +63,14 @@ if SERVER then
         dHeists.actions.doAction( player, self.actionTime or 0, function()
             if not player:getBag() then return end
 
-            local canDo = player:addLoot( self:GetLootType() )
-            if canDo ~= false then
-                SafeRemoveEntity( self )
+            local canDo, reason = player:addLoot( self:GetLootType() )
+            if canDo == false then
+                frotify.notify( reason or "You can't pick this up", NOTIFY_ERROR, 4, player )
+
+                return
             end
+
+            SafeRemoveEntity( self )
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpLootActionColor,
@@ -90,7 +94,7 @@ if CLIENT then
     end
 
 	local drawTextDistance = 160000
-	hook.Add( "HUDPaint", "dHeists.loot", function()
+	hook.Add( "dHeistsHUDPaint", "dHeists.loot", function()
 		local entity = LocalPlayer():GetEyeTrace().Entity
 		if not IsValid( entity ) or not entity.IsLoot or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
 
