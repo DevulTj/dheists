@@ -55,6 +55,15 @@ function TOOL:RightClick( trace )
     return true
 end
 
+local stageToText = {
+    [ 1 ] = "Place the maxs point for the Zone",
+    [ 2 ] = "Place the mins point for the Zone"
+}
+
+function TOOL:DrawHUD()
+    draw.SimpleText( stageToText[ self.currentStage ] or "Place an origin center for the Zone", "dHeistsLarge", ScrW() / 2, ScrH() - 64, Color( 255, 50, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+end
+
 function TOOL:Reload()
     self:Holster()
 
