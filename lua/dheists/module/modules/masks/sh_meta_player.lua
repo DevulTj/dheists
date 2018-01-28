@@ -16,8 +16,17 @@ function PLAYER:addMask( mask )
 end
 
 if SERVER then
-    function PLAYER:dropMask()
+    function PLAYER:dropMask( force )
         if #self:getMask() == 0 then return end
+
+        if force then
+            local maskInfo = dHeists.masks.getMask( self:getMask() )
+            if not maskInfo then return end
+
+            self:setDevBool( "maskEquipped", false )
+            renderObjects:clearObject( self, "mask_" .. maskInfo.name )
+        end
+
         if self:getDevBool( "maskEquipped", false ) then
             frotify.notify( "Please un-equip your mask before dropping it.", NOTIFY_GENERIC, 4, self )
 
@@ -122,3 +131,7 @@ if SERVER then
         end
     end
 end
+
+hook.Add( "PlayerDeath", "dHeists.masks", function( player )
+    player:dropMask( true )
+end )

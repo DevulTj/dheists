@@ -116,3 +116,7 @@ function dHeists.collectBag( npc, entity )
 
     SafeRemoveEntity( entity )
 end
+
+hook.Add( "PlayerDeath", "dHeists.bags", function( player )
+    dHeists.dropBag( player )
+end )
