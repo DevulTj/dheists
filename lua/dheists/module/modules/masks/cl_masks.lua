@@ -11,12 +11,6 @@ hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
     if #LocalPlayer():getDevString( "currentMask", nil ) ~= 0 then
         local isEquipped = LocalPlayer():getDevBool( "maskEquipped", false )
 
-        if isEquipped then
-            surface.SetDrawColor( Color( 255, 255, 255, 200 ) )
-            surface.SetMaterial( maskVignette )
-            surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
-        end
-
         local keyName = input.GetKeyName( dHeists.config.maskEquipKey ):upper()
         local throwText = ("[%s] "):format( keyName ) .. i18n.getPhrase( isEquipped and "un_equip_mask" or "equip_mask" )
 
@@ -29,4 +23,16 @@ hook.Add( "HUDPaint", dHeists.IDENTIFIER .. "_mask", function()
         draw.SimpleText( throwText, "dHeists_bagText", hudX + 2, hudY - 26, Color( 0, 0, 0, 185 ), TEXT_ALIGN_RIGHT )
         draw.SimpleText( throwText, "dHeists_bagText", hudX, hudY - 28, Color( 240, 240, 240, 255 ), TEXT_ALIGN_RIGHT )
     end
+end )
+
+hook.Add( "PreDrawHUD", "PreDrawExample", function()
+    local isEquipped = LocalPlayer():getDevBool( "maskEquipped", false )
+
+    cam.Start2D()
+        if isEquipped then
+            surface.SetDrawColor( Color( 255, 255, 255, 200 ) )
+            surface.SetMaterial( maskVignette )
+            surface.DrawTexturedRect( 0, 0, ScrW(), ScrH() )
+        end
+    cam.End2D()
 end )
