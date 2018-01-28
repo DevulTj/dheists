@@ -40,7 +40,7 @@ local function addWorkshopResources()
         printAddResource( sID )
     end
 end
-if not game.SinglePlayer() then
+if not game.SinglePlayer() and SERVER then
     addWorkshopResources()
 end
 
