@@ -71,7 +71,7 @@ if CLIENT then
      
         if self:GetAlarmActive() then
             -- Sine wave, one peak a second
-            local brightnessValue = ( math.cos( CurTime() * 2 * math.pi ) + 1 ) / 2 
+            local brightnessValue = ( math.cos( CurTime() * 1.5 * math.pi ) + 1 ) / 2 
             local dynamicLight = DynamicLight( self:EntIndex() )
             if dynamicLight then
                 dynamicLight.pos = self:GetPos()
