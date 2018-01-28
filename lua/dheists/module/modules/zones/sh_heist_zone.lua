@@ -13,6 +13,7 @@ function HeistZone:new( data )
 
         objects = {},
         entities = {},
+        alarms = {},
 
         cooldownTime = data.cooldownTime or 60
     }
@@ -39,11 +40,19 @@ function HeistZone:getObjects()
 end
 
 function HeistZone:addEntity( entity )
-    return table.insert( self.entities, entity )
+    self.entities[ entity ] = true
 end
 
-function HeistZone:removeEntity( index )
-    return table.remove( self.entities, index )
+function HeistZone:removeEntity( entity )
+    self.entities[ entity ] = nil
+end
+
+function HeistZone:addAlarm( alarm )
+    self.alarms[ alarm ] = true
+end
+
+function HeistZone:removeAlarm( alarm )
+    self.alarms[ alarm ] = nil
 end
 
 function HeistZone:spawnEntities()
@@ -51,67 +60,67 @@ function HeistZone:spawnEntities()
         local typeInfo = self.objects[ i ]
         if not typeInfo then continue end
 
-        local eEnt = ents.Create( "dheists_rob_ent_base" )
+        local entity = ents.Create( "dheists_rob_ent_base" )
 
-        eEnt:SetPos( typeInfo.pos )
+        entity:SetPos( typeInfo.pos )
 
         if typeInfo.ang then
-            eEnt:SetAngles( typeInfo.ang )
+            entity:SetAngles( typeInfo.ang )
         end
 
         dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
 
-        self:addEntity( eEnt )
+        self:addEntity( entity )
 
-        eEnt:Spawn()
-        eEnt:Activate()
+        entity:Spawn()
+        entity:Activate()
 
-        eEnt:setEntityType( typeInfo.type )
-        eEnt:setZone( self )
+        entity:setEntityType( typeInfo.type )
+        entity:setZone( self )
+
+        entity:GetPhysicsObject():Sleep()
+    end
+
+    for i = 1, #self.alarms do
+        local typeInfo = self.alarms[ i ]
+        if not typeInfo then continue end
+
+        local alarm = ents.Create( typeInfo.type or "dheists_alarm_base" )
+        if not IsValid( alarm ) then continue end
+
+        alarm:SetPos( typeInfo.pos )
+
+        if typeInfo.ang then
+            alarm:SetAngles( typeInfo.ang )
+        end
+
+        dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
+
+        self:addAlarm( alarm )
+
+        alarm:Spawn()
+        alarm:Activate()
+
+        alarm:setZone( self )   
+
+        alarm:GetPhysicsObject():Sleep()
     end
 end
 
-local TIMER_NAME = "HeistZone_%i_Timer"
-function HeistZone:activate()
-    if self:getRobberyActive() then return end
-    
-    self:setRobberyActive( true )
-    self.deActivationTime = CurTime() + dHeists.config.robberyTime
-
-    print( "Heist Started" )
-    
-    timer.Create( TIMER_NAME:format( self:getId() ), dHeists.config.robberyTime, 1, function()
-        self:setRobberyActive( false )
-        self.deActivationTime = nil
-
-        self.nextActivation = CurTime() + self.cooldownTime
-
-        print( "Heist Ended" )
-    end )
-end
-
-function HeistZone:canRob()
-    return self.nextActivation == nil or self.nextActivation < CurTime()
-end
-
-function HeistZone:setRobberyActive( bool )
-    self.isActive = bool
-end
-
-function HeistZone:getRobberyActive()
-    return self.isActive
-end
-
-function HeistZone:getCooldownTime()
-    return self.cooldownTime or 0
-end
-
 function HeistZone:destroyEntities()
-    for index, entity in pairs( self.entities ) do
+    for entity, _ in pairs( self.entities ) do
         if IsValid( entity ) then
             SafeRemoveEntity( entity )
         end
 
-        self:removeEntity( index )
+        self:removeEntity( entity )
+    end
+
+    for alarm, _ in pairs( self.alarms ) do
+        if IsValid( alarm ) then
+            SafeRemoveEntity( alarm )
+        end
+
+        self:removeAlarm( alarm )
     end
 end

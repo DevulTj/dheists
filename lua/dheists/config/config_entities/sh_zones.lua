@@ -43,5 +43,18 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
             pos = Vector( 1366, -6653, 136 ),
             ang = Angle( 0, -180, 0 )
         }
+    },
+
+    alarms = {
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( 1125, -6625, 265 ),
+            ang = Angle( 90, 0, 180 )
+        },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( 1125, -6790, 265 ),
+            ang = Angle( 90, 0, 180 )
+        },
     }
 } )

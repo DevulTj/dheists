@@ -18,9 +18,6 @@ ENT.AdminSpawnable	= true
 
 ENT.IsAlarm = true
 
--- Include configuration for Alarms
-frile.includeFile( "dheists/config/config_entities/sh_alarms.lua" )
-
 function ENT:SetupDataTables()
     self:NetworkVar( "Bool", 0, "AlarmActive" )
 end
@@ -49,6 +46,8 @@ if SERVER then
 
         self:SetAlarmActive( true )
 
+        self:EmitSound( dHeists.alarms.alarmSound )
+
         timer.Simple( 30, function() 
             if IsValid( self ) then
                 self:deActivate()
@@ -58,10 +57,15 @@ if SERVER then
 
     function ENT:deActivate()
         self:SetAlarmActive( false )
+        self:StopSound( dHeists.alarms.alarmSound )
     end
 
     function ENT:Use()
         self:activate()
+    end
+
+    function ENT:OnRemove()
+        self:StopSound( dHeists.alarms.alarmSound )
     end
 end
 
