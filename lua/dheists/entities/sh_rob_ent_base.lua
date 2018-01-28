@@ -45,7 +45,7 @@ if SERVER then
     end
 
     function ENT:getZone()
-        return zone
+        return self.zone
     end
 
     function ENT:setZone( zone )
@@ -164,10 +164,20 @@ if SERVER then
         return false
     end
 
+    function ENT:trigger()
+        self:getZone():startAlarm()
+    end
+
     function ENT:setDrill( drillEnt )
         if not self.GetEntityType then return end
 
         if self.GetDrill and IsValid( self:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
+
+        if self:getCooldown() then
+            if self:getCooldown() > CurTime() then
+                return
+            end
+        end
 
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
@@ -184,6 +194,9 @@ if SERVER then
         drillEnt:SetDrillEnd( CurTime() + 10 )
 
         self:SetDrill( drillEnt )
+
+        -- Trigger a robbery, alarms
+        self:trigger()
     end
 
     function ENT:removeDrill()

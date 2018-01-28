@@ -12,8 +12,8 @@ function HeistZone:new( data )
         },
 
         objects = {},
-        entities = {},
-        alarms = {},
+        spawnedObjects = {},
+        spawnedAlarms = {},
 
         cooldownTime = data.cooldownTime or 60
     }
@@ -40,19 +40,19 @@ function HeistZone:getObjects()
 end
 
 function HeistZone:addEntity( entity )
-    self.entities[ entity ] = true
+    self.spawnedObjects[ entity ] = true
 end
 
 function HeistZone:removeEntity( entity )
-    self.entities[ entity ] = nil
+    self.spawnedObjects[ entity ] = nil
 end
 
 function HeistZone:addAlarm( alarm )
-    self.alarms[ alarm ] = true
+    self.spawnedAlarms[ alarm ] = true
 end
 
 function HeistZone:removeAlarm( alarm )
-    self.alarms[ alarm ] = nil
+    self.spawnedAlarms[ alarm ] = nil
 end
 
 function HeistZone:spawnEntities()
@@ -107,8 +107,15 @@ function HeistZone:spawnEntities()
     end
 end
 
+function HeistZone:startAlarm()
+    for alarm, _ in pairs( self.spawnedAlarms ) do
+    print(alarm)
+        alarm:activate()
+    end
+end
+
 function HeistZone:destroyEntities()
-    for entity, _ in pairs( self.entities ) do
+    for entity, _ in pairs( self.spawnedEntities ) do
         if IsValid( entity ) then
             SafeRemoveEntity( entity )
         end
@@ -116,7 +123,7 @@ function HeistZone:destroyEntities()
         self:removeEntity( entity )
     end
 
-    for alarm, _ in pairs( self.alarms ) do
+    for alarm, _ in pairs( self.spawnedAlarms ) do
         if IsValid( alarm ) then
             SafeRemoveEntity( alarm )
         end
