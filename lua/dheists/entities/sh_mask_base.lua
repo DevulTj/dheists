@@ -52,6 +52,7 @@ if SERVER then
         self:GetPhysicsObject():Wake()
 
         self:SetUseType( SIMPLE_USE )
+        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
         self.actionTime = maskData.actionTime
     end

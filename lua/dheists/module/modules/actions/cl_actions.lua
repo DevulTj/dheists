@@ -86,7 +86,7 @@ function dHeists.ClearAction()
     }
 end
 
-hook.Add( "dHeistsHUDPaint", "dHeists.Action", function()
+hook.Add( "HUDPaint", "dHeists.Action", function()
 	if dHeists.ActionStart == 0 then return end
 
 	dHeists.DrawAction()
@@ -123,7 +123,7 @@ net.Receive( "dHeists.actions.doAction", function()
 	end )
 end)
 
-hook.Add( "dHeistsHUDPaint", "dHeists.Actions", function()
+hook.Add( "HUDPaint", "dHeists.Actions", function()
 	local player = LocalPlayer()
 	if not player._dHeistsActionData then return end
 

@@ -94,7 +94,7 @@ if CLIENT then
     end
 
 	local drawTextDistance = 160000
-	hook.Add( "dHeistsHUDPaint", "dHeists.loot", function()
+	hook.Add( "HUDPaint", "dHeists.loot", function()
 		local entity = LocalPlayer():GetEyeTrace().Entity
 		if not IsValid( entity ) or not entity.IsLoot or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
 
