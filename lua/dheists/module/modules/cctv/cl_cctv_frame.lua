@@ -7,7 +7,7 @@
 local FRAME = {}
 
 function FRAME:Init()
-    self:StretchToParent( 100, 100, 100, 100 )
+    self:StretchToParent( 200, 100, 200, 100 )
     self:SetTitle( "CCTV" )
     self:MakePopup()
 
@@ -17,6 +17,22 @@ function FRAME:Init()
     self.cameraPanel:SetWide( 256 )
     self.cameraPanel:InvalidateParent( true )
 
+    self.cameraPanel.Paint = function( this, w, h )
+        draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 200 ) )
+    end
+
+    self.cameraHeader = self.cameraPanel:Add( "DButton" )
+    self.cameraHeader:Dock( TOP )
+    self.cameraHeader:SetTall( 30 )
+    self.cameraHeader:SetText( "Camera List" )
+    self.cameraHeader:SetTextColor( color_white )
+    self.cameraHeader:SetFont( "dHeistsMedium" )
+    self.cameraHeader:SetExpensiveShadow( 2, Color( 0, 0, 0, 100 ) )
+
+    self.cameraHeader.Paint = function( this, w, h )
+        draw.RoundedBox( 0, 1, 1, w - 2, h - 2, Color( 50, 50, 50, 255 ) )
+    end
+
     self.cameraLayout = self.cameraPanel:Add( "DIconLayout" )
     self.cameraLayout:Dock( FILL )
     self.cameraLayout:DockMargin( 4, 4, 4, 4 )
@@ -25,6 +41,10 @@ function FRAME:Init()
 
     self.cameraDisplay = self:Add( "DPanel" )
     self.cameraDisplay:Dock( FILL )
+
+    self.cameraDisplay.Paint = function( this, w, h )
+        draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 200 ) )
+    end
 end
 
 function FRAME:AddCamera( entity )
@@ -32,6 +52,16 @@ function FRAME:AddCamera( entity )
     button:SetWide( self.cameraLayout:GetWide() )
     button:SetTall( 40 )
     button:SetText( entity:GetCameraName() )
+    button:SetTextColor( color_white )
+    button:SetFont( "dHeistsSmall" )
+    button:SetExpensiveShadow( 1, Color( 0, 0, 0, 100 ) )
+
+    button.Paint = function( this, w, h )
+        local alpha = this:IsDown() and 230 or this:IsHovered() and 180 or 125
+        local color = Color( 50, 50, 50, alpha )
+
+        draw.RoundedBox( 2, 0, 0, w, h, color )
+    end
 end
 
 function FRAME:Paint( w, h )
