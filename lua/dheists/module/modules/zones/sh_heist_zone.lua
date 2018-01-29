@@ -34,6 +34,14 @@ function HeistZone:__tostring()
     return "[HeistZone][" .. self:getId() .. "]"
 end
 
+function HeistZone:getName()
+    return self.name
+end
+
+function HeistZone:setName( name )
+    self.name = name
+end
+
 function HeistZone:addEntity( key, entity )
     self.spawnedObjects[ key ] = self.spawnedObjects[ key ] or {}
     self.spawnedObjects[ key ][ entity ] = true
@@ -87,6 +95,15 @@ function HeistZone:spawnEntities()
 
         local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
         self:addEntity( "cameras", camera )
+        camera:SetCameraName( typeInfo.name or ( self:getName() .. " #" .. i ) )
+    end
+
+    for i = 1, #self.tvs do
+        local typeInfo = self.tvs[ i ]
+        if not typeInfo then continue end
+
+        local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
+        self:addEntity( "tvs", tv )
     end
 end
 
