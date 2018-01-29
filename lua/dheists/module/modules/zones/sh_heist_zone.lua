@@ -98,8 +98,7 @@ end
 
 function HeistZone:recursiveDelete( tbl )
     for k, v in pairs( tbl ) do
-        print(k,v)
-        if type( v ) == "table" and istable( v ) then self:recursiveDelete( v ) continue end
+        if type( v ) == "table" then self:recursiveDelete( v ) continue end
         if IsValid( k ) then
             self.spawnedObjects[ k._entityIdentifier ][ k ] = nil
             SafeRemoveEntity( k )
