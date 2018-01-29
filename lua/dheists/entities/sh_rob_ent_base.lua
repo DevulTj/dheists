@@ -56,6 +56,8 @@ if SERVER then
         local entData = istable( entType ) and entType or dHeists.robbing.getEnt( entType )
         if not entData then return end
 
+        self.typeInfo = entData
+
         self:SetEntityType( entData.name )
         self:SetModel( entData.model )
 
@@ -65,7 +67,7 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
 
-        self:GetPhysicsObject():Wake()
+        self:GetPhysicsObject():EnableMotion( false )
 
         if entData.lootSpawnPoint then
             self.lootSpawnPoint = entData.lootSpawnPoint
@@ -96,7 +98,8 @@ if SERVER then
         entity:setLootType( randomItem )
     end
 
-    function ENT:deploy()
+    function ENT:deployLoot()
+        print("running deployLoot")
         local data = self.typeInfo
         if data then
             if data.onFinish then 
@@ -126,6 +129,7 @@ if SERVER then
             else
                 if not data.customLootSpawn then
                     self:spawnLoot()
+                    print("Spawn loot func")
                 end
             end
         end
@@ -168,19 +172,27 @@ if SERVER then
         self:getZone():startAlarm()
     end
 
-    function ENT:setDrill( drillEnt )
-        if not self.GetEntityType then return end
-
-        if self.GetDrill and IsValid( self:GetDrill() ) then return end -- Disallow more than one drill on an entity at once.
+    function ENT:canRob()
+        if self.GetDrill and IsValid( self:GetDrill() ) then return false end -- Disallow more than one drill on an entity at once.
 
         if self:getCooldown() then
             if self:getCooldown() > CurTime() then
-                return
+                return false
             end
         end
 
+        return true
+    end
+
+    function ENT:setDrill( drillEnt )
+        if not self.GetEntityType then return end
+
+        if self:canRob() == false then return end
+
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
+
+        if not typeInfo.canDrill then return end
 
         self.typeInfo = typeInfo
 
@@ -205,16 +217,23 @@ if SERVER then
         end
     end
 
-    function ENT:Use( activator, player )
-        if not self:canDeploy( player ) then return end
+    function ENT:deploy()
+        self:deployLoot()
 
-        self:deploy()
-        self:removeDrill()
+        if self:GetDrill() then
+            self:removeDrill()
+        end
 
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
 
         self:setCooldown( typeInfo.cooldown or 60 )
+    end
+
+    function ENT:Use( activator, player )
+        if not self:canDeploy( player ) then return end
+
+        self:deploy()
     end
 end
 

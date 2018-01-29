@@ -61,7 +61,7 @@ function HeistZone:spawnEnt( class, pos, ang )
     entity:Spawn()
     entity:Activate()
 
-    entity:PhysicsDestroy()
+    entity:GetPhysicsObject():EnableMotion( false )
 
     dHeists.print( "Spawning " .. class .. ", " .. tostring( pos ) .. ", " .. tostring( ang or Angle( 0, 0, 0 ) ) )
 
@@ -71,39 +71,46 @@ function HeistZone:spawnEnt( class, pos, ang )
 end
 
 function HeistZone:spawnEntities()
-    for i = 1, #self.objects do
-        local typeInfo = self.objects[ i ]
-        if not typeInfo then continue end
+    if self.objects then
+        for i = 1, #self.objects do
+            local typeInfo = self.objects[ i ]
+            if not typeInfo then continue end
 
-        local entity = self:spawnEnt( "dheists_rob_ent_base", typeInfo.pos, typeInfo.ang )
-        entity:setEntityType( typeInfo.type )
-        self:addEntity( "objects", entity )
-
+            local entity = self:spawnEnt( "dheists_rob_ent_base", typeInfo.pos, typeInfo.ang )
+            entity:setEntityType( typeInfo.type )
+            self:addEntity( "objects", entity )
+        end
     end
 
-    for i = 1, #self.alarms do
-        local typeInfo = self.alarms[ i ]
-        if not typeInfo then continue end
+    if self.alarms then
+        for i = 1, #self.alarms do
+            local typeInfo = self.alarms[ i ]
+            if not typeInfo then continue end
 
-        local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
-        self:addEntity( "alarms", alarm )
+            local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
+            self:addEntity( "alarms", alarm )
+        end
     end
 
-    for i = 1, #self.cameras do
-        local typeInfo = self.cameras[ i ]
-        if not typeInfo then continue end
+    if self.cameras then
+        for i = 1, #self.cameras do
+            local typeInfo = self.cameras[ i ]
+            if not typeInfo then continue end
 
-        local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
-        self:addEntity( "cameras", camera )
-        camera:SetCameraName( typeInfo.name or ( self:getName() .. " #" .. i ) )
+            local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
+            self:addEntity( "cameras", camera )
+            camera:SetCameraName( typeInfo.name or ( self:getName() .. " #" .. i ) )
+        end
     end
 
-    for i = 1, #self.tvs do
-        local typeInfo = self.tvs[ i ]
-        if not typeInfo then continue end
+    if self.tvs then
+        for i = 1, #self.tvs do
+            local typeInfo = self.tvs[ i ]
+            if not typeInfo then continue end
 
-        local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
-        self:addEntity( "tvs", tv )
+            local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
+            self:addEntity( "tvs", tv )
+        end
     end
 end
 

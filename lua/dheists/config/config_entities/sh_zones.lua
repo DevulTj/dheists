@@ -78,3 +78,32 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
         }
     }
 } )
+
+dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Warehouse #1", {
+    origin = Vector( -7992, 3791, 64 ),
+    mins = Vector( -890, -390, -64 ),
+    maxs = Vector( 880, 290, 70 ),
+
+    objects = {
+        {
+            type = "Item Crate",
+            pos = Vector( -7937, 3415, 26 ),
+            ang = Angle( 0, 90, 0 )
+        },
+        {
+            type = "Item Crate",
+            pos = Vector( -8021, 3415, 58 ),
+            ang = Angle( 0, 90, 0 )
+        },
+        {
+            type = "Item Crate",
+            pos = Vector( -8064, 3415, 0 ),
+            ang = Angle( 0, 90, 0 )
+        },
+        {
+            type = "Item Crate",
+            pos = Vector( -8109, 3415, 0 ),
+            ang = Angle( 0, 90, 0 )
+        },
+    }
+} )
