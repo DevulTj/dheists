@@ -60,31 +60,70 @@ function FRAME:Init()
 
             surface.DrawLine( 0, h / 2, w, h / 2 )
             surface.DrawLine( w / 2, 0, w / 2, h )
+
+            if not self.haltTimer or self.haltTimer and self.haltTimer < CurTime() then
+                self.renderData.angles = Angle( 
+                    self.renderData.angles.p, 
+                    self.goingBack and self.renderData.angles.y + 0.05 or self.renderData.angles.y - 0.05, 
+                    self.renderData.angles.r 
+                )
+
+                self.haltTimer = nil
+
+                if not self.goingBack and math.abs( self.renderData.angles.y - self.endCameraAng.y ) <= 5 then
+                    self.goingBack = true 
+
+                    self.haltTimer = CurTime() + 0.2
+                end
+
+                if self.goingBack and math.abs( self.renderData.angles.y - self.reverseCameraAng.y ) <= 5 then
+                    self.goingBack = false
+
+                    self.haltTimer = CurTime() + 0.2
+                end
+            end
         end
+
+        draw.RoundedBox( 0, 0, 0, w, h, self.flickerBackgroundColor or Color( 0, 0, 0, 0 ) )
 
         dHeists.cctv.drawCameraHUD( this, self.cameraName, self.cameraPos, self.cameraAng, w, h )
     end
 end
 
+function FRAME:Flicker( cb )
+    self.flickerBackgroundColor = Color( 0, 0, 0, 255 )
+
+    timer.Simple( 0.2, function()
+        self.flickerBackgroundColor = nil
+
+        if cb then cb() end
+    end )
+end
+
 function FRAME:SelectCamera( entity )
-    self.cameraName = entity:GetCameraName()
-    self.cameraPos = entity:GetPos() + entity:GetForward() * 75 + entity:GetRight() * -25
-    self.cameraAng = entity:GetAngles() + Angle( 30, 40, 0 )
+    self:Flicker( function()
+        self.cameraName = entity:GetCameraName()
+        self.cameraPos = entity:GetPos() + entity:GetForward() * 75 + entity:GetRight() * -25
+        self.cameraAng = entity:GetAngles() + Angle( 30, 40, 0 )
 
-    local x, y = self:GetAbsolutePosition( self.cameraDisplay )
+        self.reverseCameraAng = self.cameraAng + Angle( 0, 30, 0 )
+        self.endCameraAng = self.cameraAng + Angle( 0, -30, 0 )
 
-    self.renderData = {
-        x = x,
-        y = y,
-        w = self.cameraDisplay:GetWide(),
-        h = self.cameraDisplay:GetTall(),
-        origin = self.cameraPos,
-        angles = self.cameraAng,
-        dopostprocess = false,
-        drawhud = false,
-        drawviewmodel = false,
-        drawmonitors = false
-    }
+        local x, y = self:GetAbsolutePosition( self.cameraDisplay )
+
+        self.renderData = {
+            x = x,
+            y = y,
+            w = self.cameraDisplay:GetWide(),
+            h = self.cameraDisplay:GetTall(),
+            origin = self.cameraPos,
+            angles = self.cameraAng,
+            dopostprocess = false,
+            drawhud = false,
+            drawviewmodel = false,
+            drawmonitors = false
+        }
+    end )
 end
 
 function FRAME:GetAbsolutePosition( panel )
