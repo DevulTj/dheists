@@ -15,8 +15,6 @@ net.Receive( "dHeists_ViewCCTV", function( _ )
 end )
 
 function dHeists.cctv.drawCameraHUD( panel, name, pos, ang, w, h )
-    surface.SetDrawColor(0, 0, 0, 220)
-    surface.DrawRect( 0, 0, w, h )
     panel.offset = name and ( panel.offset or 0 ) or ( panel.offset or 0 ) - 0.5
 
     surface.SetFont( "dHeistsLarge" )

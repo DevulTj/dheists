@@ -5,6 +5,7 @@
 ]]
 
 local FRAME = {}
+local suppressDraw
 
 function FRAME:Init()
     self:StretchToParent( 200, 100, 200, 100 )
@@ -41,9 +42,25 @@ function FRAME:Init()
 
     self.cameraDisplay = self:Add( "DPanel" )
     self.cameraDisplay:Dock( FILL )
+    self.cameraDisplay:InvalidateParent( true )
 
     self.cameraDisplay.Paint = function( this, w, h )
         draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 200 ) )
+
+        if self.renderData then
+            local x, y = self.renderData.origin.x, self.renderData.origin.y
+            local scale = 1
+
+            suppressDraw = true
+                render.RenderView( self.renderData )
+            suppressDraw = false
+
+            local color = Color( 0, 0, 0, 100 )
+            surface.SetDrawColor( color )
+
+            surface.DrawLine( 0, h / 2, w, h / 2 )
+            surface.DrawLine( w / 2, 0, w / 2, h )
+        end
 
         dHeists.cctv.drawCameraHUD( this, self.cameraName, self.cameraPos, self.cameraAng, w, h )
     end
@@ -51,8 +68,38 @@ end
 
 function FRAME:SelectCamera( entity )
     self.cameraName = entity:GetCameraName()
-    self.cameraPos = entity:GetPos()
-    self.cameraAng = entity:GetAngles()
+    self.cameraPos = entity:GetPos() + entity:GetForward() * 75 + entity:GetRight() * -25
+    self.cameraAng = entity:GetAngles() + Angle( 30, 40, 0 )
+
+    local x, y = self:GetAbsolutePosition( self.cameraDisplay )
+
+    self.renderData = {
+        x = x,
+        y = y,
+        w = self.cameraDisplay:GetWide(),
+        h = self.cameraDisplay:GetTall(),
+        origin = self.cameraPos,
+        angles = self.cameraAng,
+        dopostprocess = false,
+        drawhud = false,
+        drawviewmodel = false,
+        drawmonitors = false
+    }
+end
+
+function FRAME:GetAbsolutePosition( panel )
+    local positionX, positionY = 0, 0
+    panel = panel or self
+
+    while panel do
+        local x, y = panel:GetPos()
+
+        positionX, positionY = positionX + x, positionY + y
+
+        panel = panel:GetParent()
+    end
+
+    return positionX, positionY
 end
 
 function FRAME:AddCamera( entity )
@@ -91,3 +138,15 @@ function FRAME:Setup( zoneId )
 end
 
 vgui.Register( "dHeists_CCTVFrame", FRAME, "DFrame" )
+
+hook.Add( "PrePlayerDraw", "dHeists.viewRender", function()
+
+end )
+
+hook.Add( "DrawPhysgunBeam", "dHeists.viewRender", function()
+    if suppressDraw then return false end
+end )
+
+hook.Add( "PreDrawSkyBox", "dHeists.viewRender", function()
+    if suppressDraw then return true end
+end )
