@@ -44,7 +44,15 @@ function FRAME:Init()
 
     self.cameraDisplay.Paint = function( this, w, h )
         draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 200 ) )
+
+        dHeists.cctv.drawCameraHUD( this, self.cameraName, self.cameraPos, self.cameraAng, w, h )
     end
+end
+
+function FRAME:SelectCamera( entity )
+    self.cameraName = entity:GetCameraName()
+    self.cameraPos = entity:GetPos()
+    self.cameraAng = entity:GetAngles()
 end
 
 function FRAME:AddCamera( entity )
@@ -61,6 +69,10 @@ function FRAME:AddCamera( entity )
         local color = Color( 50, 50, 50, alpha )
 
         draw.RoundedBox( 2, 0, 0, w, h, color )
+    end
+
+    button.DoClick = function( this )
+        self:SelectCamera( entity )
     end
 end
 

@@ -61,7 +61,7 @@ function HeistZone:spawnEnt( class, pos, ang )
     entity:Spawn()
     entity:Activate()
 
-    entity:GetPhysicsObject():Sleep()
+    entity:PhysicsDestroy()
 
     dHeists.print( "Spawning " .. class .. ", " .. tostring( pos ) .. ", " .. tostring( ang or Angle( 0, 0, 0 ) ) )
 
