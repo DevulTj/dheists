@@ -56,5 +56,25 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
             pos = Vector( 1125, -6790, 265 ),
             ang = Angle( 90, 0, 180 )
         },
+    },
+
+    cameras = {
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( 1116, -6480, 268 ),
+            ang = Angle( 0, -180, 0 )
+        },
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( 1391, -6825, 269 ),
+            ang = Angle( 0, 90, 0 )
+        }
+    },
+
+    tvs = {
+        {
+            pos = Vector( 946, -6500, 170 ),
+            ang = Angle( 0, -60, 0 )
+        }
     }
 } )

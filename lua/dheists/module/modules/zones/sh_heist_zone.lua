@@ -13,7 +13,6 @@ function HeistZone:new( data )
 
         objects = {},
         spawnedObjects = {},
-        spawnedAlarms = {},
 
         cooldownTime = data.cooldownTime or 60
     }
@@ -35,24 +34,32 @@ function HeistZone:__tostring()
     return "[HeistZone][" .. self:getId() .. "]"
 end
 
-function HeistZone:getObjects()
-    return self.entities
+function HeistZone:addEntity( key, entity )
+    self.spawnedObjects[ key ] = self.spawnedObjects[ key ] or {}
+    self.spawnedObjects[ key ][ entity ] = true
+
+    entity._entityIdentifier = key
 end
 
-function HeistZone:addEntity( entity )
-    self.spawnedObjects[ entity ] = true
+function HeistZone:removeEntity( key, entity )
+    self.spawnedObjects[ key ][ entity ] = nil
 end
 
-function HeistZone:removeEntity( entity )
-    self.spawnedObjects[ entity ] = nil
-end
+function HeistZone:spawnEnt( class, pos, ang )
+    local entity = ents.Create( class )
+    entity:SetPos( pos )
+    entity:SetAngles( ang or Angle( 0, 0, 0 ) )
 
-function HeistZone:addAlarm( alarm )
-    self.spawnedAlarms[ alarm ] = true
-end
+    entity:Spawn()
+    entity:Activate()
 
-function HeistZone:removeAlarm( alarm )
-    self.spawnedAlarms[ alarm ] = nil
+    entity:GetPhysicsObject():Sleep()
+
+    dHeists.print( "Spawning " .. class .. ", " .. tostring( pos ) .. ", " .. tostring( ang or Angle( 0, 0, 0 ) ) )
+
+    entity:setZone( self )
+
+    return entity
 end
 
 function HeistZone:spawnEntities()
@@ -60,74 +67,48 @@ function HeistZone:spawnEntities()
         local typeInfo = self.objects[ i ]
         if not typeInfo then continue end
 
-        local entity = ents.Create( "dheists_rob_ent_base" )
-
-        entity:SetPos( typeInfo.pos )
-
-        if typeInfo.ang then
-            entity:SetAngles( typeInfo.ang )
-        end
-
-        dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
-
-        self:addEntity( entity )
-
-        entity:Spawn()
-        entity:Activate()
-
+        local entity = self:spawnEnt( "dheists_rob_ent_base", typeInfo.pos, typeInfo.ang )
         entity:setEntityType( typeInfo.type )
-        entity:setZone( self )
+        self:addEntity( "objects", entity )
 
-        entity:GetPhysicsObject():Sleep()
     end
 
     for i = 1, #self.alarms do
         local typeInfo = self.alarms[ i ]
         if not typeInfo then continue end
 
-        local alarm = ents.Create( typeInfo.type or "dheists_alarm_base" )
-        if not IsValid( alarm ) then continue end
+        local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
+        self:addEntity( "alarms", alarm )
+    end
 
-        alarm:SetPos( typeInfo.pos )
+    for i = 1, #self.cameras do
+        local typeInfo = self.cameras[ i ]
+        if not typeInfo then continue end
 
-        if typeInfo.ang then
-            alarm:SetAngles( typeInfo.ang )
-        end
-
-        dHeists.print( "Spawning " .. typeInfo.type .. ", " .. tostring( typeInfo.pos ) .. ", " .. tostring( typeInfo.ang or Angle( 0, 0, 0 ) ) )
-
-        self:addAlarm( alarm )
-
-        alarm:Spawn()
-        alarm:Activate()
-
-        alarm:setZone( self )   
-
-        alarm:GetPhysicsObject():Sleep()
+        local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
+        self:addEntity( "cameras", camera )
     end
 end
 
 function HeistZone:startAlarm()
-    for alarm, _ in pairs( self.spawnedAlarms ) do
-    print(alarm)
+    for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms ) do
         alarm:activate()
     end
 end
 
+function HeistZone:recursiveDelete( tbl )
+    for k, v in pairs( tbl ) do
+        print(k,v)
+        if type( v ) == "table" and istable( v ) then self:recursiveDelete( v ) continue end
+        if IsValid( k ) then
+            self.spawnedObjects[ k._entityIdentifier ][ k ] = nil
+            SafeRemoveEntity( k )
+            
+            continue 
+        end
+    end
+end
+
 function HeistZone:destroyEntities()
-    for entity, _ in pairs( self.spawnedEntities ) do
-        if IsValid( entity ) then
-            SafeRemoveEntity( entity )
-        end
-
-        self:removeEntity( entity )
-    end
-
-    for alarm, _ in pairs( self.spawnedAlarms ) do
-        if IsValid( alarm ) then
-            SafeRemoveEntity( alarm )
-        end
-
-        self:removeAlarm( alarm )
-    end
+    self:recursiveDelete( self.spawnedObjects )
 end

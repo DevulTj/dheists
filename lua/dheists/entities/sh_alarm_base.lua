@@ -34,7 +34,7 @@ if SERVER then
     end
 
     function ENT:getZone()
-        return zone
+        return self.zone
     end
 
     function ENT:setZone( zone )
