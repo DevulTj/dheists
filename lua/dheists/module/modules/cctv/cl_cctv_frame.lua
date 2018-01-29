@@ -137,11 +137,12 @@ function FRAME:Setup( zoneId )
     end
 end
 
+function FRAME:OnRemove()
+    net.Start( "dHeists_ViewCCTV" )
+    net.SendToServer()
+end
+
 vgui.Register( "dHeists_CCTVFrame", FRAME, "DFrame" )
-
-hook.Add( "PrePlayerDraw", "dHeists.viewRender", function()
-
-end )
 
 hook.Add( "DrawPhysgunBeam", "dHeists.viewRender", function()
     if suppressDraw then return false end
