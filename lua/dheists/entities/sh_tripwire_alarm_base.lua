@@ -40,11 +40,6 @@ function ENT:Initialize()
 	    self:SetMoveType( MOVETYPE_VPHYSICS )
 	    self:PhysicsInit( SOLID_VPHYSICS )
 	    self:SetSolid( SOLID_VPHYSICS )
-
-	    local oPhys = self:GetPhysicsObject()
-	    if oPhys:IsValid() then
-            oPhys:EnableMotion( false )
-	    end
     else
         self:DrawShadow( false )
     end
