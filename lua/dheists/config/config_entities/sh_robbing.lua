@@ -26,7 +26,7 @@ dHeists.robbing:registerEnt( "Small Vault", {
     },
 
     -- Cooldown between robberies
-    cooldown = 30,
+    cooldown = 300,
 
     -- Animation properties
     openSequence = "open",
@@ -38,4 +38,24 @@ dHeists.robbing:registerEnt( "Small Vault", {
     lootSpawnPoint = Vector( 40, 0, 25 ),
 
     canDrill = true
+} )
+
+--
+dHeists.robbing:registerEnt( "Item Crate", {
+    model = "models/Items/item_item_crate.mdl",
+    loot = {
+        "loot_cash_roll_small",
+        "loot_silver_figure"
+    },
+
+    canLockpick = true,
+    lockpickTime = 5,
+
+    canDrill = false,
+
+    -- Cooldown between robberies
+    cooldown = 10,
+
+    -- Positions, angles
+    lootSpawnPoint = Vector( 25, 0, 12 ),
 } )
