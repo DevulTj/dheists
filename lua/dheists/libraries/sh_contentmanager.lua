@@ -4,7 +4,8 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-local ADDON_PREFIX              = "[CONTENT-MANAGER] "
+local ADDON_CONTENT             = "[dHeists] "
+local ADDON_PREFIX              = "[CONTENT-MANAGER] " .. ADDON_CONTENT
 local ADDON_PREFIX_SUCCESS      = ADDON_PREFIX .. "[SUCCESS] "
 local ADDON_PREFIX_WARN         = ADDON_PREFIX .. "[WARN] "
 local ADDON_PREFIX_ERROR        = ADDON_PREFIX .. "[ERROR] "
