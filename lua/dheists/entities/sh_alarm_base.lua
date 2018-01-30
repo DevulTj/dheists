@@ -48,7 +48,7 @@ if SERVER then
 
         self:EmitSound( dHeists.alarms.alarmSound )
 
-        timer.Simple( 30, function() 
+        timer.Simple( 30, function()
             if IsValid( self ) then
                 self:deActivate()
             end
@@ -58,6 +58,10 @@ if SERVER then
     function ENT:deActivate()
         self:SetAlarmActive( false )
         self:StopSound( dHeists.alarms.alarmSound )
+
+        local zone = self:getZone()
+        if not zone then return end
+        zone:stopAlarm()
     end
 
     function ENT:Use()
@@ -72,10 +76,10 @@ end
 if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
-     
+
         if self:GetAlarmActive() then
             -- Sine wave, one peak a second
-            local brightnessValue = ( math.cos( CurTime() * 1.5 * math.pi ) + 1 ) / 2 
+            local brightnessValue = ( math.cos( CurTime() * 1.5 * math.pi ) + 1 ) / 2
             local dynamicLight = DynamicLight( self:EntIndex() )
             if dynamicLight then
                 dynamicLight.pos = self:GetPos()

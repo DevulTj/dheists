@@ -105,11 +105,29 @@ function HeistZone:spawnEntities()
         local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
         self:addEntity( "tvs", tv )
     end
+
+    for i = 1, #self.tripwires do
+        local typeInfo = self.tripwires[ i ]
+        if not typeInfo then continue end
+
+        local pos = typeInfo.pos
+        local ang = typeInfo.ang
+        local type = "dheists_tripwire_alarm_base"
+
+        local tripwire = self:spawnEnt( type, pos, ang )
+        self:addEntity( "tripwires", tripwire )
+    end
 end
 
 function HeistZone:startAlarm()
     for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms ) do
         alarm:activate()
+    end
+end
+
+function HeistZone:stopAlarm()
+    for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires ) do
+        tripwire:DeActivateAlarm()
     end
 end
 
@@ -119,8 +137,8 @@ function HeistZone:recursiveDelete( tbl )
         if IsValid( k ) then
             self.spawnedObjects[ k._entityIdentifier ][ k ] = nil
             SafeRemoveEntity( k )
-            
-            continue 
+
+            continue
         end
     end
 end

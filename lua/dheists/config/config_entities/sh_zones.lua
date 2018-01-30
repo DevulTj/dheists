@@ -76,5 +76,12 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
             pos = Vector( 946, -6500, 170 ),
             ang = Angle( 0, -60, 0 )
         }
+    },
+
+    tripwires = {
+        {
+            pos = Vector( 1228, -6608, 150 ),
+            ang = Angle( 45, 180, -90 )
+        }
     }
 } )
