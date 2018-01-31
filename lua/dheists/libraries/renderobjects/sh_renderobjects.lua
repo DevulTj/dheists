@@ -1,11 +1,11 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
-
+	© 2017 devultj.co.uk, do not share, re-distribute or modify
 	without permission of its author (devultj@gmail.com).
 ]]
 
 renderObjects = renderObjects or {}
 renderObjects.objectList = renderObjects.objectList or {}
+renderObjects.objectDatabase = renderObjects.objectDatabase or {}
 
 --[[
     function: renderObjects.getObjects
@@ -24,7 +24,7 @@ end
 ]]
 
 function renderObjects:getPlayer( player )
-    return self.objectList[ player:EntIndex() ]
+    return self.objectList[ player ]
 end
 
 --[[
@@ -34,24 +34,37 @@ end
 ]]
 
 function renderObjects:setPlayer( player )
-    local entIndex = player:EntIndex()
-    self.objectList[ entIndex ] = self.objectList[ entIndex ] or {}
+    self.objectList[ player ] = self.objectList[ player ] or {}
 
     hook.Run( "renderObjects.setPlayer", player, objectData )
 
-    return self.objectList[ entIndex ]
+    return self.objectList[ player ]
 end
 
 --[[
     function: renderObjects.setObjects
-    arguments: Player player, Table objects
-    description: Sets objects onto the desired player with the desired objects
+    arguments: Table objects
+    description: Sets objects globally with the desired objects
 ]]
 
 function renderObjects:setObjects( objects )
     self.objectList = objects
 
     hook.Run( "renderObjects.setObjects", objects )
+
+    return objects
+end
+
+--[[
+    function: renderObjects.setObjectsOfPlayer
+    arguments: Player player, Table objects
+    description: Sets objects onto the desired player with the desired objects
+]]
+
+function renderObjects:setObjectsOfPlayer( player, objects )
+    self.objectList[ player ] = objects
+
+    hook.Run( "renderObjects.setObjectsOfPlayer", player, objects )
 
     return objects
 end
@@ -83,7 +96,7 @@ function renderObjects:clearObject( player, objectName )
 
     hook.Run( "renderObjects.clearObject", player, objectName )
 
-    self.objectList[ player:EntIndex() ][ objectName ] = nil
+    self.objectList[ player ][ objectName ] = nil
 end
 
 --[[
@@ -97,7 +110,7 @@ function renderObjects:clearPlayer( player )
 
     hook.Run( "renderObjects.clearPlayer", player )
 
-    self.objectList[ player:EntIndex() ] = nil
+    self.objectList[ player ] = nil
 end
 
 if SERVER then
@@ -119,13 +132,10 @@ if SERVER then
     end
 end
 
-renderObjects.objectDatabase = {}
-
 --[[
         function: renderObjects.registerObject
         arguments: Table objectData
         description: Registers an object database entry to use when setting an object on a player
-
         Example object data:
             objectData = {
                 name = "pop_can",

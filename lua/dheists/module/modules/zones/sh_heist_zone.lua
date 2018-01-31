@@ -113,16 +113,18 @@ function HeistZone:spawnEntities()
         end
     end
 
-    for i = 1, #self.tripwires do
-        local typeInfo = self.tripwires[ i ]
-        if not typeInfo then continue end
+    if self.tripwires then
+        for i = 1, #self.tripwires do
+            local typeInfo = self.tripwires[ i ]
+            if not typeInfo then continue end
 
-        local pos = typeInfo.pos
-        local ang = typeInfo.ang
-        local type = "dheists_tripwire_alarm_base"
+            local pos = typeInfo.pos
+            local ang = typeInfo.ang
+            local type = "dheists_tripwire_alarm_base"
 
-        local tripwire = self:spawnEnt( type, pos, ang )
-        self:addEntity( "tripwires", tripwire )
+            local tripwire = self:spawnEnt( type, pos, ang )
+            self:addEntity( "tripwires", tripwire )
+        end
     end
 end
 
