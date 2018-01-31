@@ -51,6 +51,14 @@ dHeists.config.isPoliceFunction = function( player )
     return player:getJobTable().category == "Civil Protection"
 end
 
+dHeists.config.getJobName = function( player )
+    return team.GetName( player:Team() )
+end
+
+dHeists.config.getJobCategory = function( player )
+    return team.GetName( player:Team() )
+end
+
 dHeists.config.addMoneyFunction = function( player, amount )
     return player:addMoney( amount )
 end

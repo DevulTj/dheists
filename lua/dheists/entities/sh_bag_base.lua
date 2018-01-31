@@ -144,7 +144,7 @@ if SERVER then
     end
 
     function ENT:Use( player )
-        local shouldConfiscate = dHeists.isPolice( player )
+        local shouldConfiscate = dHeists.gamemodes:isPolice( player )
 
         if shouldConfiscate then
             self:doConfiscateAction( player )

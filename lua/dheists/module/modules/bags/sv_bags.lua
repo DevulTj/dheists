@@ -108,7 +108,7 @@ function dHeists.collectBag( npc, entity )
         count = count + 1
     end
 
-    dHeists.addMoney( player, moneyGiven )
+    dHeists.gamemodes:addMoney( player, moneyGiven )
 
     frotify.notify(
         i18n.getPhrase( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ),
