@@ -20,7 +20,6 @@ function dHeists.cctv.drawCameraHUD( panel, name, pos, ang, w, h, entity )
 
     surface.SetFont( "dHeistsLarge" )
 
-
     local isDestroyed = IsValid( entity ) and entity:GetCameraDestroyed()
     if isDestroyed then draw.RoundedBox( 0, 0, 0, w, h, color_black ) end
 

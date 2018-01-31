@@ -12,6 +12,8 @@ function FRAME:Init()
     self:SetTitle( "CCTV" )
     self:MakePopup()
 
+    self:SetDraggable( false )
+
     self.cameraPanel = self:Add( "DPanel" )
     self.cameraPanel:Dock( LEFT )
     self.cameraPanel:DockMargin( 0, 0, 4, 0 )
@@ -51,9 +53,11 @@ function FRAME:Init()
             local x, y = self.renderData.origin.x, self.renderData.origin.y
             local scale = 1
 
-            suppressDraw = true
-                render.RenderView( self.renderData )
-            suppressDraw = false
+            if not IsValid( self.currentCamera ) or not self.currentCamera:GetCameraDestroyed() then
+                suppressDraw = true
+                    render.RenderView( self.renderData )
+                suppressDraw = false
+            end
 
             local color = Color( 0, 0, 0, 100 )
             surface.SetDrawColor( color )
@@ -152,9 +156,11 @@ function FRAME:AddCamera( entity )
     button:SetFont( "dHeistsSmall" )
     button:SetExpensiveShadow( 1, Color( 0, 0, 0, 100 ) )
 
+    button.entity = entity
+
     button.Paint = function( this, w, h )
         local alpha = this:IsDown() and 230 or this:IsHovered() and 180 or 125
-        local color = Color( 50, 50, 50, alpha )
+        local color = Color( IsValid( entity ) and entity:GetCameraDestroyed() and 100 or 50, 50, 50, alpha )
 
         draw.RoundedBox( 2, 0, 0, w, h, color )
     end
