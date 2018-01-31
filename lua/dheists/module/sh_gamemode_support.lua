@@ -51,4 +51,10 @@ function dHeists.gamemodes:getJobCategory( player )
 end
 
 -- Run this automagically
-dHeistsgamemodes:findCurrentGamemode()
+
+hook.Add( "InitPostEntity", "dHeists.gamemodes", function()
+    dHeists.gamemodes:findCurrentGamemode()
+end )
+
+-- Lua refresh support
+dHeists.gamemodes:findCurrentGamemode()
