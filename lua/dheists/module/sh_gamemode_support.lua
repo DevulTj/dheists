@@ -17,13 +17,16 @@ function dHeists.gamemodes:addGamemode( data )
     dHeists.print( "Registered gamemode " .. data.name )
 end
 
+frile.includeFolder( "dheists/gamemodes/" )
+
 function dHeists.gamemodes:findCurrentGamemode()
     -- Include gamemode files
-    frile.includeFolder( "dheists/module/gamemodes/" )
 
     for name, data in pairs( self.list ) do
+        PrintTable( data )
         if data.gamemodeCallback and data.gamemodeCallback() then
             self.currentGamemode = name
+            print("found cur gamemode")
 
             break
         end

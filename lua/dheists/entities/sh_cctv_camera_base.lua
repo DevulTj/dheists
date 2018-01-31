@@ -21,6 +21,8 @@ ENT.IsAlarm = true
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
     self:NetworkVar( "String", 0, "CameraName" )
+
+    self:NetworkVar( "Int", 0, "CameraHealth" )
 end
 
 if SERVER then
@@ -32,6 +34,8 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
+
+        self:SetCameraHealth( 100 )
     end
 
     function ENT:getZone()

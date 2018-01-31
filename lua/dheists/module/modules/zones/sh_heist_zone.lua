@@ -129,7 +129,7 @@ function HeistZone:spawnEntities()
 end
 
 function HeistZone:startAlarm()
-    for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms ) do
+    for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms or {} ) do
         alarm:activate()
     end
 end

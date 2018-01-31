@@ -114,3 +114,46 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Warehouse #1", {
         },
     }
 } )
+dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
+    origin = Vector( -3995, -3879, 110 ),
+    mins = Vector( -890, -390, -64 ),
+    maxs = Vector( 880, 290, 70 ),
+
+    objects = {
+        {
+            type = "Small Vault",
+            pos = Vector( -3754, -4244, 68 ),
+            ang = Angle( 0, 180, 0 )
+        },
+        {
+            type = "Small Vault",
+            pos = Vector( -3880, -4292, 68 ),
+            ang = Angle( 0, 90, 0 )
+        },
+    },
+
+    cameras = {
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -4227, -4343, 268 ),
+            ang = Angle( 0, 0, 0 )
+        },
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -3720, -3993, 260 ),
+            ang = Angle( 0, 90, 0 )
+        },
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -4247, -3403, 275 ),
+            ang = Angle( 0, -90, 0 )
+        },
+    },
+
+    tvs = {
+        {
+            pos = Vector( -8115, -4956, 42 ),
+            ang = Angle( 0, -90, 0 )
+        }
+    },
+} )
