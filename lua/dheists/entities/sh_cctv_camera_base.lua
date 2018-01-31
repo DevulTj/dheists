@@ -16,13 +16,13 @@ ENT.AutomaticFrameAdvance = true
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
-ENT.IsAlarm = true
+ENT.IsCCTVCamera = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
     self:NetworkVar( "String", 0, "CameraName" )
 
-    self:NetworkVar( "Int", 0, "CameraHealth" )
+    self:NetworkVar( "Bool", 0, "CameraDestroyed" )
 end
 
 if SERVER then
@@ -34,8 +34,6 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
-
-        self:SetCameraHealth( 100 )
     end
 
     function ENT:getZone()
@@ -47,6 +45,42 @@ if SERVER then
 
         self:SetZoneID( zone:getId() )
     end
+
+    function ENT:destroy( dDamage )
+        local tEffectData = EffectData()
+        tEffectData:SetOrigin( self:GetPos() )
+        tEffectData:SetStart( self:GetPos() )
+        util.Effect( "explosion", tEffectData )
+
+        self:SetCameraDestroyed( true )
+
+        local pAttacker = dDamage:GetAttacker()
+        if IsValid( pAttacker ) then
+            Monolith.Logger:LogEntry(
+                "damage",
+                Monolith.Logger:PrintPlayer( pAttacker ) .. " destroyed a CCTV camera"
+            )
+        end
+
+        self:SetColor( color_black )
+
+        timer.Simple( dHeists.config.cameraRespawnTime or 600, function()
+            if IsValid( self ) then 
+                self:SetColor( color_white )
+                self:SetCameraDestroyed( false )
+            end
+        end )
+    end
+
+    hook.Add( "EntityTakeDamage", "dHeists.cameraDamage", function( eEntity, dDamage )
+        if eEntity.IsCCTVCamera and not eEntity:GetCameraDestroyed() then
+            local isDestroyed = eEntity:GetCameraDestroyed()
+            if isDestroyed then return end
+
+            eEntity.NextCCTVDamage = CurTime() + 0.5
+            eEntity:destroy( dDamage )
+        end
+    end )
 end
 
 if CLIENT then

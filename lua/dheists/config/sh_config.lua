@@ -77,3 +77,5 @@ dHeists.config.maskOnSounds = {
         "vo/npc/female01/letsgo02.wav"
     }
 }
+
+dHeists.config.cameraRespawnTime = 600

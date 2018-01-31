@@ -86,7 +86,7 @@ function FRAME:Init()
 
         draw.RoundedBox( 0, 0, 0, w, h, self.flickerBackgroundColor or Color( 0, 0, 0, 0 ) )
 
-        dHeists.cctv.drawCameraHUD( this, self.cameraName, self.cameraPos, self.cameraAng, w, h )
+        dHeists.cctv.drawCameraHUD( this, self.cameraName, self.cameraPos, self.cameraAng, w, h, self.currentCamera )
     end
 end
 
@@ -108,6 +108,8 @@ function FRAME:SelectCamera( entity )
 
         self.reverseCameraAng = self.cameraAng + Angle( 0, 30, 0 )
         self.endCameraAng = self.cameraAng + Angle( 0, -30, 0 )
+
+        self.currentCamera = entity
 
         local x, y = self:GetAbsolutePosition( self.cameraDisplay )
 

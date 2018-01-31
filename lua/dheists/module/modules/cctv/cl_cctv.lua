@@ -15,19 +15,23 @@ net.Receive( "dHeists_ViewCCTV", function( _ )
 end )
 
 local segmentWidth = 32
-function dHeists.cctv.drawCameraHUD( panel, name, pos, ang, w, h )
+function dHeists.cctv.drawCameraHUD( panel, name, pos, ang, w, h, entity )
     panel.offset = name and ( panel.offset or 0 ) or ( panel.offset or 0 ) - 0.5
 
     surface.SetFont( "dHeistsLarge" )
 
-    local text = name or "No Camera Connected"
+
+    local isDestroyed = IsValid( entity ) and entity:GetCameraDestroyed()
+    if isDestroyed then draw.RoundedBox( 0, 0, 0, w, h, color_black ) end
+
+    local text = isDestroyed and ( name .. " (DESTROYED)" ) or name or "No Camera Connected"
     local width, height = surface.GetTextSize( text )
 
     local segmentHeight = 16
 
     draw.SimpleText( text, "dHeistsLarge", w / 2, segmentHeight * 1, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
 
-    surface.SetDrawColor( name and Color( 50, 100, 50, 255 ) or Color( 100, 100, 100, 255 ) )
+    surface.SetDrawColor( isDestroyed and Color( 100, 50, 50, 255 ) or name and Color( 50, 100, 50, 255 ) or Color( 100, 100, 100, 255 ) )
     surface.DrawRect( 0, 0, w, segmentHeight )
     surface.DrawRect( 0, h - segmentHeight, w, segmentHeight )
     surface.SetDrawColor( 20, 20, 20, 255 )
