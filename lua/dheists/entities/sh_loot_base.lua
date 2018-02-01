@@ -89,11 +89,14 @@ if SERVER then
 end
 
 if CLIENT then
+    local visibleDrawDistance = 1000000
     function ENT:Draw()
+        if self:GetPos():DistToSqr( LocalPlayer():GetPos() ) > visibleDrawDistance then return end
+
     	self:DrawModel()
     end
 
-	local drawTextDistance = 160000
+    local drawTextDistance = 160000
 	hook.Add( "HUDPaint", "dHeists.loot", function()
 		local entity = LocalPlayer():GetEyeTrace().Entity
 		if not IsValid( entity ) or not entity.IsLoot or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
