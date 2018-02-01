@@ -19,7 +19,7 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
     },
 
     cooldown = 60 * 60,
-    lootSpawnPoint = Vector( 25, 0, 12 ),
+    lootSpawnPoint = Vector( 15, 0, 35 ),
 } )
 --
 dHeists.robbing:registerEnt( "Small Vault", {
