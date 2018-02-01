@@ -16,7 +16,10 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
         "loot_diamond_figure",
         "loot_golden_figure",
         "loot_silver_figure",
-    }
+    },
+
+    cooldown = 60 * 60,
+    lootSpawnPoint = Vector( 25, 0, 12 ),
 } )
 --
 dHeists.robbing:registerEnt( "Small Vault", {
