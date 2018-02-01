@@ -129,7 +129,6 @@ if SERVER then
             else
                 if not data.customLootSpawn then
                     self:spawnLoot()
-                    print("Spawn loot func")
                 end
             end
         end
@@ -137,6 +136,10 @@ if SERVER then
 
     function ENT:getCooldown()
         return self.cooldown
+    end
+
+    function ENT:isOnCooldown()
+        return self:getCooldown() and self:getCooldown() > CurTime() and true or false
     end
 
     function ENT:setCooldown( amount )
@@ -147,12 +150,10 @@ if SERVER then
     end
 
     function ENT:canDeploy( player )
-        if self:getCooldown() then
-            if self:getCooldown() > CurTime() then
-                frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
+        if self:isOnCooldown() then
+            frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
 
-                return
-            end
+            return
         end
 
         if IsValid( self:GetDrill() ) then
@@ -174,12 +175,7 @@ if SERVER then
 
     function ENT:canRob()
         if self.GetDrill and IsValid( self:GetDrill() ) then return false end -- Disallow more than one drill on an entity at once.
-
-        if self:getCooldown() then
-            if self:getCooldown() > CurTime() then
-                return false
-            end
-        end
+        if self:isOnCooldown() then return false end
 
         return true
     end

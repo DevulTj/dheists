@@ -19,14 +19,13 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
 dHeists.robbing:registerEnt( "Small Vault", {
     model = "models/devultj/safe.mdl",
     loot = {
-        "loot_cash_roll_small",
+        "loot_diamond_figure",
+        "loot_cash_crate",
         "loot_cash_case",
-        "loot_golden_figure",
-        "loot_silver_figure"
     },
 
     -- Cooldown between robberies
-    cooldown = 300,
+    cooldown = 60 * 60,
 
     -- Animation properties
     openSequence = "open",

@@ -12,10 +12,11 @@ i18n.registerPhrases( "en", {
 
     -- loot names
     loot_cash_roll_small = "Small Roll of Cash",
+    loot_diamond_figure = "SecuroServ Diamond Figure",
     loot_golden_figure = "SecuroServ Golden Figure",
     loot_silver_figure = "SecuroServ Silver Figure",
     loot_cash_case = "Case of Cash",
-    loot_cash_pallet = "Pallet of Cash",
+    loot_cash_crate = "Crate of Cash",
 
     -- general
     cooldown_3d = "COOLDOWN",
