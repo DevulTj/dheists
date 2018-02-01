@@ -119,7 +119,7 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     mins = Vector( -890, -390, -64 ),
     maxs = Vector( 880, 290, 70 ),
 
-    alarmSound = "ambient/levels/labs/teleport_alarm_loop1.wav",
+    alarmSound =  "ambient/alarms/city_firebell_loop1.wav",
     alarmDuration = 600,
 
     objects = {
