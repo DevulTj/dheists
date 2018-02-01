@@ -92,6 +92,24 @@ if CLIENT then
     	self:DrawModel()
     end
 
+    local drawTextDistance = 160000
+	hook.Add( "HUDPaint", "dHeists.loot", function()
+		local entity = LocalPlayer():GetEyeTrace().Entity
+		if not IsValid( entity ) or not entity.IsMask or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
+
+		local maskData = dHeists.masks.list[ entity:GetMaskType() ]
+		if not maskData then return end
+
+		local pos = entity:GetPos()
+		pos.z = pos.z + 10
+		pos = pos:ToScreen()
+
+		draw.SimpleText( i18n.getPhrase( maskData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( i18n.getPhrase( maskData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+
+        pos.y = pos.y + 20
+	end )
+
 	function ENT:Initialize()
         self:DrawShadow( false )
 	end
