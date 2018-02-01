@@ -57,10 +57,8 @@ function HeistZone:spawnEnt( class, pos, ang )
     local entity = ents.Create( class )
     entity:SetPos( pos )
     entity:SetAngles( ang or Angle( 0, 0, 0 ) )
-
     entity:Spawn()
     entity:Activate()
-
     entity:GetPhysicsObject():EnableMotion( false )
 
     dHeists.print( "Spawning " .. class .. ", " .. tostring( pos ) .. ", " .. tostring( ang or Angle( 0, 0, 0 ) ) )
@@ -71,6 +69,7 @@ function HeistZone:spawnEnt( class, pos, ang )
 end
 
 function HeistZone:spawnEntities()
+    -- Check for heist objects i.e robbable ents
     if self.objects then
         for i = 1, #self.objects do
             local typeInfo = self.objects[ i ]
@@ -82,6 +81,7 @@ function HeistZone:spawnEntities()
         end
     end
 
+    -- Check for alarms
     if self.alarms then
         for i = 1, #self.alarms do
             local typeInfo = self.alarms[ i ]
@@ -90,10 +90,14 @@ function HeistZone:spawnEntities()
             local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
             self:addEntity( "alarms", alarm )
 
+            -- Custom alarm sounds
             if self.alarmSound then alarm:setAlarmSound( "alarm_" .. i, self.alarmSound ) end
+            -- Custom alarm durations
+            if self.alarmDuration then alarm.alarmDuration = self.alarmDuration end
         end
     end
 
+    -- Check for cameras
     if self.cameras then
         for i = 1, #self.cameras do
             local typeInfo = self.cameras[ i ]
@@ -101,10 +105,13 @@ function HeistZone:spawnEntities()
 
             local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
             self:addEntity( "cameras", camera )
+
+            -- Set camera names if custom or fall back
             camera:SetCameraName( typeInfo.name or ( self:getName() .. " #" .. i ) )
         end
     end
 
+    -- Check for TVs
     if self.tvs then
         for i = 1, #self.tvs do
             local typeInfo = self.tvs[ i ]
@@ -115,6 +122,7 @@ function HeistZone:spawnEntities()
         end
     end
 
+    -- Check for tripwires
     if self.tripwires then
         for i = 1, #self.tripwires do
             local typeInfo = self.tripwires[ i ]
@@ -138,7 +146,7 @@ end
 
 function HeistZone:stopAlarm()
     for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires ) do
-        tripwire:DeActivateAlarm()
+        tripwire:deActivate()
     end
 end
 

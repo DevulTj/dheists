@@ -50,7 +50,7 @@ if SERVER then
 
         self:EmitSound( self.alarmSound )
 
-        timer.Simple( 30, function()
+        timer.Simple( self.alarmDuration or 30, function()
             if IsValid( self ) then
                 self:deActivate()
             end

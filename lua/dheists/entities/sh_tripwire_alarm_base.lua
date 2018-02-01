@@ -81,7 +81,7 @@ if SERVER then
         heistZone:startAlarm()
     end
 
-    function ENT:DeActivateAlarm()
+    function ENT:deActivate()
         if not self:GetIsAlarmOn() then return end
         self:SetIsAlarmOn( false )
     end
