@@ -10,7 +10,7 @@ function PLAYER:addMask( mask )
     if #self:getMask() ~= 0 then return false, "You already have a Mask equipped." end
 
     self:setDevString( "currentMask", mask )
-    frotify.notify( "You picked up a Mask.", NOTIFY_GENERIC, 4, self )
+    dHeists.gamemodes:notify( self, "You picked up a mask.", NOTIFY_GENERIC )
 
     return true
 end
@@ -28,9 +28,9 @@ if SERVER then
         end
 
         if self:getDevBool( "maskEquipped", false ) then
-            frotify.notify( "Please un-equip your mask before dropping it.", NOTIFY_GENERIC, 4, self )
+            dHeists.gamemodes:notify( self, "Please un-equip your mask before dropping it.", NOTIFY_GENERIC )
 
-            return 
+            return
         end
 
         local currentMask = self:getDevString( "currentMask", nil )
@@ -41,7 +41,7 @@ if SERVER then
         end
 
         self:setDevString( "currentMask", nil )
-        frotify.notify( "You dropped your Mask.", NOTIFY_GENERIC, 4, self )
+        dHeists.gamemodes:notify( self, "You dropped your mask.", NOTIFY_GENERIC )
 
         local mask = ents.Create( "dheists_mask_base" )
         mask:SetPos( self:GetPos() + ( self:GetUp() * 50 ) + ( self:GetForward() * 20 ) )

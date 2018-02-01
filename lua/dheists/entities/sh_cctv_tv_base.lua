@@ -46,7 +46,7 @@ if SERVER then
     end
 
     function ENT:Use( player )
-        if not self:getZone() then frotify.notify( i18n.getPhrase( "no_zone" ), NOTIFY_ERROR, 4, player ) return end
+        if not self:getZone() then dHeists.gamemodes:notify( player, i18n.getPhrase( "no_zone" ), NOTIFY_ERROR ) return end
         
         dHeists.cctv.viewCCTV( player, self )
     end

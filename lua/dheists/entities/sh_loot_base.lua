@@ -65,7 +65,7 @@ if SERVER then
 
             local canDo, reason = player:addLoot( self:GetLootType() )
             if canDo == false then
-                frotify.notify( reason or "You can't pick this up", NOTIFY_ERROR, 4, player )
+                dHeists.gamemodes:notify( player, reason or "You can't pick this up", NOTIFY_ERROR )
 
                 return
             end

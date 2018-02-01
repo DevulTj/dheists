@@ -28,3 +28,8 @@ dHeists.npc.addLocation( "rp_florida", "Loot Guy", {
     pos = Vector( 356, -6719, 200 ),
     ang = Angle( 0, 0, 0 ),
 } )
+
+dHeists.npc.addLocation( "rp_rockford_mrp_v1b", "Loot Guy", {
+    pos = Vector( -3679, -8092, 64 ),
+    ang = Angle( 0, 45, 0 ),
+} )

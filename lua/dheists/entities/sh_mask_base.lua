@@ -75,9 +75,7 @@ if SERVER then
             if canDo ~= false then
                 SafeRemoveEntity( self )
             else
-                if reason then
-                    frotify.notify( "You already have a Mask.", NOTIFY_ERROR, 4, player )
-                end
+                dHeists.gamemodes:notify( player, reason or "You already have a mask", NOTIFY_ERROR )
             end
         end, {
             ent = self,

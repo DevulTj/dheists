@@ -13,5 +13,6 @@ MONOLITH.isPolice = function( player ) return player:GetJobCategory() == "Police
 MONOLITH.addMoney = function( player, amount ) return player:AddMoney( amount ) end
 MONOLITH.getJobName = function( player ) return team.GetName( player:Team() ) end
 MONOLITH.getJobCategory = function( player ) return player:GetJobCategory() end
+MONOLITH.notify = function( player, text, notificationType, notificationTime ) return player:AddNotification( text, notificationTime or 4, notificationType ) end
 
 dHeists.gamemodes:addGamemode( MONOLITH )

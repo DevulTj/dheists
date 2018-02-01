@@ -151,7 +151,7 @@ if SERVER then
 
     function ENT:canDeploy( player )
         if self:isOnCooldown() then
-            frotify.notify( "Cooldown is active", NOTIFY_ERROR, 4, player )
+            dHeists.gamemodes:notify( player, "Cooldown is active", NOTIFY_ERROR )
 
             return
         end
@@ -161,7 +161,8 @@ if SERVER then
             if drill:isFinished() then
                 return true
             else
-                frotify.notify( "Drill is active", NOTIFY_ERROR, 4, player )
+                dHeists.gamemodes:notify( player, "Drill is active", NOTIFY_ERROR )
+
                 return false
             end
         end

@@ -38,7 +38,7 @@ function dHeists.gamemodes:getGamemode()
 end
 
 function dHeists.gamemodes:addMoney( player, amount )
-    return self:getGamemode():addMoney( player, amount )
+    return self:getGamemode().addMoney( player, amount )
 end
 
 function dHeists.gamemodes:isPolice( player )
@@ -51,6 +51,10 @@ end
 
 function dHeists.gamemodes:getJobCategory( player )
     return self:getGamemode().getJobCategory( player )
+end
+
+function dHeists.gamemodes:notify( player, text, notificationType )
+    return self:getGamemode().notify( player, text, notificationType )
 end
 
 -- Run this automagically

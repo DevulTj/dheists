@@ -13,5 +13,6 @@ DARKRP.isPolice = function( player ) return player:getJobTable().category == "Ci
 DARKRP.addMoney = function( player, amount ) return player:addMoney( amount ) end
 DARKRP.getJobName = function( player ) return team.GetName( player:Team() ) end
 DARKRP.getJobCategory = function( player ) return player:getJobTable().category end
+DARKRP.notify = function( player, text, notificationType, notificationTime ) return DarkRP.notify( player, notificationType, notificationTime, text ) end
 
 dHeists.gamemodes:addGamemode( DARKRP )

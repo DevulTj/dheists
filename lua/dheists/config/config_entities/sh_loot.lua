@@ -29,7 +29,7 @@ dHeists.LOOT_SECUROSERV_SILVER_FIGURE = dHeists.loot:registerLoot( "loot_silver_
 
 dHeists.LOOT_CASH_CASE = dHeists.loot:registerLoot( "loot_cash_case", {
     model = "models/mark2580/gtav/mp_office_03c/accessories/cash_case.mdl",
-    moneyGiven = 500,
+    moneyGiven = 2000,
     actionTime = 2
 } )
 

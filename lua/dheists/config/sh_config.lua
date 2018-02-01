@@ -23,8 +23,8 @@ dHeists.config.fontWeight = 800 -- 800 is bold, 0 is skinny
 dHeists.config.bagPickUpTime = 2
 dHeists.config.alternateBagPos = false -- Places bags rotated on the player's back.
 
-dHeists.config.holdingBagMovementModifierPerItem = 0.1 -- 10% less per item
-dHeists.config.holdingBagMovementModifierMax = 0.3 -- 30% max movement speed reduction
+dHeists.config.holdingBagMovementModifierPerItem = 0.025 -- 10% less per item
+dHeists.config.holdingBagMovementModifierMax = 0.2 -- 30% max movement speed reduction
 
 dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
