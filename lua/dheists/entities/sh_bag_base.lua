@@ -17,6 +17,13 @@ ENT.AdminSpawnable	= true
 
 ENT.IsBag = true
 
+--[[
+    MONOLITH RP INVENTORY VARIABLES
+]]
+ENT.IsItem = true
+ENT.OwnerOnlyPickUp = false
+ENT.WalkOnlyPickUp = true
+
 ENT.physicsBox = {
     mins = Vector( -7, -20, -5 ),
     maxs = Vector( 7, 10, 6 )
@@ -93,6 +100,8 @@ if SERVER then
         if bagInfo.skin then self:SetSkin( bagInfo.skin ) end
 
         self:SetCapacity( bagInfo.capacity or dHeists.config.defaultBagCapacity or 4 )
+
+        self.InventoryItemID = bagInfo.name
     end
 
     function ENT:playActionSound()
@@ -144,6 +153,8 @@ if SERVER then
     end
 
     function ENT:Use( player )
+        if player:KeyDown( IN_WALK ) then return end
+
         local shouldConfiscate = dHeists.gamemodes:isPolice( player )
 
         if shouldConfiscate then

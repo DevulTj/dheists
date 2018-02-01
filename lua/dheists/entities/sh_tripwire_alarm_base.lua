@@ -134,11 +134,10 @@ if SERVER then
         [ "Civil Protection" ] = true
     }
     hook.Add( "dHeists.TriggersTripwire", "dHeists.TriggersTripwire", function( ply, tripwire )
-        local plyJobTable = ply:getJobTable()
-        if not plyJobTable then return true end
+        local jobCategory = dHeists.gamemodes:getJobCategory( ply )
+        if not jobCategory then return true end
 
-        local jobCategory = plyJobTable.category or ""
-        local jobName = plyJobTable.name or ""
+        local jobName = dHeists.gamemodes:getJobName( ply )
         local immuneJobCat = IMMUNE_JOB_CATS[ jobCategory ]
         local immuneJob = IMMUNE_JOBS[ jobName ]
         if not immuneJobCat and not immuneJob then return true end

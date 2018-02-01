@@ -15,6 +15,13 @@ ENT.Category = "dHeists"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
+--[[
+    MONOLITH RP INVENTORY VARIABLES
+]]
+ENT.IsItem = true
+ENT.OwnerOnlyPickUp = false
+ENT.WalkOnlyPickUp = true
+
 ENT.IsMask = true
 
 function ENT:SetupDataTables()
@@ -55,9 +62,13 @@ if SERVER then
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
         self.actionTime = maskData.actionTime
+
+        self.InventoryItemID = maskType
     end
 
     function ENT:Use( player )
+        if player:KeyDown( IN_WALK ) then return end
+
         dHeists.actions.doAction( player, self.actionTime or 1, function()
             local maskType = self:GetMaskType()
             local canDo, reason = player:addMask( maskType )

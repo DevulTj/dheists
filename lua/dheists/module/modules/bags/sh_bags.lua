@@ -14,12 +14,14 @@ local scale = dHeists.config.alternateBagPos and 0.8 or 1
 
 function dHeists.bags.registerBag( bagName, data )
     if not bagName then return end
+    if not data or not data.bagType then return end
 
     data.name = bagName
     dHeists.bags.list[ bagName ] = data
 
-    if not data.bagType then return end
-    renderObjects:registerObject( "bag_" .. data.bagType, {
+    local objectName =  "bag_" .. data.bagType
+
+    renderObjects:registerObject( objectName, {
         model = "models/jessev92/payday2/item_Bag_loot.mdl",
         bone = "ValveBiped.Bip01_Spine",
         pos = bagPos,
@@ -30,6 +32,8 @@ function dHeists.bags.registerBag( bagName, data )
     } )
 
     dHeists.bags.typeToName[ data.bagType ] = bagName
+
+    hook.Run( "dHeists.bags.registerBag", bagName, data, objectName )
 end
 
 function dHeists.bags.getBag( bagName )

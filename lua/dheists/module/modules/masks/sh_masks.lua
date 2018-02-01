@@ -10,7 +10,9 @@ dHeists.masks.list = {}
 function dHeists.masks:registerMask( maskName, data )
     if not maskName then return end
 
-    renderObjects:registerObject( "mask_" .. maskName, {
+    local objectName = "mask_" .. maskName
+
+    renderObjects:registerObject( objectName, {
         model = data.model,
         bone = "ValveBiped.Bip01_Head1",
         pos = data.pos,
@@ -23,6 +25,8 @@ function dHeists.masks:registerMask( maskName, data )
 
     data.name = maskName
     dHeists.masks.list[ maskName ] = data
+
+    hook.Run( "dHeists.masks.registerMask", maskName, data, objectName )
 end
 
 function dHeists.masks.getMask( maskName )

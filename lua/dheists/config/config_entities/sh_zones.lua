@@ -153,10 +153,25 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
         },
     },
 
+    alarms = {
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( -3879, -4153, 221 ),
+            ang = Angle( 45, -180, -90 )
+        }
+    },
+
     tvs = {
         {
             pos = Vector( -8115, -4956, 42 ),
             ang = Angle( 0, -90, 0 )
+        }
+    },
+
+    tripwires = {
+        {
+            pos = Vector( -3817, -4151, 122 ),
+            ang = Angle( 78, 5, -174 )
         }
     },
 } )

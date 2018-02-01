@@ -13,7 +13,7 @@ function dHeists.gamemodes:addGamemode( data )
     if not data or not data.name then return end
 
     self.list[ data.name ] = data
-    
+
     dHeists.print( "Registered gamemode " .. data.name )
 end
 
@@ -34,7 +34,7 @@ function dHeists.gamemodes:findCurrentGamemode()
 end
 
 function dHeists.gamemodes:getGamemode()
-    return self.currentGamemode or self.list.default
+    return self.list[ self.currentGamemode ] or self.list.default
 end
 
 function dHeists.gamemodes:addMoney( player, amount )
@@ -42,15 +42,15 @@ function dHeists.gamemodes:addMoney( player, amount )
 end
 
 function dHeists.gamemodes:isPolice( player )
-    return self:getGamemode():isPolice( player )
+    return self:getGamemode().isPolice( player )
 end
 
 function dHeists.gamemodes:getJobName( player )
-    return self:getGamemode():getJobName( player )
+    return self:getGamemode().getJobName( player )
 end
 
 function dHeists.gamemodes:getJobCategory( player )
-    return self:getGamemode():getJobCategory( player )
+    return self:getGamemode().getJobCategory( player )
 end
 
 -- Run this automagically

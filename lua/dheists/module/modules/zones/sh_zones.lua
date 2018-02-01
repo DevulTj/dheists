@@ -13,6 +13,8 @@ function dHeists.zones:registerZone( map, zoneName, data )
     data.name = zoneName
     self.list[ map ] = self.list[ map ] or {}
     self.list[ map ][ zoneName ] = data
+
+    hook.Run( "dHeists.zones.registerZone", map, zoneName, data )
 end
 
 function dHeists.zones:getZone( zoneName )

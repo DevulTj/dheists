@@ -30,7 +30,7 @@ dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
 dHeists.config.holdingBagAngleOffset = 5 -- 10 degrees
 dHeists.config.dropBagCommand = "dheists_dropbag"
-dHeists.config.dropBagKey = KEY_G
+dHeists.config.dropBagKey = KEY_J
 
 dHeists.config.maskEquipKey = KEY_H
 
