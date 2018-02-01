@@ -133,6 +133,27 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
             pos = Vector( -3880, -4292, 68 ),
             ang = Angle( 0, 90, 0 )
         },
+        {
+            type = "Safety Deposit Box",
+            pos = Vector( -4234, -4209, 68 ),
+            ang = Angle( 0, 0, 0 ),
+        },
+        {
+            type = "Safety Deposit Box",
+            pos = Vector( -4234, -4278, 68 ),
+            ang = Angle( 0, 0, 0 ),
+        },
+        {
+            type = "Safety Deposit Box",
+            pos = Vector( -4178, -4158, 68 ),
+            ang = Angle( 0, -90, 0 ),
+        },
+        {
+            type = "Safety Deposit Box",
+            pos = Vector( -4189, -4329, 68 ),
+            ang = Angle( 0, 90, 0 ),
+        },
+
     },
 
     cameras = {

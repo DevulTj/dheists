@@ -5,14 +5,17 @@
 ]]
 
 dHeists.robbing:registerEnt( "Safety Deposit Box", {
-    model = "models/hunter/blocks/cube05x05x05.mdl",
-    material = "phoenix_storms/dome",
+    model = "models/props/cs_office/file_cabinet1_group.mdl",
+    --material = "phoenix_storms/dome",
 
     canDrill = true,
     canLockpick = true,
 
     loot = {
-        "loot_cash_roll_small"
+        "loot_cash_roll_small",
+        "loot_diamond_figure",
+        "loot_golden_figure",
+        "loot_silver_figure",
     }
 } )
 --
