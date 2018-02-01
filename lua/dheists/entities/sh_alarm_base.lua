@@ -31,6 +31,8 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
+
+        self:setAlarmSound( "Firebell Alarm", "ambient/alarms/city_firebell_loop1.wav" )
     end
 
     function ENT:getZone()
@@ -46,7 +48,7 @@ if SERVER then
 
         self:SetAlarmActive( true )
 
-        self:EmitSound( dHeists.alarms.alarmSound )
+        self:EmitSound( self.alarmSound )
 
         timer.Simple( 30, function()
             if IsValid( self ) then
@@ -57,7 +59,7 @@ if SERVER then
 
     function ENT:deActivate()
         self:SetAlarmActive( false )
-        self:StopSound( dHeists.alarms.alarmSound )
+        self:StopSound( self.alarmSound )
 
         local zone = self:getZone()
         if not zone then return end
@@ -69,7 +71,21 @@ if SERVER then
     end
 
     function ENT:OnRemove()
-        self:StopSound( dHeists.alarms.alarmSound )
+        self:StopSound( self.alarmSound )
+    end
+
+    function ENT:setAlarmSound( name, path, data )
+        self.alarmSound = name
+
+        sound.Add {
+            name = name,
+            channel = data and data.channel or CHAN_STATIC,
+            volume = data and data.volume or 1,
+            level = data and data.level or 80,
+            pitch = data and data.pitch or 100,
+
+            sound = data and data.sound or path
+        }
     end
 end
 

@@ -89,6 +89,8 @@ function HeistZone:spawnEntities()
 
             local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
             self:addEntity( "alarms", alarm )
+
+            if self.alarmSound then alarm:setAlarmSound( "alarm_" .. i, self.alarmSound ) end
         end
     end
 

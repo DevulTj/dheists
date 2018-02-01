@@ -119,6 +119,9 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     mins = Vector( -890, -390, -64 ),
     maxs = Vector( 880, 290, 70 ),
 
+    alarmSound = "ambient/levels/labs/teleport_alarm_loop1.wav",
+    alarmDuration = 600,
+
     objects = {
         {
             type = "Small Vault",
@@ -158,7 +161,22 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
             type = "dheists_alarm_base",
             pos = Vector( -3879, -4153, 221 ),
             ang = Angle( 45, -180, -90 )
-        }
+        },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( -3810, -3310, 167 ),
+            ang = Angle( 90, -90, 180 )
+        },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( -2758, -2955, 157 ),
+            ang = Angle( 45, 135, 90 )
+        },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( -2957, -2756, 156 ),
+            ang = Angle( 45, 135, 90 )
+        },
     },
 
     tvs = {

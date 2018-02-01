@@ -8,8 +8,6 @@ dHeists.alarms = dHeists.alarms or {}
 dHeists.alarms.alarmSound = "dheists_alarm"
 
 function dHeists.alarms:setAlarmSound( soundPath, data )
-    self.soundPath = soundPath
-
     sound.Add {
         name = dHeists.alarms.alarmSound,
         channel = data.channel or CHAN_STATIC,
