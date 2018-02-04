@@ -92,8 +92,7 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
     maxs = Vector( 200, 200, 70 ),
 
     jobCategories = {
-        [ "Police" ] = true,
-        [ "Citizen" ] = true
+        [ "Police" ] = true
     },
 
     objects = {

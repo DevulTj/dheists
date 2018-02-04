@@ -114,33 +114,24 @@ if SERVER then
             } )
 
             local ply = trace.Entity
-            if IsValid( ply ) and ply:IsPlayer() then
-                if self:IsValidTarget( ply ) then
-                    self:ActivateAlarm()
-                end
+            if IsValid( ply ) and ply:IsPlayer() and self:IsValidTarget( ply ) then
+                self:ActivateAlarm()
             end
         end
 
         self:NextThink( CurTime() + self._nextThink )
+
         return true
     end
 
-    -- An example hook that will not trigger the tripwire alarm when it's an
-    -- cop or medic, feel free to remove this hook and make your own ones
-    local IMMUNE_JOBS = {
-        [ "Medic" ] = true
-    }
-    local IMMUNE_JOB_CATS = {
-        [ "Civil Protection" ] = true
-    }
-    hook.Add( "dHeists.TriggersTripwire", "dHeists.TriggersTripwire", function( ply, tripwire )
-        local jobCategory = dHeists.gamemodes:getJobCategory( ply )
-        if not jobCategory then return true end
+    hook.Add( "dHeists.TriggersTripwire", "dHeists.TriggersTripwire", function( player, tripwire )
+        local jobCategory = dHeists.gamemodes:getJobCategory( player )
+        if not jobCategory then return end
 
-        local jobName = dHeists.gamemodes:getJobName( ply )
-        local immuneJobCat = IMMUNE_JOB_CATS[ jobCategory ]
-        local immuneJob = IMMUNE_JOBS[ jobName ]
-        if not immuneJobCat and not immuneJob then return true end
+        local zone = tripwire:getZone()
+        if not zone then return end
+
+        if not zone.jobCategories[ jobCategory ] then return true end
     end )
 else
     function ENT:Draw()

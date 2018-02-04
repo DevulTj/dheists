@@ -47,10 +47,6 @@ dHeists.config.pickUpLootActionColor = Color( 20, 151, 20 )
 
 dHeists.config.robberyTime = 60
 
-dHeists.config.isPoliceFunction = function( player )
-    return player:getJobTable().category == "Civil Protection"
-end
-
 dHeists.config.getJobName = function( player )
     return team.GetName( player:Team() )
 end

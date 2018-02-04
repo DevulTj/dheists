@@ -149,7 +149,7 @@ function HeistZone:startAlarm()
 end
 
 function HeistZone:stopAlarm()
-    for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires ) do
+    for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires or {} ) do
         tripwire:deActivate()
     end
 end
