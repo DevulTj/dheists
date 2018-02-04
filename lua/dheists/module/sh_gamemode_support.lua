@@ -57,6 +57,14 @@ function dHeists.gamemodes:notify( player, text, notificationType )
     return self:getGamemode().notify( player, text, notificationType )
 end
 
+function dHeists.gamemodes:getJobList()
+    return self:getGamemode().getJobList()
+end
+
+function dHeists.gamemodes:getCategoryIndex()
+    return self:getGamemode().getCategoryIndex()
+end
+
 -- Run this automagically
 
 hook.Add( "InitPostEntity", "dHeists.gamemodes", function()

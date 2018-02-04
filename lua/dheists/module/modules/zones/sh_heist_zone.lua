@@ -142,12 +142,38 @@ function HeistZone:startAlarm()
     for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms or {} ) do
         alarm:activate()
     end
+
+    for _, player in pairs( self:getPoliceMembers() ) do
+        dHeists.gamemodes:notify( player, i18n.getPhrase( "zone_being_robbed", self:getName() ) )
+    end
 end
 
 function HeistZone:stopAlarm()
     for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires ) do
         tripwire:deActivate()
     end
+end
+
+function HeistZone:combineCategores()
+    self.teams = {}
+
+    if not self.jobCategories then return end
+
+    for teamIndex, jobData in pairs( dHeists.gamemodes:getJobList() or {} ) do
+        if self.jobCategories[ jobData[ dHeists.gamemodes:getCategoryIndex() ] ] then
+            self.teams[ teamIndex ] = true
+        end
+    end
+end
+
+function HeistZone:getPoliceMembers()
+    local players = {}
+
+    for teamIndex, _ in pairs( self.teams or {} ) do
+        table.Add( players, team.GetPlayers( teamIndex ) )
+    end
+
+    return players
 end
 
 function HeistZone:recursiveDelete( tbl )

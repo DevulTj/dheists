@@ -91,6 +91,11 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
     mins = Vector( -200, -200, -64 ),
     maxs = Vector( 200, 200, 70 ),
 
+    jobCategories = {
+        [ "Police" ] = true,
+        [ "Citizen" ] = true
+    },
+
     objects = {
         {
             type = "Small Vault",
@@ -141,6 +146,11 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     alarmSound =  "ambient/alarms/city_firebell_loop1.wav",
     alarmDuration = 600,
 
+    jobCategories = {
+        [ "Police" ] = true,
+        [ "Bank Security" ] = true
+    },
+
     objects = {
         {
             type = "Small Vault",
@@ -188,7 +198,7 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
             pos = Vector( -3720, -3993, 260 ),
             ang = Angle( 0, 90, 0 )
         },
-        {   
+        {
             name = "Vault Entrance #2",
             type = "dheists_cctv_camera_base",
             pos = Vector( -4247, -3403, 275 ),

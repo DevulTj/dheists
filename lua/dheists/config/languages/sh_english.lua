@@ -42,4 +42,7 @@ i18n.registerPhrases( "en", {
     dropping_mask = "DROPPING MASK",
     equipping_mask = "EQUIPPING MASK",
     un_equipping_mask = "UN-EQUIPPING MASK",
+
+    -- zones
+    zone_being_robbed = "%s is being robbed!",
 } )

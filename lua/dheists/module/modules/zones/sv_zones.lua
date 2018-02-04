@@ -21,7 +21,10 @@ function dHeists.zones:spawnZones()
         -- Register it in the zones object table
         self.zones[ zoneName ] = zone
 
-        dHeists.print( "Spawning " .. ( tostring( zone ) ) )
+        dHeists.print( "Spawning " .. tostring( zone ) )
+
+        -- Combine the categories to get the team list
+        zone:combineCategores()
 
         -- Spawn zone objects
         zone:spawnEntities()
@@ -33,5 +36,19 @@ hook.Add( "InitPostEntity", "dHeists.zones", function()
 end )
 
 concommand.Add( "dheists_reload_zones", function( player )
-    dHeists.zones:spawnZones()
+    local function hasAccessCallback( hasAccess )
+        if not hasAccess then return end
+
+        dHeists.zones:spawnZones()
+    end
+
+    -- If called by console, they `always` have access.
+    if not IsValid( player ) then
+        hasAccessCallback( true )
+
+        return
+    end
+
+    -- To prevent duplicate code, let's check for non-console units.
+    CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ZONES, hasAccessCallback )
 end )

@@ -15,4 +15,7 @@ MONOLITH.getJobName = function( player ) return team.GetName( player:Team() ) en
 MONOLITH.getJobCategory = function( player ) return player:GetJobCategory() end
 MONOLITH.notify = function( player, text, notificationType, notificationTime ) return player:AddNotification( text, notificationTime or 4, notificationType ) end
 
+MONOLITH.getJobList = function() return Monolith.Jobs.JobTable end
+MONOLITH.getCategoryIndex = function() return "category" end
+
 dHeists.gamemodes:addGamemode( MONOLITH )
