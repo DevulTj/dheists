@@ -58,6 +58,8 @@ if SERVER then
 
         self.startTouch = npcInfo.startTouch
         self:SetNPCType( npcInfo.name )
+
+		self.npcInfo = npcInfo
     end
 
 	function ENT:AcceptInput( name, activator, caller )
@@ -72,6 +74,26 @@ if SERVER then
 
 	function ENT:UpdateTransmitState()
 		return TRANSMIT_PVS
+	end
+
+	function ENT:rotatePosition()
+		-- Increment location ID
+		self._currentRotationID = ( self._currentRotationID or 1 ) + 1
+
+		-- If we exceed the length of the table, reset
+		if self._currentRotationID > #self.pos then
+			self._currentRotationID = 1
+		end
+
+		-- Update position
+		self:SetPos( self.pos[ self._currentRotationID ] )
+
+		-- Update angle if it exists
+		if istable( self.ang ) then
+			self:SetAngles( self.ang[ self._currentRotationID ] or self:GetAngles() )
+		end
+
+		self:DropToFloor()
 	end
 end
 

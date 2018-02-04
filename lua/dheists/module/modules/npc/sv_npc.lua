@@ -7,8 +7,10 @@
 util.AddNetworkString( "dHeists_NPCUse" )
 
 local function spawnNPC( typeInfo, pos, ang )
+    local posIsTable = istable( pos )
+
     local npc = ents.Create( "dheists_npc_base" )
-    npc:SetPos( pos )
+    npc:SetPos( posIsTable and pos[ 1 ] or pos )
     npc:SetAngles( ang or Angle( 0, 0, 0 ) )
     npc:SetModel( typeInfo.model )
 
@@ -16,6 +18,21 @@ local function spawnNPC( typeInfo, pos, ang )
     npc:setNPC( typeInfo )
 
     dHeists.print( "Spawning NPC at " .. tostring( pos ) .. ", " .. tostring( ang ) )
+
+    npc.pos = pos
+    npc.ang = ang
+
+    if typeInfo.rotationTime and posIsTable then
+        local timerName = "dHeists.NPCRotationTimer_" .. npc:EntIndex()
+
+        timer.Create( timerName, typeInfo.rotationTime, 0, function()
+            npc:rotatePosition()
+        end )
+
+        npc:CallOnRemove( "dHeists.NPCRotation", function( ent )
+            timer.Remove( timerName )
+        end )
+    end
 
     return npc
 end
@@ -25,13 +42,7 @@ function dHeists.npc.spawnNPCs()
         local location = dHeists.npc.getNPCLocations( npcData.name )
         if not location then continue end
 
-        if istable( location.pos ) then
-            for nId, vPos in pairs( location.pos ) do
-                spawnNPC( npcData, vPos, location.ang[ nId ] )
-            end
-        else
-            spawnNPC( npcData, location.pos, location.ang )
-        end
+        spawnNPC( npcData, location.pos, location.ang )
     end
 end
 
@@ -50,12 +61,14 @@ concommand.Add( "dheists_reload_npc", function( player )
         dHeists.npc.spawnNPCs()
     end
 
+    -- If called by console, they `always` have access.
     if not IsValid( player ) then
         hasAccessCallback( true )
 
-        return 
+        return
     end
 
+    -- To prevent duplicate code, let's check for non-console units.
     CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_NPCS, hasAccessCallback )
 end )
 
@@ -64,6 +77,7 @@ hook.Add( "dHeists_NPCUsed", "dHeists.useNPC", function( npc, name, activator, c
     local npcData = dHeists.npc.list[ npc:GetNPCType() ]
     if not npcData then return end
 
+    -- If there is any clientside feedback required, we can act on it.
     net.Start( "dHeists_NPCUse" )
         net.WriteString( npcData.name )
     net.Send( caller )
