@@ -81,7 +81,7 @@ if SERVER then
             name = name,
             channel = data and data.channel or CHAN_STATIC,
             volume = data and data.volume or 1,
-            level = data and data.level or 80,
+            level = data and data.level or SNDLVL_100dB,
             pitch = data and data.pitch or 100,
 
             sound = data and data.sound or path

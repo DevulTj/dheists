@@ -16,7 +16,7 @@ local WHITELIST = {
 }
 
 local RETURN_FUNCS = {
-	[ "dheists_rob_ent_base" ] = function( ent ) return dHeists.robbing.getEnt( ent:GetEntityType() ).name end,
+	[ "dheists_rob_ent_base" ] = function( ent ) return ent.GetEntityType and dHeists.robbing.getEnt( ent:GetEntityType() ) and dHeists.robbing.getEnt( ent:GetEntityType() ).name or ent:GetClass() end,
 }
 
 concommand.Add( "dheists_ent_export", function( player )
@@ -31,7 +31,7 @@ concommand.Add( "dheists_ent_export", function( player )
 		myStr = myStr .. "\n" .. [[{
 	type = "${className}",
 	pos = Vector( ${posX}, ${posY}, ${posZ} ),
-	ang = Vector( ${angP}, ${angY}, ${angR} ),
+	ang = Angle( ${angP}, ${angY}, ${angR} ),
 },]] 	% {
 			className = RETURN_FUNCS[ class ] and RETURN_FUNCS[ class ]( ent ) or class,
 			posX = rnd( pos.x ), posY = rnd( pos.y ), posZ = rnd( pos.z ),

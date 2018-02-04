@@ -91,7 +91,7 @@ function HeistZone:spawnEntities()
             self:addEntity( "alarms", alarm )
 
             -- Custom alarm sounds
-            if self.alarmSound then alarm:setAlarmSound( "alarm_" .. i, self.alarmSound ) end
+            if self.alarmSound then alarm:setAlarmSound( "alarm_" .. i, self.alarmSound, self.alarmSoundData ) end
             -- Custom alarm durations
             if self.alarmDuration then alarm.alarmDuration = self.alarmDuration end
         end

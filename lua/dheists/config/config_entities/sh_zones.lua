@@ -86,34 +86,53 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
     }
 } )
 
-dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Warehouse #1", {
-    origin = Vector( -7992, 3791, 64 ),
-    mins = Vector( -890, -390, -64 ),
-    maxs = Vector( 880, 290, 70 ),
+dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
+    origin = Vector( 1237, 3753, 608 ),
+    mins = Vector( -200, -200, -64 ),
+    maxs = Vector( 200, 200, 70 ),
 
     objects = {
         {
-            type = "Item Crate",
-            pos = Vector( -7937, 3415, 26 ),
-            ang = Angle( 0, 90, 0 )
+            type = "Small Vault",
+            pos = Vector( 1343, 3780, 544 ),
+            ang = Angle( 0, 180, 0 ),
         },
         {
             type = "Item Crate",
-            pos = Vector( -8021, 3415, 58 ),
-            ang = Angle( 0, 90, 0 )
+            pos = Vector( 1352, 3671, 569 ),
+            ang = Angle( 0, -180, 0 ),
         },
         {
             type = "Item Crate",
-            pos = Vector( -8064, 3415, 0 ),
-            ang = Angle( 0, 90, 0 )
+            pos = Vector( 1353, 3704, 544 ),
+            ang = Angle( 0, 180, 0 ),
         },
         {
             type = "Item Crate",
-            pos = Vector( -8109, 3415, 0 ),
-            ang = Angle( 0, 90, 0 )
+            pos = Vector( 1338, 3671, 544 ),
+            ang = Angle( 0, 180, 0 ),
+        }
+    },
+
+    alarms = { 
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( 630, 4010, 665 ),
+            ang = Angle( 38, 90, -90 ),
         },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( 630, 3861, 665 ),
+            ang = Angle( 38, 90, -90 ),
+        },
+        {
+            type = "dheists_alarm_base",
+            pos = Vector( 1122, 3711, 678 ),
+            ang = Angle( 0, 180, 180 ),
+        }
     }
 } )
+
 dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     origin = Vector( -3995, -3879, 110 ),
     mins = Vector( -890, -390, -64 ),

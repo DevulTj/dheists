@@ -206,12 +206,16 @@ if SERVER then
 
         -- Trigger a robbery, alarms
         self:trigger()
+
+        self:EmitSound( "dHeists.drillSound" )
     end
 
     function ENT:removeDrill()
         if IsValid( self:GetDrill() ) then
             SafeRemoveEntity( self:GetDrill() )
         end
+
+        self:StopSound( "dHeists.drillSound" )
     end
 
     function ENT:deploy()

@@ -20,6 +20,16 @@ ENT.physicsBox = {
     maxs = Vector( 7, 10, 6 )
 }
 
+sound.Add {
+    name = "dHeists.drillSound",
+    channel = CHAN_STATIC,
+    volume = 0.75,
+    level = SNDLVL_65dB,
+    pitch = 120,
+
+    sound = "vehicles/digger_grinder_loop1.wav"
+}
+
 ENT.IsDrill = true
 
 function ENT:SetupDataTables()
