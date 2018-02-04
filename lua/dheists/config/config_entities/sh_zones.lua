@@ -95,6 +95,8 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
         [ "Police" ] = true
     },
 
+    minJobOnlineForRobbery = 3,
+
     objects = {
         {
             type = "Small Vault",
@@ -149,6 +151,8 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
         [ "Police" ] = true,
         [ "Bank Security" ] = true
     },
+
+    minJobOnlineForRobbery = 6,
 
     objects = {
         {

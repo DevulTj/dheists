@@ -176,6 +176,20 @@ function HeistZone:getPoliceMembers()
     return players
 end
 
+function HeistZone:getPoliceCount()
+    local players = 0
+
+    for teamIndex, _ in pairs( self.teams or {} ) do
+        players = players + #team.GetPlayers( teamIndex )
+    end
+
+    return players
+end
+
+function HeistZone:isRequiredPoliceCount()
+    return self:getPoliceCount() >= ( self.minJobOnlineForRobbery or 0 )
+end
+
 function HeistZone:recursiveDelete( tbl )
     for k, v in pairs( tbl ) do
         if type( v ) == "table" then self:recursiveDelete( v ) continue end

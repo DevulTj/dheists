@@ -175,8 +175,10 @@ if SERVER then
     end
 
     function ENT:canRob()
-        if self.GetDrill and IsValid( self:GetDrill() ) then return false end -- Disallow more than one drill on an entity at once.
-        if self:isOnCooldown() then return false end
+        if self.GetDrill and IsValid( self:GetDrill() ) then return false, "Drill is active" end -- Disallow more than one drill on an entity at once.
+        if self:isOnCooldown() then return false, "On cooldown" end
+
+        if self:getZone() and not self:getZone():isRequiredPoliceCount() then return false, "Not enough Police online" end
 
         return true
     end
@@ -184,7 +186,12 @@ if SERVER then
     function ENT:setDrill( drillEnt )
         if not self.GetEntityType then return end
 
-        if self:canRob() == false then return end
+        local canDo, reason = self:canRob()
+        if canDo == false then
+            if reason then dHeists.print( reason ) end
+            
+            return
+        end
 
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
