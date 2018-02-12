@@ -50,23 +50,23 @@ function CMoveData:RemoveKeys( keys )
 	self:SetButtons( newbuttons )
 end
 
-hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, commandData )
-    if player:getBag() then
-        if moveData:KeyDown( IN_JUMP ) then
-            moveData:RemoveKeys( IN_JUMP )
-        end
+-- hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, commandData )
+--     if player:getBag() then
+--         if moveData:KeyDown( IN_JUMP ) then
+--             moveData:RemoveKeys( IN_JUMP )
+--         end
 
-        local maxSpeed = moveData:GetMaxSpeed()
+--         local maxSpeed = moveData:GetMaxSpeed()
 
-        local reduction = dHeists.config.holdingBagMovementModifierPerItem * #player:getBag().lootItems
+--         local reduction = dHeists.config.holdingBagMovementModifierPerItem * #player:getBag().lootItems
 
-        local defaultModifier = math.Clamp( reduction, 0, dHeists.config.holdingBagMovementModifierMax )
-        local modifier = 1 - defaultModifier
+--         local defaultModifier = math.Clamp( reduction, 0, dHeists.config.holdingBagMovementModifierMax )
+--         local modifier = 1 - defaultModifier
 
-        moveData:SetMaxSpeed( moveData:GetMaxSpeed() * modifier )
-        moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
-    end
-end )
+--         moveData:SetMaxSpeed( moveData:GetMaxSpeed() * modifier )
+--         moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
+--     end
+-- end )
 
 -- Include configuration for bags
 frile.includeFile( "dheists/config/config_entities/sh_bags.lua" )

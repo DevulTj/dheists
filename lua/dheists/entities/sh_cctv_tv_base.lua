@@ -11,7 +11,7 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "CCTV Controller"
 ENT.Category = "dHeists"
-ENT.AutomaticFrameAdvance = true
+ENT.AutomaticFrameAdvance = false
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -20,12 +20,13 @@ ENT.IsAlarm = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
+    self:NetworkVar( "String", 0, "ZoneName" )
 end
 
 if SERVER then
     function ENT:Initialize()
         -- assign a default model, with physics etc.
-        self:SetModel( "models/props_lab/monitor02.mdl" )
+        self:SetModel( "models/testmodels/apple_display.mdl" )
 
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetMoveType( MOVETYPE_VPHYSICS )
@@ -33,6 +34,8 @@ if SERVER then
         self:SetUseType( SIMPLE_USE )
 
         self:GetPhysicsObject():Wake()
+
+        self:SetAutomaticFrameAdvance( false )
     end
 
     function ENT:getZone()
@@ -55,6 +58,17 @@ end
 if CLIENT then
     function ENT:Draw()
     	self:DrawModel()
+
+        self.AngB = self:GetAngles()
+        self.AngB:RotateAroundAxis(self.AngB:Right(),-90)
+        self.AngB:RotateAroundAxis(self.AngB:Up(),90)
+        self.AngB:RotateAroundAxis(self.AngB:Forward(),-5.7)
+
+        cam.Start3D2D(self:GetPos() + self:GetUp()*8	+ self:GetForward()*2.35, self.AngB,0.15)
+        surface.SetDrawColor(100,150,150,40)
+        draw.SimpleTextOutlined(self:GetZoneName(), "dHeistsMedium",0,-32,Color(235,235,235),TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
+        draw.SimpleTextOutlined("CCTV", "dHeistsHuge",0,-74,Color(235,235,235),TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
+        cam.End3D2D()
     end
 
 	function ENT:Initialize()

@@ -8,10 +8,11 @@ util.AddNetworkString( "dHeists_NPCUse" )
 
 local function spawnNPC( typeInfo, pos, ang )
     local posIsTable = istable( pos )
+    local angIsTable = istable( ang )
 
     local npc = ents.Create( "dheists_npc_base" )
     npc:SetPos( posIsTable and pos[ 1 ] or pos )
-    npc:SetAngles( ang or Angle( 0, 0, 0 ) )
+    npc:SetAngles( angIsTable and ang[ 1 ] or ang or Angle( 0, 0, 0 ) )
     npc:SetModel( typeInfo.model )
 
     npc:Spawn()

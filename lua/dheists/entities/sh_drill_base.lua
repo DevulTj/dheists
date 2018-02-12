@@ -52,6 +52,11 @@ function ENT:Initialize()
     self:SetMoveType( MOVETYPE_VPHYSICS )
     self:SetSolid( SOLID_VPHYSICS )
     self:SetUseType( SIMPLE_USE )
+
+    self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
+    self:Activate()
+
+    self:SetAutomaticFrameAdvance( false )
 end
 
 function ENT:getPercent()

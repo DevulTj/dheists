@@ -21,39 +21,42 @@ concommand.Add( "dheists_debug_setbagtype", function( player, command, arguments
     end )
 end )
 
-function dHeists.dropBag( player )
+function dHeists.dropBag( player, noDrop )
     if player._dHeistsBag then
-        local bag = ents.Create( "dheists_bag_base" )
-        bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) )
-
-        bag:Spawn()
-        bag:Activate()
-
         local bagData = player._dHeistsBag
 
-        bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward()
-            * ( dHeists.config.defaultBagThrowStrength or 300 )
-            * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
-        ) -- Throw the bag in the player's direction
+        if not noDrop then
+            local bag = ents.Create( "dheists_bag_base" )
+            bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) + player:GetForward() * -5 )
 
-        bag:setBagType( bagData.bagType )
-        bag:setLoot( bagData.lootItems )
+            bag:Spawn()
+            bag:Activate()
 
-        if renderObjects then -- renderObjects support
-            renderObjects:clearObject( player, "bag_" .. bagData.bagType )
+            bag:GetPhysicsObject():SetVelocity( player:EyeAngles():Forward()
+                * ( dHeists.config.defaultBagThrowStrength or 300 )
+                * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
+            ) -- Throw the bag in the player's direction
+
+            bag:setBagType( bagData.bagType )
+            bag:setLoot( bagData.lootItems )
+            bag:SetEntityOwner( player ) -- Ownership property
         end
 
         player._dHeistsBag = nil
         player:SetNW2Bool( "dHeists_CarryingBag", false )
 
-        bag:SetEntityOwner( player ) -- Ownership property
-
         net.Start( "dHeists.dropBag" )
         net.Send( player )
+
+        if renderObjects then -- renderObjects support
+            renderObjects:clearObject( player, "bag_" .. bagData.bagType )
+        end
     end
 end
 
-concommand.Add( dHeists.config.dropBagCommand, dHeists.dropBag )
+concommand.Add( dHeists.config.dropBagCommand, function( ply )
+     dHeists.dropBag( ply )
+end )
 
 function dHeists.setBag( player, entity )
     if not entity.IsBag then return end
@@ -80,11 +83,11 @@ local function doBalloons( entity )
     util.Effect( "balloon_pop", effectData )
 end
 
-function dHeists.collectBag( npc, entity )
-    local player = entity.GetEntityOwner and entity:GetEntityOwner()
-    if not IsValid( player ) then return end
+function dHeists.collectBag( npc, player )
+    local bag = player._dHeistsBag
+    if not bag then return end
 
-    local lootItems = entity:getLoot()
+    local lootItems = bag.lootItems
     local moneyGiven = 0
 
     if table.Count( lootItems ) < 1 then return end
@@ -103,18 +106,18 @@ function dHeists.collectBag( npc, entity )
     local lootString = ""
     local count = 0
     for itemName, amount in pairs( lootStuff ) do
-        lootString = lootString .. ( count ~= 0 and ", " or "" ) .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. itemName
+        local typeInfo = dHeists.loot.getLoot( itemName )
+        if not typeInfo then continue end
+
+        lootString = lootString .. ( count ~= 0 and ", " or "" ) .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. i18n.getPhrase( typeInfo.name )
 
         count = count + 1
     end
 
     dHeists.gamemodes:addMoney( player, moneyGiven )
+    dHeists.gamemodes:notify( player, i18n.getPhrase( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ) )
 
-    frotify.notify(
-        i18n.getPhrase( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ),
-        NOTIFY_GENERIC, 4, player )
-
-    SafeRemoveEntity( entity )
+    dHeists.dropBag( player, true )
 end
 
 hook.Add( "PlayerDeath", "dHeists.bags", function( player )

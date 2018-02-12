@@ -5,12 +5,19 @@
 ]]
 
 dHeists.npc.create( "Loot Guy", {
-    model = "models/police.mdl",
+    model = "models/hunter/tubes/circle4x4.mdl",
     useFunc = function( player )
 
     end,
     startTouch = function( npc, entity )
-        dHeists.collectBag( npc, entity )
+        --dHeists.collectBag( npc, entity )
+
+        if entity:IsPlayer() then
+            local bag = entity:getBag()
+            if not bag then return end
+
+            dHeists.collectBag( npc, entity )
+        end
     end
 } )
 
@@ -31,8 +38,8 @@ dHeists.npc.addLocation( "rp_florida", "Loot Guy", {
 
 dHeists.npc.addLocation( "rp_rockford_mrp_v1b", "Loot Guy", {
     pos = {
-        Vector( -3679, -8092, 64 ),
-        Vector( 39, -4108, 111 )
+        Vector( -3614, -8034, 64 ),
+        Vector( 3062, 165, 625 )
     },
     rotationTime = 900,
     ang = {

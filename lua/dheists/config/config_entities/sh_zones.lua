@@ -91,11 +91,13 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
     mins = Vector( -200, -200, -64 ),
     maxs = Vector( 200, 200, 70 ),
 
+    alarmDuration = 180,
+
     jobCategories = {
         [ "Police" ] = true
     },
 
-    minJobOnlineForRobbery = 3,
+    minJobOnlineForRobbery = 0,
 
     objects = {
         {
@@ -145,25 +147,35 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     maxs = Vector( 880, 290, 70 ),
 
     alarmSound =  "ambient/alarms/city_firebell_loop1.wav",
-    alarmDuration = 600,
+    alarmDuration = 180,
 
     jobCategories = {
         [ "Police" ] = true,
         [ "Bank Security" ] = true
     },
 
-    minJobOnlineForRobbery = 6,
+    minJobOnlineForRobbery = 0,
 
     objects = {
         {
+            type = "Safety Deposit Box",
+            pos = Vector( -4097, -4158, 68 ),
+            ang = Angle( 0, -90, 0 ),
+        },
+        {
+            type = "Safety Deposit Box",
+            pos = Vector( -4109, -4330, 68 ),
+            ang = Angle( 0, 90, 0 ),
+        },
+        {
             type = "Small Vault",
             pos = Vector( -3754, -4244, 68 ),
-            ang = Angle( 0, 180, 0 )
+            ang = Angle( 0, 180, 0 ),
         },
         {
             type = "Small Vault",
             pos = Vector( -3880, -4292, 68 ),
-            ang = Angle( 0, 90, 0 )
+            ang = Angle( 0, 90, 0 ),
         },
         {
             type = "Safety Deposit Box",
@@ -185,15 +197,25 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
             pos = Vector( -4189, -4329, 68 ),
             ang = Angle( 0, 90, 0 ),
         },
-
+        {
+            type = "Small Vault",
+            pos = Vector( -4037, -4318, 68 ),
+            ang = Angle( 0, 89, 0 ),
+        }
     },
 
     cameras = {
         {
-            name = "Main Vault",
+            name = "Main Vault #1",
             type = "dheists_cctv_camera_base",
             pos = Vector( -4227, -4343, 268 ),
             ang = Angle( 0, 0, 0 )
+        },
+        {
+            name = "Main Vault #2",
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -3742, -4144, 272 ),
+            ang = Angle( 0, 180, 0 ),
         },
         {
             name = "Vault Entrance #1",
@@ -207,6 +229,12 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
             pos = Vector( -4247, -3403, 275 ),
             ang = Angle( 0, -90, 0 )
         },
+        {
+            name = "Main Bank",
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -3886, -3319, 171 ),
+            ang = Angle( 0, 0, 0 ),
+        }
     },
 
     alarms = {
@@ -234,15 +262,29 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
 
     tvs = {
         {
-            pos = Vector( -8115, -4956, 42 ),
+            pos = Vector( -8115, -4956, 45 ),
+            ang = Angle( 0, -90, 0 )
+        }
+    },
+
+    alarmButtons = {
+        {
+            pos = Vector( -8170, -4956, 40 ),
             ang = Angle( 0, -90, 0 )
         }
     },
 
     tripwires = {
         {
-            pos = Vector( -3720, -4204, 95 ),
-            ang = Angle( 45, 90, -90 )
+            pos = Vector( -3817, -4151, 122 ),
+            ang = Angle( 78, 5, -174 )
         }
     },
+
+    screens = {
+        {
+            pos = Vector( -3808, -3319, 132 ),
+            ang = Angle( 90, -90, 180 )
+        }
+    }
 } )

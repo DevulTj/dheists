@@ -22,7 +22,7 @@ function dHeists.zones:spawnZones()
         self.zones[ zoneName ] = zone
 
         dHeists.print( "Spawning " .. tostring( zone ) )
-
+        
         -- Combine the categories to get the team list
         zone:combineCategores()
 
@@ -31,7 +31,7 @@ function dHeists.zones:spawnZones()
     end
 end
 
-hook.Add( "InitPostEntity", "dHeists.zones", function()
+hook.Add( "dHeists.InitPostEntity", "dHeists.zones", function()
     dHeists.zones:spawnZones()
 end )
 

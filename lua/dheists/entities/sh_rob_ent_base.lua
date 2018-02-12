@@ -11,7 +11,7 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Robbable Entity"
 ENT.Category = "dHeists"
-ENT.AutomaticFrameAdvance = true
+ENT.AutomaticFrameAdvance = false
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -167,6 +167,19 @@ if SERVER then
             end
         end
 
+        local toolList = ""
+        if self.typeInfo.canLockpick then
+            toolList = toolList .. " Lockpick,"
+        end
+
+        if self.typeInfo.canDrill then
+            toolList = toolList .. " Drill,"
+        end
+
+        toolList = toolList:sub( 1, #toolList - 1 )
+
+        dHeists.gamemodes:notify( player, "You can use the following tools to unlock this:" .. toolList )
+
         return false
     end
 
@@ -189,7 +202,6 @@ if SERVER then
         local canDo, reason = self:canRob()
         if canDo == false then
             if reason then dHeists.print( reason ) end
-            
             return
         end
 
@@ -207,7 +219,7 @@ if SERVER then
         drillEnt:SetAngles( localAng )
 
         drillEnt:SetDrillStart( CurTime() )
-        drillEnt:SetDrillEnd( CurTime() + 10 )
+        drillEnt:SetDrillEnd( CurTime() + ( typeInfo.drillTime or 60 ) )
 
         self:SetDrill( drillEnt )
 

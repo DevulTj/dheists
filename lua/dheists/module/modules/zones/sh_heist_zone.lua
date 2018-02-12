@@ -119,6 +119,8 @@ function HeistZone:spawnEntities()
 
             local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
             self:addEntity( "tvs", tv )
+
+            tv:SetZoneName( self:getName() )
         end
     end
 
@@ -128,12 +130,27 @@ function HeistZone:spawnEntities()
             local typeInfo = self.tripwires[ i ]
             if not typeInfo then continue end
 
-            local pos = typeInfo.pos
-            local ang = typeInfo.ang
-            local type = "dheists_tripwire_alarm_base"
+            self:addEntity( "tripwires", self:spawnEnt( "dheists_tripwire_alarm_base", typeInfo.pos, typeInfo.ang ) )
+        end
+    end
 
-            local tripwire = self:spawnEnt( type, pos, ang )
-            self:addEntity( "tripwires", tripwire )
+    -- Check for screens
+    if self.screens then
+        for i = 1, #self.screens do
+            local typeInfo = self.screens[ i ]
+            if not typeInfo then continue end
+
+            self:addEntity( "screens", self:spawnEnt( "dheists_zone_screen_base", typeInfo.pos, typeInfo.ang ) )
+        end
+    end
+
+    -- Check for screens
+    if self.alarmButtons then
+        for i = 1, #self.alarmButtons do
+            local typeInfo = self.alarmButtons[ i ]
+            if not typeInfo then continue end
+
+            self:addEntity( "alarmButtons", self:spawnEnt( "dheists_alarm_button", typeInfo.pos, typeInfo.ang ) )
         end
     end
 end
@@ -146,11 +163,22 @@ function HeistZone:startAlarm()
     for _, player in pairs( self:getPoliceMembers() ) do
         dHeists.gamemodes:notify( player, i18n.getPhrase( "zone_being_robbed", self:getName() ) )
     end
+
+    for screen, _ in pairs( self.spawnedObjects and self.spawnedObjects.screens or {} ) do
+        screen:SetCooldownEnd( CurTime() + ( 60 * 60 ) )
+    end
 end
 
 function HeistZone:stopAlarm()
     for tripwire, _ in pairs( self.spawnedObjects and self.spawnedObjects.tripwires or {} ) do
         tripwire:deActivate()
+    end
+end
+
+
+function HeistZone:deActivateAlarms()
+    for alarm, _ in pairs( self.spawnedObjects and self.spawnedObjects.alarms or {} ) do
+        alarm:deActivate()
     end
 end
 

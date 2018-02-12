@@ -45,4 +45,7 @@ i18n.registerPhrases( "en", {
 
     -- zones
     zone_being_robbed = "%s is being robbed!",
+
+    -- buttons
+    click_to_disable_alarm = "Disable Alarm",
 } )

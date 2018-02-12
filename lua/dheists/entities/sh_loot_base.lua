@@ -37,6 +37,8 @@ if SERVER then
         end
 
         self:setLootType( randomLootData )
+
+        self:SetAutomaticFrameAdvance( false )
     end
 
     function ENT:setLootType( lootType )

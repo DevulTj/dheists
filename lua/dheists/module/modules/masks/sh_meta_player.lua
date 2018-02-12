@@ -15,7 +15,22 @@ function PLAYER:addMask( mask )
     return true
 end
 
+
+function PLAYER:getMask()
+    return self:getDevString( "currentMask", nil )
+end
+
 if SERVER then
+    -- Optimization
+    local function maskUnEquip( player, maskInfo )
+        player:setDevBool( "maskEquipped", false )
+        player:runMaskEffect()
+
+        renderObjects:clearObject( player, "mask_" .. maskInfo.name )
+
+        hook.Run( "dHeists.maskUnEquipped", player, maskInfo )
+    end
+
     function PLAYER:dropMask( force )
         if #self:getMask() == 0 then return end
 
@@ -23,8 +38,7 @@ if SERVER then
             local maskInfo = dHeists.masks.getMask( self:getMask() )
             if not maskInfo then return end
 
-            self:setDevBool( "maskEquipped", false )
-            renderObjects:clearObject( self, "mask_" .. maskInfo.name )
+            maskUnEquip( self, maskInfo )
         end
 
         if self:getDevBool( "maskEquipped", false ) then
@@ -51,13 +65,7 @@ if SERVER then
         
         mask:setMaskType( currentMask )
     end
-end
 
-function PLAYER:getMask()
-    return self:getDevString( "currentMask", nil )
-end
-
-if SERVER then
     function PLAYER:runMaskEffect()
         self:ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 0.6, 0.1 )
         self:EmitSound( "npc/combine_soldier/gear" .. math.random( 1, 3 ) .. ".wav" )
@@ -86,6 +94,8 @@ if SERVER then
                 renderObjects:setObject( self, "mask_" .. maskInfo.name )
                 
                 if dHeists.config.playMaskEquipSound then self:playMaskEquipSound() end
+
+                hook.Run( "dHeists.maskEquipped", self, maskInfo )
             end, {
                 -- Will edit values later
                 ActionTimeRemainingTextPhrase = "equipping_mask",
@@ -101,10 +111,7 @@ if SERVER then
         if not maskInfo then return end
 
         dHeists.actions.doAction( self, dHeists.config.unEquipMaskTime or 1.5, function()
-            self:setDevBool( "maskEquipped", false )
-            self:runMaskEffect()
-
-            renderObjects:clearObject( self, "mask_" .. maskInfo.name )
+            maskUnEquip( self, maskInfo )
         end, {
             -- Will edit values later
             ActionTimeRemainingTextPhrase = "un_equipping_mask",

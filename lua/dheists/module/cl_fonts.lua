@@ -53,6 +53,14 @@ surface.CreateFont( "dHeists_bagTextItalics", {
 	strikeout = true,
 } )
 
+surface.CreateFont( "dHeists_bagTextLargeItalics", {
+    font = dHeists.config.fontFace or "Purista",
+	weight = 800,
+	size = 30,
+	italic = true,
+	strikeout = true,
+} )
+
 surface.CreateFont( "dHeists_bagText3D", {
     font = dHeists.config.fontFace or "Purista",
     weight = 800,

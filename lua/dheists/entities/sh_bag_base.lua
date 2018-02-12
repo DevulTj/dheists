@@ -65,6 +65,9 @@ if SERVER then
         self:setBagType( randomBagData.name )
 
         self.lootItems = {}
+
+        self:SetTrigger( true )
+        self:SetAutomaticFrameAdvance( false )
     end
 
     function ENT:getLoot()
@@ -112,6 +115,13 @@ if SERVER then
         local entityOwner = self:GetEntityOwner()
         local playerIsOwner = entityOwner == player
 
+        local canDo, reason = hook.Run( "dHeists.bagPickUp", player, self )
+        if canDo == false then
+            if reason then dHeists.gamemodes:notify( player, reason, NOTIFY_GENERIC ) end
+
+            return
+        end
+
         dHeists.actions.doAction( player, playerIsOwner and dHeists.config.bagPickUpTime or dHeists.config.stealPickUpBagTime, function()
             if not IsValid( self ) then return end
             if player:getBag() then return end
@@ -119,6 +129,8 @@ if SERVER then
             player:setBag( self )
 
             self:playActionSound()
+
+            self.IsTaken = true
 
             SafeRemoveEntity( self )
         end, {
@@ -139,7 +151,11 @@ if SERVER then
 
     function ENT:doConfiscateAction( player )
         dHeists.actions.doAction( player, dHeists.config.bagConfiscateTime, function()
+            if not IsValid( self ) or self.IsTaken then return end
+
             SafeRemoveEntity( self )
+
+            self.IsTaken = true
 
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
             dHeists.addMoney( player, moneyGiven )

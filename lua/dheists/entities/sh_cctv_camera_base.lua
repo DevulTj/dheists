@@ -11,7 +11,7 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "CCTV Camera"
 ENT.Category = "dHeists"
-ENT.AutomaticFrameAdvance = true
+ENT.AutomaticFrameAdvance = false
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -34,6 +34,8 @@ if SERVER then
         self:SetMoveType( MOVETYPE_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
         self:GetPhysicsObject():Wake()
+
+        self:SetAutomaticFrameAdvance( false )
     end
 
     function ENT:getZone()

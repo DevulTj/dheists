@@ -44,6 +44,8 @@ if SERVER then
         end
 
         self:setMaskType( randomMaskData )
+
+        self:SetAutomaticFrameAdvance( false )
     end
 
     function ENT:setMaskType( maskType )
@@ -68,6 +70,13 @@ if SERVER then
 
     function ENT:Use( player )
         if player:KeyDown( IN_WALK ) then return end
+
+        local canDo, reason = hook.Run( "dHeists.maskPickUp", player, self )
+        if canDo == false then
+            if reason then dHeists.gamemodes:notify( player, reason, NOTIFY_GENERIC ) end
+
+            return
+        end
 
         dHeists.actions.doAction( player, self.actionTime or 1, function()
             local maskType = self:GetMaskType()

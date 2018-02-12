@@ -11,7 +11,7 @@ ENT.Type = "anim"
 ENT.Author = "DevulTj"
 ENT.PrintName = "Alarm"
 ENT.Category = "dHeists"
-ENT.AutomaticFrameAdvance = true
+ENT.AutomaticFrameAdvance = false
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
@@ -64,10 +64,6 @@ if SERVER then
         local zone = self:getZone()
         if not zone then return end
         zone:stopAlarm()
-    end
-
-    function ENT:Use()
-        self:activate()
     end
 
     function ENT:OnRemove()

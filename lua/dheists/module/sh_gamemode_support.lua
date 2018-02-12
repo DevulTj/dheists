@@ -69,6 +69,8 @@ end
 
 hook.Add( "InitPostEntity", "dHeists.gamemodes", function()
     dHeists.gamemodes:findCurrentGamemode()
+
+    hook.Run( "dHeists.InitPostEntity" )
 end )
 
 -- Lua refresh support

@@ -18,8 +18,12 @@ dHeists.robbing:registerEnt( "Safety Deposit Box", {
         "loot_silver_figure",
     },
 
+    drillTime = 20,
+
     cooldown = 60 * 60,
     lootSpawnPoint = Vector( 15, 0, 35 ),
+    drillPos = Vector( 25, 0, 35 ),
+    drillAng = Angle( 0, 180, 0 ),
 } )
 --
 dHeists.robbing:registerEnt( "Small Vault", {
@@ -41,8 +45,13 @@ dHeists.robbing:registerEnt( "Small Vault", {
     drillPos = Vector( 38, 0, 25 ),
     drillAng = Angle( 0, 180, 0 ),
     lootSpawnPoint = Vector( 40, 0, 25 ),
+    drillTime = 480,
 
-    canDrill = true
+    canDrill = true,
+
+    onSpawn = function( ent )
+        ent:SetAutomaticFrameAdvance( true )
+    end
 } )
 
 --
@@ -50,7 +59,7 @@ dHeists.robbing:registerEnt( "Item Crate", {
     model = "models/Items/item_item_crate.mdl",
     loot = {
         "loot_cash_roll_small",
-        "loot_silver_figure"
+        "loot_golden_figure"
     },
 
     canLockpick = true,
@@ -59,7 +68,7 @@ dHeists.robbing:registerEnt( "Item Crate", {
     canDrill = false,
 
     -- Cooldown between robberies
-    cooldown = 10,
+    cooldown = 60 * 60,
 
     -- Positions, angles
     lootSpawnPoint = Vector( 25, 0, 12 ),
