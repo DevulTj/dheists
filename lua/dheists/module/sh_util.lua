@@ -12,7 +12,8 @@ local WHITELIST = {
 	[ "dheists_rob_ent_base" ] = true,
 	[ "dheists_cctv_tv_base" ] = true,
 	[ "dheists_cctv_camera_base" ] = true,
-	[ "dheists_alarm_base" ] = true
+	[ "dheists_alarm_base" ] = true,
+	[ "dheists_zone_screen_base" ] = true,
 }
 
 local RETURN_FUNCS = {
