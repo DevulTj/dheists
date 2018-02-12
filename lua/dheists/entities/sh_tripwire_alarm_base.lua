@@ -43,9 +43,10 @@ function ENT:Initialize()
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
 
+        local up = self:GetUp()
         local ent = ents.Create( "dheists_entity_trigger" )
-        ent:SetAngles( Angle( 0, 0, 0 ) )
-        local pos = self:GetPos() + self:GetUp() * 125
+        ent:SetAngles( Angle( 0, up:Angle().y + 90, 0 ) )
+        local pos = self:GetPos() + up * 125
         local trace = util.TraceLine( {
             start = pos,
             endpos = pos + ( -ent:GetUp() * 100 ),
