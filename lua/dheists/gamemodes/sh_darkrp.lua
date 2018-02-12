@@ -15,4 +15,7 @@ DARKRP.getJobName = function( player ) return team.GetName( player:Team() ) end
 DARKRP.getJobCategory = function( player ) return player:getJobTable().category end
 DARKRP.notify = function( player, text, notificationType, notificationTime ) return DarkRP.notify( player, notificationType, notificationTime, text ) end
 
+DARKRP.getJobList = function() return RPExtraTeams end
+DARKRP.getCategoryIndex = function() return "category" end
+
 dHeists.gamemodes:addGamemode( DARKRP )
