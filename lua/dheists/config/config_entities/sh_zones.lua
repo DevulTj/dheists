@@ -18,6 +18,37 @@ dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
     }
 } )
 
+dHeists.zones:registerZone( "rp_downtown_v4c_v4_sewers", "Parker Warehouse", {
+    origin = Vector( -1976, 670, -131 ),
+    mins = Vector( -300, -300, 0 ),
+    maxs = Vector( 300, 300, 100 ),
+
+    objects = {
+        {
+            type = "Small Vault",
+            pos = Vector( -1954, 927, -196 ),
+            ang = Angle( 0, -90, 0 ),
+        },
+        {
+            type = "Small Vault",
+            pos = Vector( -2078, 927, -196 ),
+            ang = Angle( 0, -90, 0 ),
+        },
+        {
+            type = "Small Vault",
+            pos = Vector( -2200, 927, -195 ),
+            ang = Angle( 0, -90, 0 ),
+        }
+    },
+
+    screens = {
+        {
+            pos = Vector( -1432, 475, -71 ),
+            ang = Angle( 90, 180, 180 ),
+        }
+    }
+} )
+
 dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
     origin = Vector( -33, -323, -83 ),
     mins = Vector( -300, -300, -50 ),
