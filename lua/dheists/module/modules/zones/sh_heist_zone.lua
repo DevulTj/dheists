@@ -140,7 +140,10 @@ function HeistZone:spawnEntities()
             local typeInfo = self.screens[ i ]
             if not typeInfo then continue end
 
-            self:addEntity( "screens", self:spawnEnt( "dheists_zone_screen_base", typeInfo.pos, typeInfo.ang ) )
+            local screen = self:spawnEnt( "dheists_zone_screen_base", typeInfo.pos, typeInfo.ang )
+            self:addEntity( "screens", screen )
+            
+            screen:SetZoneName( self:getName() )
         end
     end
 
