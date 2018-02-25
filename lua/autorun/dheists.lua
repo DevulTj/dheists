@@ -68,6 +68,13 @@ end
 
  -- Load everything
 frile.includeFolder( "dheists/libraries/" )
+
+-- Do some hacky stuff
+
+function L( identifier, ... )
+    return i18n.getPhrase( identifier, ... )
+end
+
 frile.includeFolder( "dheists/config/", nil, true )
 frile.includeFolder( "dheists/config/languages/" )
 frile.includeFolder( "dheists/entities/" )
