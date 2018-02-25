@@ -44,7 +44,9 @@ dHeists.robbing:registerEnt( "Small Vault", {
     -- Positions, angles
     drillPos = Vector( 38, 0, 25 ),
     drillAng = Angle( 0, 180, 0 ),
-    lootSpawnPoint = Vector( 40, 0, 25 ),
+    lootSpawnPoint = Vector( 10, 0, 25 ),
+    textPos = Vector( 45, 38, 25 ),
+    textAng = Angle( 0, -30, 0 ),
     drillTime = 480,
 
     canDrill = true,

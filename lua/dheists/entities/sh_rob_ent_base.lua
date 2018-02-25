@@ -264,7 +264,7 @@ if CLIENT then
         local typeInfo = dHeists.robbing.getEnt( self:GetEntityType() )
         if not typeInfo then return end
 
-        local lootSpawnPos = typeInfo.lootSpawnPoint
+        local lootSpawnPos = typeInfo.textPos or typeInfo.lootSpawnPoint
 
         if dHeists.config.debugEnabled then
             
@@ -302,6 +302,9 @@ if CLIENT then
             self.camAng:RotateAroundAxis( self.camAng:Up(), 90 )
             self.camAng:RotateAroundAxis( self.camAng:Forward(), 90 )
 
+            if typeInfo.textAng then
+                self.camAng = self.camAng + typeInfo.textAng
+            end
 
             local width, height = 256, 186
             local xPos, yPos = -( width / 2 ), -( height / 2 )
