@@ -10,7 +10,7 @@ dHeists = dHeists or {
     IDENTIFIER = "dheists",
 
     config = {},
-    npc = {}
+    ent = {}
 }
 
 function dHeists.print( ... )

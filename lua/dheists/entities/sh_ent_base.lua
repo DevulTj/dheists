@@ -6,14 +6,14 @@
 
 local ENT = {}
 
-ENT.Name = "Base NPC"
+ENT.Name = "Base Entity"
 ENT.Base = "base_ai"
 ENT.Type = "ai"
 ENT.Author = "DevulTj"
 ENT.Category = "dHeists"
 ENT.AutomaticFrameAdvance = false
 
-ENT.IsDHeistsNPC = true
+ENT.IsDHeistsEnt = true
 
 ENT.physicsBox = {
     mins = Vector( -7, -10, -0 ),
@@ -21,7 +21,7 @@ ENT.physicsBox = {
 }
 
 function ENT:SetupDataTables()
-	self:NetworkVar( "String", 0, "NPCType" )
+	self:NetworkVar( "String", 0, "EntType" )
 end
 
 if SERVER then
@@ -42,10 +42,12 @@ if SERVER then
 
         self:SetTrigger( true )
         self:SetAutomaticFrameAdvance( false )
+		
+		self:DrawShadow( false )
 	end
 
-    function ENT:setNPC( npcInfo )
-        self:SetModel( npcInfo.model )
+    function ENT:setEnt( entInfo )
+        self:SetModel( entInfo.model )
 
 		self:PhysicsInit( SOLID_VPHYSICS )
         self:SetMoveType( MOVETYPE_VPHYSICS )
@@ -54,16 +56,16 @@ if SERVER then
 
         self:GetPhysicsObject():EnableMotion( false )
 
-        self.startTouch = npcInfo.startTouch
-        self:SetNPCType( npcInfo.name )
+        self.startTouch = entInfo.startTouch
+        self:SetEntType( entInfo.name )
 
-		self.npcInfo = npcInfo
+		self.entInfo = entInfo
     end
 
 	function ENT:AcceptInput( name, activator, caller )
 		if name ~= "Use" or not IsValid( caller ) or not caller:IsPlayer() then return end
 
-		hook.Call( "dHeists_NPCUsed", nil, self, name, activator, caller )
+		hook.Call( "dHeists_entUsed", nil, self, name, activator, caller )
 	end
 
     function ENT:StartTouch( entity )
@@ -218,18 +220,18 @@ if CLIENT then
 			local printName = "Drop Off Point"
 			local subTitleName = "Stay in the area to sell your goods."
 
-			cam.Start3D2D(self:GetPos() + Vector(0,0,50) + ( self:GetAngles():Right() * 0 ), eyeAng, 0.2 )
-				draw.SimpleText(printName, "dHeistsHuge",6, 4, Color(0, 0, 0, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-				draw.SimpleText(printName,"dHeistsHuge",4, 2, Color(255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-
-				draw.SimpleText(subTitleName, "dHeists_bagTextLargeItalics",6, 42, Color(0, 0, 0, 150), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-				draw.SimpleText(subTitleName,"dHeists_bagTextLargeItalics",4, 40, Color( 255, 155, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-			cam.End3D2D()
-
 			cam.Start3D2D(self:GetPos(), Angle(0, 180, 0), 0.2)
 				draw.NoTexture()
 				draw.DrawArc( 0, 0, 380, 30, 0, 360, 104, Color( 0, 0, 0, 100 ) )
 				draw.DrawArc( 0, 0, 390, 30, 0, 360, 104, Color( 255, 155, 50 ) )
+			cam.End3D2D()
+
+			cam.Start3D2D(self:GetPos() + Vector(0,0,50) + ( self:GetAngles():Right() * 0 ), eyeAng, 0.2 )
+				draw.SimpleText(printName, "dHeistsHuge", 6, 4, Color( 0, 0, 0, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+				draw.SimpleText(printName,"dHeistsHuge", 4, 2, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+
+				draw.SimpleText(subTitleName, "dHeists_bagTextLargeItalics", 6, 42, Color( 0, 0, 0, 150 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+				draw.SimpleText(subTitleName,"dHeists_bagTextLargeItalics", 4, 40, Color( 255, 155, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 			cam.End3D2D()
 		end
 	end
@@ -237,18 +239,20 @@ if CLIENT then
 	local drawTextDistance = 160000
 	hook.Add( "HUDPaint", "dHeists", function()
 		local entity = LocalPlayer():GetEyeTrace().Entity
-		if not IsValid( entity ) or not entity.IsBaseNPC or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
+		if not IsValid( entity ) or not entity.IsDHeistsEnt or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
 
-		local npcData = dHeists.npc.list[ entity:GetNPCType() ]
-		if not npcData then return end
+		local entData = dHeists.ent.list[ entity:GetEntType() ]
+		if not entData then return end
+
+		if entData.noDisplay then return end
 
 		local pos = entity:GetPos()
 		pos.z = pos.z + 59
 		pos = pos:ToScreen()
 
-		draw.SimpleText( npcData.name, "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( npcData.name, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( entData.name, "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( entData.name, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 	end )
 end
 
-scripted_ents.Register( ENT, "dheists_npc_base" )
+scripted_ents.Register( ENT, "dheists_ent_base" )

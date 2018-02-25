@@ -1,7 +1,7 @@
 
 dHeists.privileges = {
     RELOAD_ZONES = "dHeists_reload_zones",
-    RELOAD_NPCS = "dHeists_reload_npcs",
+    RELOAD_ENTS = "dHeists_reload_ents",
     DEBUG_SET_BAG_TYPE = "dHeists_debug_set_bag_type",
 }
 
@@ -12,7 +12,7 @@ CAMI.RegisterPrivilege {
 }
 
 CAMI.RegisterPrivilege {
-    Name = dHeists.privileges.RELOAD_NPCS,
+    Name = dHeists.privileges.RELOAD_ENTS,
     MinAccess = "admin"
 }
 
