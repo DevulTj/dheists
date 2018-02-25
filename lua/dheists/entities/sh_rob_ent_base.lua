@@ -103,7 +103,7 @@ if SERVER then
         local data = self.typeInfo
         if data then
             if data.onFinish then 
-                data.onFinish( self, entity )
+                data.onFinish( self, data )
             end
 
             if data.openSequence then

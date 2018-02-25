@@ -49,8 +49,27 @@ dHeists.robbing:registerEnt( "Small Vault", {
 
     canDrill = true,
 
+    customLootSpawn = true,
+
     onSpawn = function( ent )
-        ent:SetAutomaticFrameAdvance( true )
+        // TODO: re-enable if we still are crashing!
+        // ent:SetAutomaticFrameAdvance( true )
+
+        ent:SetBodygroup( 1, 1 )
+    end,
+
+    onFinish = function( ent, data )
+        ent:SetBodygroup( 1, 0 )
+        ent:SetBodygroup( 2, 1 )
+
+        ent:spawnLoot()
+
+        timer.Simple( data.cooldown or 60, function()
+            if not IsValid( ent ) then return end
+
+            ent:SetBodygroup( 2, 0 )
+            ent:SetBodygroup( 1, 1 )
+        end )
     end
 } )
 
