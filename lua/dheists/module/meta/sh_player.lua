@@ -25,5 +25,7 @@ function PLAYER:addLoot( lootName )
         net.WriteTable( self._dHeistsBag.lootItems )
     net.Send( self )
 
+    hook.Run( "dHeists.onAddLoot", self, lootName, bag )
+
     return true
 end
