@@ -46,6 +46,21 @@ dHeists.zones:registerZone( "rp_downtown_v4c_v4_sewers", "Parker Warehouse", {
             pos = Vector( -1432, 475, -71 ),
             ang = Angle( 90, 180, 180 ),
         }
+    },
+
+    tvs = {
+        {
+            type = "dheists_cctv_tv_base",
+            pos = Vector( -1864, 480, -161 ),
+            ang = Angle( 0, 90, 0 ),
+        },
+    },
+    cameras = {
+        {
+            type = "dheists_cctv_camera_base",
+            pos = Vector( -1450, 416, -69 ),
+            ang = Angle( -3, 90, 0 ),
+        },
     }
 } )
 
