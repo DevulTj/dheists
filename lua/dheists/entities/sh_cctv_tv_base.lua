@@ -26,7 +26,7 @@ end
 if SERVER then
     function ENT:Initialize()
         -- assign a default model, with physics etc.
-        self:SetModel( "models/testmodels/apple_display.mdl" )
+        self:SetModel( "models/props/cs_office/computer_monitor.mdl" )
 
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetMoveType( MOVETYPE_VPHYSICS )
@@ -49,31 +49,38 @@ if SERVER then
     end
 
     function ENT:Use( player )
-        if not self:getZone() then dHeists.gamemodes:notify( player, i18n.getPhrase( "no_zone" ), NOTIFY_ERROR ) return end
-        
+        if not self:getZone() then dHeists.gamemodes:notify( player, L "no_zone", NOTIFY_ERROR ) return end
+
         dHeists.cctv.viewCCTV( player, self )
     end
 end
 
 if CLIENT then
+    local gradient = Material( "vgui/gradient-u" )
     function ENT:Draw()
     	self:DrawModel()
 
         self.AngB = self:GetAngles()
-        self.AngB:RotateAroundAxis(self.AngB:Right(),-90)
-        self.AngB:RotateAroundAxis(self.AngB:Up(),90)
-        self.AngB:RotateAroundAxis(self.AngB:Forward(),-5.7)
+        self.AngB:RotateAroundAxis( self.AngB:Right(), -90 )
+        self.AngB:RotateAroundAxis( self.AngB:Up(), 90 )
+        self.AngB:RotateAroundAxis( self.AngB:Forward(), 0 )
 
-        cam.Start3D2D(self:GetPos() + self:GetUp()*8	+ self:GetForward()*2.35, self.AngB,0.15)
-        surface.SetDrawColor(100,150,150,40)
-        draw.SimpleTextOutlined(self:GetZoneName(), "dHeistsMedium",0,-32,Color(235,235,235),TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
-        draw.SimpleTextOutlined("CCTV", "dHeistsHuge",0,-74,Color(235,235,235),TEXT_ALIGN_CENTER,TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
+        cam.Start3D2D( self:GetPos() + self:GetUp() * 8 + self:GetForward() * 3.3, self.AngB, 0.15 )
+            surface.SetDrawColor( 100, 150, 150, 40 )
+            draw.RoundedBox( 0, -70, -112, 142, 110, Color( 50, 50, 50, 255 ) )
+
+            surface.SetDrawColor( Color( 25, 25, 25, 200 ) )
+            surface.SetMaterial( gradient )
+            surface.DrawTexturedRect( -70, -112, 142, 110 )
+
+            draw.SimpleTextOutlined( self:GetZoneName(), "dHeistsSmall", 0, -50, Color( 235, 235, 235 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, Color( 0, 0, 0, 100 ) )
+            draw.SimpleTextOutlined( "CCTV", "dHeistsHuge", 0, -100, Color( 235, 235, 235 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
         cam.End3D2D()
     end
 
-	function ENT:Initialize()
+    function ENT:Initialize()
         self:DrawShadow( false )
-	end
+    end
 end
 
 scripted_ents.Register( ENT, "dheists_cctv_tv_base" )
