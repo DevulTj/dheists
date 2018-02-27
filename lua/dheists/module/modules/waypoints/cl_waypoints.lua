@@ -19,6 +19,10 @@ net.Receive( "dHeists.waypoints.setLocation", function()
     dHeists.waypoints.setLocation( net.ReadVector(), net.ReadString() )
 end )
 
+net.Receive( "dHeists.waypoints.clearLocation", function()
+    dHeists.waypoints.setLocation( nil )
+end )
+
 function dHeists.waypoints.getLocation()
     return _location
 end

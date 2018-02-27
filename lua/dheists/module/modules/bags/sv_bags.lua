@@ -48,6 +48,8 @@ function dHeists.dropBag( player, noDrop )
         net.Start( "dHeists.dropBag" )
         net.Send( player )
 
+        hook.Run( "dHeists.onDropBag", player, noDrop, bagData )
+
         if renderObjects then -- renderObjects support
             renderObjects:clearObject( player, "bag_" .. bagData.bagType )
         end
@@ -73,6 +75,8 @@ function dHeists.setBag( player, entity )
     net.Start( "dHeists.sendBagItems" )
         net.WriteTable( entity:getLoot() )
     net.Send( player )
+
+    hook.Run( "dHeists.onPickUpBag", player, player._dHeistsBag )
 end
 
 local effectData = EffectData()
