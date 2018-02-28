@@ -64,8 +64,8 @@ if CLIENT then
             pos.z = pos.z + 10
             pos = pos:ToScreen()
 
-            draw.SimpleText( L( "click_to_disable_alarm" ), "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-            draw.SimpleText( L( "click_to_disable_alarm" ), "dHeists_bagTextItalics", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+            draw.SimpleText(dL( "click_to_disable_alarm" ), "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+            draw.SimpleText(dL( "click_to_disable_alarm" ), "dHeists_bagTextItalics", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
             pos.y = pos.y + 20
         end )

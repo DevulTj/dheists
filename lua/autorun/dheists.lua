@@ -71,7 +71,7 @@ frile.includeFolder( "dheists/libraries/" )
 
 -- Do some hacky stuff
 
-function L( identifier, ... )
+function dL( identifier, ... )
     return i18n.getPhrase( identifier, ... )
 end
 

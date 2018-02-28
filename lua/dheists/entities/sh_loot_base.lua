@@ -61,7 +61,7 @@ if SERVER then
 
     function ENT:Use( player )
         local bag = player:getBag()
-        if not bag then player:dHeistsNotify( L "loot_hint_text", NOTIFY_ERROR ) return end
+        if not bag then player:dHeistsNotify( dL "loot_hint_text", NOTIFY_ERROR ) return end
 
         dHeists.actions.doAction( player, self.actionTime or 0, function()
             if not player:getBag() then return end
@@ -77,7 +77,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpLootActionColor,
-            ActionTimeRemainingTextPhrase = L( "picking_up_loot" )
+            ActionTimeRemainingTextPhrase =dL( "picking_up_loot" )
         } )
     end
 
@@ -111,12 +111,12 @@ if CLIENT then
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText( L( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( L( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText(dL( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText(dL( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 
-        local worthText = L( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
+        local worthText =dL( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )

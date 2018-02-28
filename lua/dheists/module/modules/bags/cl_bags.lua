@@ -32,12 +32,12 @@ local width, height = 230, 40
 dHeists.addedHeight = dHeists.addedHeight or 0
 hook.Add( "HUDPaint", "dHeists.drawBag", function()
     if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
-        local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] " .. L( "throw_item" )
-        local itemsText = LocalPlayer()._dHeistsLootItems or L( "no_items" )
+        local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] " ..dL( "throw_item" )
+        local itemsText = LocalPlayer()._dHeistsLootItems ordL( "no_items" )
         
         surface.SetFont( "dHeists_bagText" )
         local textW, textH = surface.GetTextSize( itemsText )
-        local carryingText = L( "carrying_text" )
+        local carryingText =dL( "carrying_text" )
         local carryingTextW, carryingTextH = surface.GetTextSize( carryingText )
 
         if textW < carryingTextW then textW = carryingTextW end
@@ -80,7 +80,7 @@ net.Receive( "dHeists.sendBagItems", function()
 
     local lootString = ""
     for itemName, amount in pairs( lootStuff ) do
-        itemName = L( itemName )
+        itemName =dL( itemName )
         
         lootString = lootString .. "" .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. itemName:upper() .. "\n"
     end

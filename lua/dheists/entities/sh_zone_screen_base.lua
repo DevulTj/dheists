@@ -70,7 +70,7 @@ if CLIENT then
 
         local isOnCooldown = self:GetCooldownEnd() and self:GetCooldownEnd() > CurTime()
 
-        local text = isOnCooldown and L "screen_restock" or L "screen_active"
+        local text = isOnCooldown and dL "screen_restock" or dL "screen_active"
         local fix_angles = self:GetAngles()
         local pos = self:GetPos() + fix_angles:Up() * 1.6
 
