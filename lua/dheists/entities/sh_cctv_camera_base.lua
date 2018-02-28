@@ -56,15 +56,6 @@ if SERVER then
         util.Effect( "explosion", tEffectData )
 
         self:SetCameraDestroyed( true )
-
-        local pAttacker = dDamage:GetAttacker()
-        if IsValid( pAttacker ) then
-            Monolith.Logger:LogEntry(
-                "damage",
-                Monolith.Logger:PrintPlayer( pAttacker ) .. " destroyed a CCTV camera"
-            )
-        end
-
         self:SetColor( color_black )
 
         timer.Simple( dHeists.config.cameraRespawnTime or 600, function()
