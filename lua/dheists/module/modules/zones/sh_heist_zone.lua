@@ -10,6 +10,8 @@ function HeistZone:new( data )
         objects = {},
         spawnedObjects = {},
 
+        dynamic = data.dynamic,
+
         cooldownTime = data.cooldownTime or 60
     }
 

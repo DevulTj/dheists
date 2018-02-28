@@ -34,6 +34,8 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )
     ]] )
+
+    dHeists.db.loadZones()
 end )
 
 
@@ -58,5 +60,17 @@ function dHeists.db.createZone( player, zoneName, callback )
         if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
 
         createZone( player, zoneName, player:GetPos(), callback )
+    end )
+end
+
+function dHeists.db.loadZones()
+    dHeistsDB.query( [[
+        SELECT zone_name, origin_x, origin_y, origin_z FROM dheists_zones
+    ]], function( data )
+        if not data then return end
+
+        for _, zoneInfo in pairs( data ) do
+            dHeists.zones:createDynamicZone( zoneInfo.zone_name, Vector( zoneInfo.origin_x, zoneInfo.origin_y, zoneInfo.origin_z ) )
+        end
     end )
 end

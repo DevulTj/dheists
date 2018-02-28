@@ -54,16 +54,31 @@ concommand.Add( "dheists_reload_zones", function( player )
 end )
 
 
+function dHeists.zones:createDynamicZone( zoneName, origin )
+    local zone = HeistZone:new( {
+        origin = origin,
+        name = zoneName,
+        dynamic = true
+    } )
+
+    -- Register it in the zones object table
+    self.zones[ zoneName ] = zone
+
+    dHeists.print( "Created dynamic zone " .. zoneName .. " (" .. tostring( zone ) .. ")" )
+end
+
+
 function dHeists.zones:createZone( player, zoneName )
     dHeists.db.createZone( player, zoneName, function( origin )
-        local zone = HeistZone:new( {
-            origin = origin,
-            name = zoneName
-        } )
-
-        -- Register it in the zones object table
-        self.zones[ zoneName ] = zone
-
-        dHeists.print( "Created dynamic zone " .. zoneName .. " (" .. tostring( zone ) .. ")" )
+        self:createDynamicZone( zoneName, origin )
     end )
+end
+
+function dHeists.zones:gatherZoneNames()
+    local tbl = {}
+    for zoneName, zone in pairs( self.zones ) do
+        tbl[ zoneName ] = zone.dynamic or false
+    end
+
+    return tbl
 end

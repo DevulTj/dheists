@@ -9,16 +9,6 @@ util.AddNetworkString( "dHeists.CloseZoneCreator" )
 util.AddNetworkString( "dHeists.CreateZone" )
 util.AddNetworkString( "dHeists.EditZone" )
 
-local function getZoneNames()
-    local tbl = {}
-
-    for zoneName, zoneInfo in pairs( dHeists.zones.zones ) do
-        table.insert( tbl, zoneName )
-    end
-
-    return tbl
-end
-
 --[[ Command to open zone creator ]]
 dHeists.commands:add( {
     name = "zones",
@@ -38,7 +28,7 @@ dHeists.commands:add( {
             player:setDevBool( "inZoneCreator", true )
 
             net.Start( "dHeists.OpenZoneCreator" )
-                net.WriteTable( getZoneNames() )
+                net.WriteTable( dHeists.zones:gatherZoneNames() )
             net.Send( player )
         end )
     end

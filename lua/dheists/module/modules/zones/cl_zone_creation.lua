@@ -54,13 +54,13 @@ function FRAME:Setup( zoneList )
     self.layout:Clear()
 
     local count = 0
-    for _, zoneName in pairs( zoneList ) do
+    for zoneName, isDynamic in pairs( zoneList ) do
         count = count + 1
 
         local button = self.layout:Add( "DButton" )
         button:Dock( TOP )
         button:SetTall( 32 )
-        button:SetText( zoneName )
+        button:SetText( zoneName .. ( isDynamic and " (Dynamic)" or "" ) )
     end
 
     self.title:SetText( ZONES_TITLE:format( count, count == 1 and "" or "s" ) )
