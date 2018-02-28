@@ -52,3 +52,18 @@ concommand.Add( "dheists_reload_zones", function( player )
     -- To prevent duplicate code, let's check for non-console units.
     CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ZONES, hasAccessCallback )
 end )
+
+
+function dHeists.zones:createZone( player, zoneName )
+    dHeists.db.createZone( player, zoneName, function( origin )
+        local zone = HeistZone:new( {
+            origin = origin,
+            name = zoneName
+        } )
+
+        -- Register it in the zones object table
+        self.zones[ zoneName ] = zone
+
+        dHeists.print( "Created dynamic zone " .. zoneName .. " (" .. tostring( zone ) .. ")" )
+    end )
+end

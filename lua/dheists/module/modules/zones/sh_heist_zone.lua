@@ -6,11 +6,7 @@ HEIST_ZONE_ID = 0
 
 function HeistZone:new( data )
     local zone = {
-        bounds = {
-            mins = data.mins,
-            maxs = data.maxs
-        },
-
+        origin = data.origin,
         objects = {},
         spawnedObjects = {},
 

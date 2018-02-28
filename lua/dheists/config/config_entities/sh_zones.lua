@@ -6,8 +6,6 @@
 
 dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
     origin = Vector( 49, -161, -12287 ),
-    mins = Vector( -300, -300, 0 ),
-    maxs = Vector( 300, 300, 100 ),
 
     objects = {
         {
@@ -20,8 +18,6 @@ dHeists.zones:registerZone( "gm_flatgrass", "The cool bank", {
 
 dHeists.zones:registerZone( "rp_downtown_v4c_v4_sewers", "Parker Warehouse", {
     origin = Vector( -1976, 670, -131 ),
-    mins = Vector( -300, -300, 0 ),
-    maxs = Vector( 300, 300, 100 ),
 
     objects = {
         {
@@ -66,8 +62,6 @@ dHeists.zones:registerZone( "rp_downtown_v4c_v4_sewers", "Parker Warehouse", {
 
 dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
     origin = Vector( -33, -323, -83 ),
-    mins = Vector( -300, -300, -50 ),
-    maxs = Vector( 300, 300, 10 ),
 
     objects = {
         {
@@ -80,8 +74,6 @@ dHeists.zones:registerZone( "gm_construct", "Construct Bank Inc.", {
 
 dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
     origin = Vector(  1276, -6720, 200 ),
-    mins = Vector( -100, -100, -64 ),
-    maxs = Vector( 100, 100, 70 ),
 
     objects = {
         {
@@ -134,8 +126,6 @@ dHeists.zones:registerZone( "rp_florida", "Bank of Florida", {
 
 dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
     origin = Vector( 1237, 3753, 608 ),
-    mins = Vector( -200, -200, -64 ),
-    maxs = Vector( 200, 200, 70 ),
 
     alarmDuration = 180,
 
@@ -189,8 +179,6 @@ dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Shell Gas Station", {
 
 dHeists.zones:registerZone( "rp_rockford_mrp_v1b", "Bank of Rockford", {
     origin = Vector( -3995, -3879, 110 ),
-    mins = Vector( -890, -390, -64 ),
-    maxs = Vector( 880, 290, 70 ),
 
     alarmSound =  "ambient/alarms/city_firebell_loop1.wav",
     alarmDuration = 180,
