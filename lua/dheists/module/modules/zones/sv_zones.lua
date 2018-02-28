@@ -22,7 +22,7 @@ function dHeists.zones:spawnZones()
         self.zones[ zoneName ] = zone
 
         dHeists.print( "Spawning " .. tostring( zone ) )
-        
+
         -- Combine the categories to get the team list
         zone:combineCategores()
 

@@ -55,4 +55,7 @@ i18n.registerPhrases( "en", {
 
     loot_hint_text = "You can't pick this up, you require: A Bag",
     already_have_bag = "You already have a Bag.",
+
+    already_in_zone_creator = "You are already in the Zone Creator.",
+    no_access = "You do not have access to this."
 } )

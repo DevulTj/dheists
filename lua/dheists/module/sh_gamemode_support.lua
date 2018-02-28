@@ -53,7 +53,7 @@ function dHeists.gamemodes:getJobCategory( player )
     return self:getGamemode().getJobCategory( player )
 end
 
-function player:dHeistsNotify( text, notificationType )
+function dHeists.gamemodes:notify( player, text, notificationType )
     return self:getGamemode().notify( player, text, notificationType )
 end
 
