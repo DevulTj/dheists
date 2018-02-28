@@ -6,6 +6,7 @@
 
 util.AddNetworkString( "dHeists.OpenZoneCreator" )
 util.AddNetworkString( "dHeists.CloseZoneCreator" )
+util.AddNetworkString( "dHeists.CreateZone" )
 
 local function getZoneNames()
     local tbl = {}
@@ -44,4 +45,10 @@ dHeists.commands:add( {
 
 net.Receive( "dHeists.CloseZoneCreator", function( _, player )
     player:setDevBool( "inZoneCreator", false )
+end )
+
+net.Receive( "dHeists.CreateZone", function( _, player )
+    local zoneName = net.ReadString()
+
+    dHeists.db.createZone( player, zoneName )
 end )

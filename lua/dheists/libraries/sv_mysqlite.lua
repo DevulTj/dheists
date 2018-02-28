@@ -173,6 +173,10 @@ local CONNECTED_TO_MYSQL = false
 local msOOConnect
 databaseObject = nil
 
+function dbObj() 
+    return databaseObject 
+end
+
 local queuedQueries
 local cachedQueries
 

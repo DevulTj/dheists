@@ -5,12 +5,12 @@
 ]]
 
 dHeists.dbConfig = {
-    EnableMySQL = false,
-    Host = "localhost",
-    Username = "root",
-    Password = "",
-    Database_name = "database",
+    EnableMySQL = true,
+    Host = "185.38.149.11",
+    Username = "KevinS1",
+    Password = "BUV5R4CtKPD5psLj",
+    Database_name = "KevinS1",
     Database_port = 3306,
-    Preferred_module = "tmysql4",
+    Preferred_module = "mysqloo",
     MultiStatements = false
 }

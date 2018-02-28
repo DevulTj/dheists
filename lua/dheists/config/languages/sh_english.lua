@@ -57,5 +57,8 @@ i18n.registerPhrases( "en", {
     already_have_bag = "You already have a Bag.",
 
     already_in_zone_creator = "You are already in the Zone Creator.",
-    no_access = "You do not have access to this."
+    no_access = "You do not have access to this.",
+
+    zone_created = "You created a zone.",
+    zone_duplicate = "A zone with this name already exists."
 } )

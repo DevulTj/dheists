@@ -33,6 +33,12 @@ function FRAME:Init()
     self.createZone:SetTall( 32 )
     self.createZone:DockMargin( 0, 4, 0, 0 )
 
+    self.createZone.DoClick = function( this )
+        dHeists.zoneCreationMenu = vgui.Create( "dHeists.ZoneCreationMenu" )
+
+        self:Remove()
+    end
+
     self.panel = self:Add( "DPanel" )
     self.panel:Dock( FILL )
     self.panel:DockMargin( 0, 4, 0, 0 )
@@ -66,6 +72,37 @@ function FRAME:OnRemove()
 end
 
 vgui.Register( "dHeists.ZoneList", FRAME, "DFrame" )
+
+FRAME = {}
+
+function FRAME:Init()
+    self:SetSize( 256, 64 + 38 )
+    self:Center()
+    self:SetTitle( "Zone Creator" )
+    self:MakePopup()
+
+    self:SetSkin( "devUI" )
+
+    self.textEntry = self:Add( "DTextEntry" )
+    self.textEntry:Dock( TOP )
+    self.textEntry:SetTall( 32 )
+    self.textEntry:SetText( "Zone Name" )
+
+    self.submit = self:Add( "DButton" )
+    self.submit:Dock( TOP )
+    self.submit:DockMargin( 0, 4, 0, 0 )
+    self.submit:SetTall( 32 )
+    self.submit:SetText( "Create Zone" )
+    self.submit.DoClick = function( this )
+        net.Start( "dHeists.CreateZone" )
+            net.WriteString( self.textEntry:GetValue() )
+        net.SendToServer()
+
+        self:Remove()
+    end
+end
+
+vgui.Register( "dHeists.ZoneCreationMenu", FRAME, "DFrame" )
 
 net.Receive( "dHeists.OpenZoneCreator", function()
     local zoneList = net.ReadTable()
