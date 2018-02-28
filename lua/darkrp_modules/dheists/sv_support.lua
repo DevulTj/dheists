@@ -1,3 +1,5 @@
+--##NoSimplerr##
+
 --[[
 	© 2018 devultj.co.uk, do not share, re-distribute or modify
 
@@ -14,7 +16,7 @@ local pocketWhitelist = {
 
 hook.Add( "canPocket", "dHeists.disallowPocket", function( player, entity )
     if entity.DHeists and dHeists.config.disablePocket then
-        if pocketWhitelist[ entity:GetClass() ] then return pocketWhitelist[ entity:GetClass() ] end
+        if pocketWhitelist[ entity:GetClass() ] then return pocketWhitelist[ entity:GetClass() ]( entity ) end
 
         return false
     end
