@@ -52,4 +52,7 @@ i18n.registerPhrases( "en", {
     cctv_title = "CCTV",
     screen_restock = "RESTOCKING",
     screen_active = "ACTIVE",
+
+    loot_hint_text = "You can't pick this up, you require: A Bag",
+    already_have_bag = "You already have a Bag.",
 } )

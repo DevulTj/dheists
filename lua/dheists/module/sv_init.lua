@@ -5,5 +5,11 @@
 ]]
 
 function dHeists.addMoney( player, amount )
-    return dHeists.config.addMoneyFunction and dHeists.config.addMoneyFunction( player, amount ) or player.addMoney and player:addMoney( amount )
+	return dHeists.config.addMoneyFunction and dHeists.config.addMoneyFunction( player, amount ) or player.addMoney and player:addMoney( amount )
+end
+
+local PLAYER = FindMetaTable( "Player" )
+
+function PLAYER:dHeistsNotify( text, notificationType )
+	return dHeists.gamemodes:notify( self, text, notificationType )
 end

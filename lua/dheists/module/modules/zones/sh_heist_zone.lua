@@ -164,7 +164,7 @@ function HeistZone:startAlarm()
     end
 
     for _, player in pairs( self:getPoliceMembers() ) do
-        dHeists.gamemodes:notify( player, L( "zone_being_robbed", self:getName() ) )
+        player:dHeistsNotify( L( "zone_being_robbed", self:getName() ) )
     end
 
     for screen, _ in pairs( self.spawnedObjects and self.spawnedObjects.screens or {} ) do

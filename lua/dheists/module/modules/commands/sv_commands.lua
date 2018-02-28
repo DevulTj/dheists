@@ -31,7 +31,7 @@ if SERVER then
             local canDo, reason = commandData.canDo and commandData.canDo( player, commandData )
             if canDo == false then
                 if reason then
-                    dHeists.gamemodes:notify( player, reason, NOTIFY_ERROR )
+                    player:dHeistsNotify( reason, NOTIFY_ERROR )
                 end
 
                 return ""

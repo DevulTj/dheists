@@ -152,7 +152,7 @@ if SERVER then
 
     function ENT:canDeploy( player )
         if self:isOnCooldown() then
-            dHeists.gamemodes:notify( player, "Cooldown is active", NOTIFY_ERROR )
+            player:dHeistsNotify( "Cooldown is active", NOTIFY_ERROR )
 
             return
         end
@@ -162,7 +162,7 @@ if SERVER then
             if drill:isFinished() then
                 return true
             else
-                dHeists.gamemodes:notify( player, "Drill is active", NOTIFY_ERROR )
+                player:dHeistsNotify( "Drill is active", NOTIFY_ERROR )
 
                 return false
             end
@@ -179,7 +179,7 @@ if SERVER then
 
         toolList = toolList:sub( 1, #toolList - 1 )
 
-        dHeists.gamemodes:notify( player, "You can use the following tools to unlock this:" .. toolList )
+        player:dHeistsNotify( "You can use the following tools to unlock this:" .. toolList )
 
         return false
     end

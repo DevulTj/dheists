@@ -119,7 +119,7 @@ function dHeists.collectBag( npc, player )
     end
 
     dHeists.gamemodes:addMoney( player, moneyGiven )
-    dHeists.gamemodes:notify( player, L( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ) )
+    player:dHeistsNotify( L( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ) )
 
     dHeists.dropBag( player, true )
 end

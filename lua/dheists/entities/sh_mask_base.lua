@@ -74,7 +74,7 @@ if SERVER then
 
         local canDo, reason = hook.Run( "dHeists.maskPickUp", player, self )
         if canDo == false then
-            if reason then dHeists.gamemodes:notify( player, reason, NOTIFY_GENERIC ) end
+            if reason then player:dHeistsNotify( reason, NOTIFY_GENERIC ) end
 
             return
         end
@@ -85,7 +85,7 @@ if SERVER then
             if canDo ~= false then
                 SafeRemoveEntity( self )
             else
-                dHeists.gamemodes:notify( player, reason or "You already have a mask", NOTIFY_ERROR )
+                player:dHeistsNotify( reason or "You already have a mask", NOTIFY_ERROR )
             end
         end, {
             ent = self,

@@ -50,7 +50,7 @@ if SERVER then
     end
 
     function ENT:Use( player )
-        if not self:getZone() then dHeists.gamemodes:notify( player, L "no_zone", NOTIFY_ERROR ) return end
+        if not self:getZone() then player:dHeistsNotify( L "no_zone", NOTIFY_ERROR ) return end
 
         dHeists.cctv.viewCCTV( player, self )
     end

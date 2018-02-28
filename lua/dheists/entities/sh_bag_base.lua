@@ -16,6 +16,7 @@ ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
 ENT.IsBag = true
+ENT.DHeists = true
 
 --[[
     MONOLITH RP INVENTORY VARIABLES
@@ -112,12 +113,14 @@ if SERVER then
     end
 
     function ENT:doPickUpAction( player )
+        if player:getBag() then player:dHeistsNotify( L "already_have_bag", NOTIFY_ERROR ) return end
+
         local entityOwner = self:GetEntityOwner()
         local playerIsOwner = entityOwner == player
 
         local canDo, reason = hook.Run( "dHeists.bagPickUp", player, self )
         if canDo == false then
-            if reason then dHeists.gamemodes:notify( player, reason, NOTIFY_GENERIC ) end
+            if reason then player:dHeistsNotify( reason, NOTIFY_GENERIC ) end
 
             return
         end
@@ -160,7 +163,7 @@ if SERVER then
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
             dHeists.addMoney( player, moneyGiven )
 
-            dHeists.gamemodes:notify( player, L( "confiscate_bag_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
+            player:dHeistsNotify( L( "confiscate_bag_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,
