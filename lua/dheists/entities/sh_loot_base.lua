@@ -111,12 +111,12 @@ if CLIENT then
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText(dL( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText(dL( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( dL( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( dL( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 
-        local worthText =dL( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
+        local worthText = dL( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )

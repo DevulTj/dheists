@@ -163,11 +163,11 @@ if SERVER then
             local moneyGiven = dHeists.config.confiscateBagMoneyPrize
             dHeists.addMoney( player, moneyGiven )
 
-            player:dHeistsNotify(dL( "confiscate_bag_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
+            player:dHeistsNotify( dL( "confiscate_bag_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
         end, {
             ent = self,
             ActionColor = dHeists.config.confiscateBagActionColor,
-            ActionTimeRemainingTextPhrase =dL( "confiscating_bag" )
+            ActionTimeRemainingTextPhrase = dL( "confiscating_bag" )
         } )
     end
 
