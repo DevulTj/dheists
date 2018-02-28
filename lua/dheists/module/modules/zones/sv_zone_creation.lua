@@ -33,10 +33,6 @@ dHeists.commands:add( {
                 return
             end
 
-            player:SendLua([[
-                chat.AddText( Color( 255, 50, 50 ), "[dHeists]", color_white, " You have opened the zone creation menu." )
-            ]])
-
             player:setDevBool( "inZoneCreator", true )
 
             net.Start( "dHeists.OpenZoneCreator" )

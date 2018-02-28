@@ -11,6 +11,14 @@ surface.CreateFont( "dHeistsMassive", {
 	antialias = true
 } )
 
+surface.CreateFont( "dHeistsMassiveItalics", {
+	font = dHeists.config.fontFace or "Purista",
+	size = 70,
+	weight = dHeists.config.fontWeight or 800,
+	italic = true,
+	antialias = true
+} )
+
 surface.CreateFont( "dHeistsHuge", {
 	font = dHeists.config.fontFace or "Purista",
 	size = 48,

@@ -75,3 +75,23 @@ net.Receive( "dHeists.OpenZoneCreator", function()
 
     dHeists.zoneList = frame
 end )
+
+hook.Add( "PostPlayerDraw", "dHeists.ZoneCreator", function( player )
+    if not player:Alive() then return end
+    if not player:getDevBool( "inZoneCreator", false ) then return end
+
+    local offset = Vector( 0, 0, 79 )
+    local ang = LocalPlayer():EyeAngles()
+    local pos = player:GetPos() + offset + ang:Up()
+
+    ang:RotateAroundAxis( ang:Forward(), 90 )
+    ang:RotateAroundAxis( ang:Right(), 90 )
+
+    cam.Start3D2D( pos, Angle( 0, ang.y, 90 ), 0.1 )
+        draw.DrawText( "dHeists", "dHeistsMassiveItalics", 2 + 2, -23, Color( 0, 0, 0, 125 ), TEXT_ALIGN_CENTER )
+        draw.DrawText( "dHeists", "dHeistsMassiveItalics", 2, -25, Color( 150, 150, 150, 125 ), TEXT_ALIGN_CENTER )
+
+        draw.DrawText( "Editing Zones", "dHeistsHuge", 2 + 2, 34, Color( 0, 0, 0, 125 ), TEXT_ALIGN_CENTER )
+        draw.DrawText( "Editing Zones", "dHeistsHuge", 2, 32, Color( 255, 255, 255, 125 ), TEXT_ALIGN_CENTER )
+    cam.End3D2D()
+end )
