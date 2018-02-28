@@ -20,6 +20,7 @@ ENT.AdminOnly = true
 ENT.AutomaticFrameAdvance = false
 
 ENT.RenderGroup = RENDERGROUP_BOTH
+ENT.DHeists = true
 
 ENT.MODEL = "models/hunter/plates/plate1x5.mdl"
 

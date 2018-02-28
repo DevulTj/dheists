@@ -14,6 +14,7 @@ ENT.Category = "dHeists"
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
+ENT.DHeists = true
 
 ENT.physicsBox = {
     mins = Vector( -7, -20, -5 ),
@@ -91,6 +92,8 @@ function ENT:StartTouch( eEnt )
 
     if eEnt.IsRobbableEntity and eEnt.setDrill then
         eEnt:setDrill( self )
+
+        self:SetIsDrilling( true )
     end
 end
 

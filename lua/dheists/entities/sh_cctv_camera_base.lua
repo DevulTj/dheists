@@ -17,6 +17,7 @@ ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
 ENT.IsCCTVCamera = true
+ENT.DHeists = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )

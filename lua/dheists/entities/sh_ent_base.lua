@@ -14,6 +14,7 @@ ENT.Category = "dHeists"
 ENT.AutomaticFrameAdvance = false
 
 ENT.IsDHeistsEnt = true
+ENT.DHeists = true
 
 ENT.physicsBox = {
     mins = Vector( -7, -10, -0 ),

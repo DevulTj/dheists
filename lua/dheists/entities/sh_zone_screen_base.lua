@@ -17,6 +17,7 @@ ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
 ENT.IsZoneScreen = true
+ENT.DHeists = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
@@ -69,7 +70,7 @@ if CLIENT then
 
         local isOnCooldown = self:GetCooldownEnd() and self:GetCooldownEnd() > CurTime()
 
-        local text = isOnCooldown and "RESTOCKING" or "ACTIVE"
+        local text = isOnCooldown and L "screen_restock" or L "screen_active"
         local fix_angles = self:GetAngles()
         local pos = self:GetPos() + fix_angles:Up() * 1.6
 

@@ -74,4 +74,6 @@ dHeists.config.maskOnSounds = {
     }
 }
 
+dHeists.config.disablePocket = true
+
 dHeists.config.cameraRespawnTime = 600

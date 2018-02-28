@@ -17,6 +17,7 @@ ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
 ENT.IsAlarm = true
+ENT.DHeists = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
@@ -74,7 +75,7 @@ if CLIENT then
             surface.DrawTexturedRect( -70, -112, 142, 110 )
 
             draw.SimpleTextOutlined( self:GetZoneName(), "dHeistsSmall", 0, -50, Color( 235, 235, 235 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 1, Color( 0, 0, 0, 100 ) )
-            draw.SimpleTextOutlined( "CCTV", "dHeistsHuge", 0, -100, Color( 235, 235, 235 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
+            draw.SimpleTextOutlined( L "cctv_title", "dHeistsHuge", 0, -100, Color( 235, 235, 235 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP,1,Color(0,0,0, 100))
         cam.End3D2D()
     end
 

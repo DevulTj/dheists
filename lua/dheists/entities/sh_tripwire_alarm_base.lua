@@ -20,6 +20,7 @@ ENT.AdminOnly               = true
 ENT.AutomaticFrameAdvance   = false
 
 ENT.MODEL                   = "models/xqm/button1.mdl"
+ENT.DHeists = true
 
 ENT._nextThink              = .1
 

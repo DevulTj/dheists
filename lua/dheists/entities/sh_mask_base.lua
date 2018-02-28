@@ -23,6 +23,7 @@ ENT.OwnerOnlyPickUp = false
 ENT.WalkOnlyPickUp = true
 
 ENT.IsMask = true
+ENT.DHeists = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "MaskType" )
@@ -111,8 +112,8 @@ if CLIENT then
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText( i18n.getPhrase( maskData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( i18n.getPhrase( maskData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( L( maskData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( L( maskData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 	end )

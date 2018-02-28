@@ -14,6 +14,7 @@ ENT.Category = "dHeists"
 
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
+ENT.DHeists = true
 
 ENT.IsLoot = true
 
@@ -76,7 +77,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpLootActionColor,
-            ActionTimeRemainingTextPhrase = i18n.getPhrase( "picking_up_loot" )
+            ActionTimeRemainingTextPhrase = L( "picking_up_loot" )
         } )
     end
 
@@ -110,12 +111,12 @@ if CLIENT then
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText( i18n.getPhrase( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( i18n.getPhrase( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( L( lootData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( L( lootData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 
-        local worthText = i18n.getPhrase( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
+        local worthText = L( "loot_worth", string.formatMoney( lootData.moneyGiven ) )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x + 1, pos.y + 1, Color( 0, 0, 0, 255 ), TEXT_ALIGN_CENTER )
 		draw.SimpleText( worthText, "dHeists_bagTextItalics", pos.x, pos.y, Color( 100, 200, 100, 255 ), TEXT_ALIGN_CENTER )
 	end )

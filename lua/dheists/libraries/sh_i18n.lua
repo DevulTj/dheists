@@ -28,7 +28,7 @@ function i18n.registerPhrases( languageId, phrases )
 end
 
 function i18n.getPhrase( identifier, ... )
-    local phrases = 
+    local phrases =
         _phrases[ selectedLanguage:GetString() ] 
         or _phrases[ gameLanguage:GetString() ] 
         or _phrases.en

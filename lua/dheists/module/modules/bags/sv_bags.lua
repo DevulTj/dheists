@@ -113,13 +113,13 @@ function dHeists.collectBag( npc, player )
         local typeInfo = dHeists.loot.getLoot( itemName )
         if not typeInfo then continue end
 
-        lootString = lootString .. ( count ~= 0 and ", " or "" ) .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. i18n.getPhrase( typeInfo.name )
+        lootString = lootString .. ( count ~= 0 and ", " or "" ) .. ( amount > 1 and ( ( amount .. "x" ) or "" ) .. " " or "" ) .. L( typeInfo.name )
 
         count = count + 1
     end
 
     dHeists.gamemodes:addMoney( player, moneyGiven )
-    dHeists.gamemodes:notify( player, i18n.getPhrase( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ) )
+    dHeists.gamemodes:notify( player, L( "bag_sold_text", string.formatMoney( moneyGiven ), lootString ) )
 
     dHeists.dropBag( player, true )
 end

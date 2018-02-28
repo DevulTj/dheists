@@ -18,6 +18,8 @@ ENT.AdminSpawnable	= true
 
 ENT.IsAlarm = true
 
+ENT.DHeists = true
+
 function ENT:SetupDataTables()
     self:NetworkVar( "Bool", 0, "AlarmActive" )
 end

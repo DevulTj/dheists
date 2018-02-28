@@ -48,4 +48,8 @@ i18n.registerPhrases( "en", {
 
     -- buttons
     click_to_disable_alarm = "Disable Alarm",
+
+    cctv_title = "CCTV",
+    screen_restock = "RESTOCKING",
+    screen_active = "ACTIVE",
 } )
