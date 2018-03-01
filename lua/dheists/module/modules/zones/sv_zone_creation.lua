@@ -8,6 +8,7 @@ util.AddNetworkString( "dHeists.OpenZoneCreator" )
 util.AddNetworkString( "dHeists.CloseZoneCreator" )
 util.AddNetworkString( "dHeists.CreateZone" )
 util.AddNetworkString( "dHeists.EditZone" )
+util.AddNetworkString( "dHeists.StopEditZone" )
 
 --[[ Command to open zone creator ]]
 dHeists.commands:add( {
@@ -60,6 +61,31 @@ dHeists.commands:add( {
 
             net.Start( "dHeists.EditZone" )
                 net.WriteUInt( zone:getId(), 16 )
+            net.Send( player )
+        end )
+    end
+} )
+
+--[[ Command to stop zone editor ]]
+dHeists.commands:add( {
+    name = "stopeditzone",
+    canDo = function( player, commandData )
+        return true
+    end,
+    func = function( player, text, commandData )
+        CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ENTS, function( hasAccess )
+            if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
+            if not text then return end
+
+            if player:getDevString( "zoneEditing" ) == "" then
+                player:dHeistsNotify( dL "not_editing_zone" )
+
+                return
+            end
+
+            player:setDevString( "zoneEditing", nil )
+
+            net.Start( "dHeists.StopEditZone" )
             net.Send( player )
         end )
     end

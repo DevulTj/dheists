@@ -117,6 +117,18 @@ net.Receive( "dHeists.EditZone", function()
     local zoneId = net.ReadUInt( 16 )
     dHeists.currentEditingZone = zoneId
 
+    dHeists.originalZonePos = {}
+
+    for _, entity in pairs( ents.FindByClass( "dheists_*" ) ) do
+        if entity.GetZoneID and entity:GetZoneID() == zoneId then
+            dHeists.originalZonePos[ entity ] = entity:GetPos()
+        end
+    end
+end )
+
+net.Receive( "dHeists.StopEditZone", function()
+    dHeists.currentEditingZone = nil
+    dHeists.originalZonePos = nil
 end )
 
 hook.Add( "PostPlayerDraw", "dHeists.ZoneEditor", function( player )
@@ -156,7 +168,9 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
         end
 
         if entity.GetZoneID and entity:GetZoneID() == zoneId then
-            draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+            local hasMoved = dHeists.originalZonePos and dHeists.originalZonePos[ entity ] and dHeists.originalZonePos[ entity ] ~= entity:GetPos()
+
+            draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, hasMoved and Color( 50, 50, 200 ) or Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
     end
 end )
