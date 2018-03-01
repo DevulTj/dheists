@@ -60,5 +60,8 @@ i18n.registerPhrases( "en", {
     no_access = "You do not have access to this.",
 
     zone_created = "You created a zone.",
-    zone_duplicate = "A zone with this name already exists."
+    zone_duplicate = "A zone with this name already exists.",
+
+    save_zone_prompt = "Type /savezone to save all changes.",
+    editing_zone = "Editing Zone '%s'"
 } )

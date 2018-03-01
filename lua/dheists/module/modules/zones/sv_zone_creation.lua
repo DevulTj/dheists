@@ -45,7 +45,7 @@ dHeists.commands:add( {
             if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
             if not text then return end
 
-            if player:getDevBool( "inZoneEditor" ) == true then
+            if player:getDevString( "zoneEditing" ) ~= "" then
                 player:dHeistsNotify( dL "already_in_zone_creator" )
 
                 return
@@ -53,14 +53,10 @@ dHeists.commands:add( {
 
             text = table.concat( text, " " )
 
-            print( text )
-
             local zone = dHeists.zones.zones[ text ]
             if not zone then return end
 
-            print( zone )
-
-            player:setDevBool( "inZoneEditor", true )
+            player:setDevString( "zoneEditing", zone:getName() )
 
             net.Start( "dHeists.EditZone" )
                 net.WriteUInt( zone:getId(), 16 )

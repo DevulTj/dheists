@@ -138,3 +138,21 @@ hook.Add( "PostPlayerDraw", "dHeists.ZoneEditor", function( player )
         draw.DrawText( "Editing Zones", "dHeistsHuge", 2, 32, Color( 255, 255, 255, 125 ), TEXT_ALIGN_CENTER )
     cam.End3D2D()
 end )
+
+hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
+    if LocalPlayer():getDevString( "zoneEditing" ) ~= "" then
+        draw.SimpleTextOutlined( dL( "editing_zone", LocalPlayer():getDevString( "zoneEditing" ) ), "dHeistsHuge", ScrW() / 2, ScrH() * 0.01, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+        draw.SimpleTextOutlined( dL "save_zone_prompt", "dHeists_bagTextItalics", ScrW() / 2, ScrH() * 0.065, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+
+        local zoneId = dHeists.currentEditingZone
+        if not zoneId then return end
+
+        for _, entity in pairs( ents.FindByClass( "dheists_*" ) ) do
+            if entity.GetZoneID and entity:GetZoneID() == zoneId then
+                local data = entity:GetPos():ToScreen()
+
+                draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+            end
+        end
+    end
+end )
