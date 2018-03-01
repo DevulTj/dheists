@@ -40,11 +40,15 @@ function HeistZone:setName( name )
     self.name = name
 end
 
-function HeistZone:addEntity( key, entity )
+function HeistZone:addEntity( key, entity, typeInfo )
     self.spawnedObjects[ key ] = self.spawnedObjects[ key ] or {}
     self.spawnedObjects[ key ][ entity ] = true
 
     entity._entityIdentifier = key
+
+    if typeInfo.creationId then
+        entity:SetNW2Int( "creationId", typeInfo.creationId )
+    end
 end
 
 function HeistZone:removeEntity( key, entity )
@@ -75,7 +79,7 @@ function HeistZone:spawnEntities()
 
             local entity = self:spawnEnt( "dheists_rob_ent_base", typeInfo.pos, typeInfo.ang )
             entity:setEntityType( typeInfo.type )
-            self:addEntity( "objects", entity )
+            self:addEntity( "objects", entity, typeInfo )
         end
     end
 
@@ -86,7 +90,7 @@ function HeistZone:spawnEntities()
             if not typeInfo then continue end
 
             local alarm = self:spawnEnt( typeInfo.type or "dheists_alarm_base", typeInfo.pos, typeInfo.ang )
-            self:addEntity( "alarms", alarm )
+            self:addEntity( "alarms", alarm, typeInfo )
 
             -- Custom alarm sounds
             if self.alarmSound then alarm:setAlarmSound( "alarm_" .. i, self.alarmSound, self.alarmSoundData ) end
@@ -102,7 +106,7 @@ function HeistZone:spawnEntities()
             if not typeInfo then continue end
 
             local camera = self:spawnEnt( typeInfo.type, typeInfo.pos, typeInfo.ang )
-            self:addEntity( "cameras", camera )
+            self:addEntity( "cameras", camera, typeInfo )
 
             -- Set camera names if custom or fall back
             camera:SetCameraName( typeInfo.name or ( self:getName() .. " #" .. i ) )
@@ -116,7 +120,7 @@ function HeistZone:spawnEntities()
             if not typeInfo then continue end
 
             local tv = self:spawnEnt( "dheists_cctv_tv_base", typeInfo.pos, typeInfo.ang )
-            self:addEntity( "tvs", tv )
+            self:addEntity( "tvs", tv, typeInfo )
 
             tv:SetZoneName( self:getName() )
         end
@@ -128,7 +132,7 @@ function HeistZone:spawnEntities()
             local typeInfo = self.tripwires[ i ]
             if not typeInfo then continue end
 
-            self:addEntity( "tripwires", self:spawnEnt( "dheists_tripwire_alarm_base", typeInfo.pos, typeInfo.ang ) )
+            self:addEntity( "tripwires", self:spawnEnt( "dheists_tripwire_alarm_base", typeInfo.pos, typeInfo.ang ), typeInfo )
         end
     end
 
@@ -139,7 +143,7 @@ function HeistZone:spawnEntities()
             if not typeInfo then continue end
 
             local screen = self:spawnEnt( "dheists_zone_screen_base", typeInfo.pos, typeInfo.ang )
-            self:addEntity( "screens", screen )
+            self:addEntity( "screens", screen, typeInfo )
             
             screen:SetZoneName( self:getName() )
         end
@@ -151,7 +155,7 @@ function HeistZone:spawnEntities()
             local typeInfo = self.alarmButtons[ i ]
             if not typeInfo then continue end
 
-            self:addEntity( "alarmButtons", self:spawnEnt( "dheists_alarm_button", typeInfo.pos, typeInfo.ang ) )
+            self:addEntity( "alarmButtons", self:spawnEnt( "dheists_alarm_button", typeInfo.pos, typeInfo.ang ), typeInfo )
         end
     end
 end

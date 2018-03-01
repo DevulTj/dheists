@@ -19,6 +19,7 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
 
     dHeistsDB.query( [[
         CREATE TABLE IF NOT EXISTS dheists_zones_entities (
+            id BIGINT NOT NULL AUTO_INCREMENT,
             zone_name VARCHAR( 66 ) NOT NULL,
             entity TEXT NOT NULL,
             entity_class TEXT NOT NULL,
@@ -74,20 +75,16 @@ function dHeists.db.loadZones()
             local zone = dHeists.zones:createDynamicZone( zoneName, Vector( zoneInfo.origin_x, zoneInfo.origin_y, zoneInfo.origin_z ) )
 
             dHeists.db.getZoneEntities( zoneName, function( entities )
-                PrintTable( entities or {} )
-
                 for _, entInfo in pairs( entities or {} ) do
-                    print( entInfo, "registering" )
                     zone[ entInfo.entity ] = zone[ entInfo.entity ] or {}
 
                     table.insert( zone[ entInfo.entity ], {
                         type = entInfo.entity_class,
                         pos = Vector( entInfo.pos_x, entInfo.pos_y, entInfo.pos_z ),
-                        ang = Angle( entInfo.ang_p, entInfo.ang_y, entInfo.ang_r )
+                        ang = Angle( entInfo.ang_p, entInfo.ang_y, entInfo.ang_r ),
+                        creationId = etInfo.id
                     } )
                 end
-
-                print( "Spawning ents" )
 
                 zone:spawnEntities()
             end )
