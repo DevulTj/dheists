@@ -24,10 +24,7 @@ function dHeists.zones:saveNewEntsToZone( zoneId, newEntities, callback )
 
     if not zone then return end
 
-    print( "Listing new saved entities for zone id " .. zoneId )
-
     local lastId = #newEntities
-
     local function checkForEnd( id, count )
         if ( id == lastId or count == 0 ) and callback then print("Reached the end for saveNew") callback( zone ) end
     end
@@ -78,8 +75,6 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
 
     if not zone then return end
 
-    print( "Listing modified entities for zone id " .. zoneId )
-
     local lastId = #modifiedEnts
 
     local function checkForEnd( id, count )
@@ -95,12 +90,9 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
 
     local count = 0
     for id, entity in pairs( modifiedEnts ) do
-        -- @TODO: edit each entity via SQL
-
         if not IsValid( entity ) then continue end
         count = count + 1
-        
-        print( entity )
+
         dHeists.db.modifyEntityToZone( zone:getName(), entity, function( data )
             if data ~= "ERROR" then
                 print( "Saved modified entity for zone id " .. zoneId .. " - " .. tostring( entity ) )
@@ -248,6 +240,8 @@ net.Receive( "dHeists.SaveZone", function( _, player )
     dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
 
     player:setDevString( "zoneEditing", nil )
+
+    dHeists.hints:hintPlayer( player, dL "zone_saved", NOTIFY_SUCCESS )
 
     net.Start( "dHeists.StopEditZone" )
     net.Send( player )
