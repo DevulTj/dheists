@@ -7,7 +7,9 @@
 dHeists.db = dHeists.db or {}
 
 hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
-    dHeistsDB.query( [[
+    dHeistsDB.begin()
+
+    dHeistsDB.queueQuery( [[
         CREATE TABLE IF NOT EXISTS dheists_zones (
             zone_name VARCHAR( 66 ) NOT NULL PRIMARY KEY,
             origin_x BIGINT NOT NULL,
@@ -17,7 +19,7 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
         )
     ]] )
 
-    dHeistsDB.query( [[
+    dHeistsDB.queueQuery( [[
         CREATE TABLE IF NOT EXISTS dheists_zones_entities (
             id BIGINT NOT NULL AUTO_INCREMENT,
             zone_name VARCHAR( 66 ) NOT NULL,
@@ -31,12 +33,14 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
             ang_p BIGINT NOT NULL,
             ang_y BIGINT NOT NULL,
             ang_r BIGINT NOT NULL,
-            
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+            PRIMARY KEY ( id )
         )
     ]] )
 
     dHeists.db.loadZones()
+
+    dHeistsDB.commit()
 end )
 
 
@@ -65,7 +69,7 @@ function dHeists.db.createZone( player, zoneName, callback )
 end
 
 function dHeists.db.loadZones()
-    dHeistsDB.query( [[
+    dHeistsDB.queueQuery( [[
         SELECT zone_name, origin_x, origin_y, origin_z FROM dheists_zones
     ]], function( data )
         if not data then return end
@@ -82,7 +86,7 @@ function dHeists.db.loadZones()
                         type = entInfo.entity_class,
                         pos = Vector( entInfo.pos_x, entInfo.pos_y, entInfo.pos_z ),
                         ang = Angle( entInfo.ang_p, entInfo.ang_y, entInfo.ang_r ),
-                        creationId = etInfo.id
+                        creationId = entInfo.id
                     } )
                 end
 
