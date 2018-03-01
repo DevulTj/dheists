@@ -61,6 +61,7 @@ function FRAME:Setup( zoneList )
         button:Dock( TOP )
         button:SetTall( 32 )
         button:SetText( zoneName .. ( isDynamic and " (Dynamic)" or "" ) )
+        button:SetDisabled( not isDynamic )
 
         button.DoClick = function( this )
             RunConsoleCommand( "dheists", "editzone", zoneName )
@@ -135,6 +136,7 @@ end )
 net.Receive( "dHeists.StopEditZone", function()
     dHeists.currentEditingZone = nil
     dHeists.originalZonePos = nil
+    dHeists.newZoneEntities = nil
 
     if IsValid( dHeists.saveZoneButton ) then dHeists.saveZoneButton:Remove() end
 end )
@@ -178,6 +180,11 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
             net.Start( "dHeists.SaveZone" )
                 net.WriteUInt( zoneId, 16 )
                 -- @TODO: build a list of entities that have been either modified or added.
+                local newEntities = dHeists.newZoneEntities or {}
+                net.WriteTable( newEntities )
+
+                local modifiedEntities = dHeists.modifiedEntities or {}
+                net.WriteTable( modifiedEntities )
             net.SendToServer()
         end
 
@@ -189,6 +196,13 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
         local data = entityPos:ToScreen()
 
         if entity:getDevEntity( "creator" ) == LocalPlayer() then
+            dHeists.modifiedEntities = dHeists.modifiedEntities or {}
+            if not table.HasValue( dHeists.modifiedEntities, entity ) then
+                if not string.find( entity:GetClass(), "dheists_" ) then return end
+
+                table.insert( dHeists.modifiedEntities, entity )
+            end
+
             draw.SimpleTextOutlined( entity.PrintName .. " (New)", "dHeists_bagTextItalics", data.x, data.y, Color( 50, 200, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
 
@@ -198,4 +212,19 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
             draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, hasMoved and Color( 50, 50, 200 ) or Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
     end
+end )
+
+hook.Add( "OnEntityCreated", "dHeists.HookZoneCreation", function( entity )
+    local zoneId = dHeists.currentEditingZone
+    if not zoneId then return end
+
+    timer.Simple( 0, function()
+        if not IsValid( entity ) then print( "Entity is not valid" ) return end
+
+        if entity:getDevEntity( "creator" ) == LocalPlayer() then
+            dHeists.newZoneEntities = dHeists.newZoneEntities or {}
+
+            table.insert( dHeists.newZoneEntities, entity )
+        end
+    end )
 end )

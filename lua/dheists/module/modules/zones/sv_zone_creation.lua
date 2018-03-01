@@ -11,6 +11,51 @@ util.AddNetworkString( "dHeists.EditZone" )
 util.AddNetworkString( "dHeists.StopEditZone" )
 util.AddNetworkString( "dHeists.SaveZone" )
 
+dHeists.zones = dHeists.zones or {}
+
+function dHeists.zones:saveNewEntsToZone( zoneId, newEntities )
+    local zone
+    for zoneName, _zone in pairs( self.zones ) do
+        if _zone:getId() == zoneId then
+            zone = _zone
+            break
+        end
+    end
+
+    if not zone then return end
+
+    print( "Listing new saved entities for zone id " .. zoneId )
+    for _, entity in pairs( newEntities ) do
+        -- @TODO: add each entity via SQL
+        print( entity )
+    end
+end
+
+function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts )
+    local zone
+    for zoneName, _zone in pairs( self.zones ) do
+        if _zone:getId() == zoneId then
+            zone = _zone
+            break
+        end
+    end
+
+    if not zone then return end
+
+    print( "Listing modified entities for zone id " .. zoneId )
+    for _, entity in pairs( modifiedEnts ) do
+        -- @TODO: edit each entity via SQL
+        print( entity )
+    end
+end
+
+function dHeists.zones:saveZone( zoneId, newEntities, modifiedEnts )
+    self:saveNewEntsToZone( zoneId, newEntities )
+    self:saveModifiedEntsToZone( zoneId, modifiedEnts )
+
+    -- @TODO: respawn zones
+end
+
 --[[ Command to open zone creator ]]
 dHeists.commands:add( {
     name = "zones",
@@ -105,6 +150,13 @@ net.Receive( "dHeists.CreateZone", function( _, player )
 end )
 
 net.Receive( "dHeists.SaveZone", function( _, player )
+    local zoneId = net.ReadUInt( 16 )
+    if not zoneId then return end
+
+    local newEntities = net.ReadTable()
+    local modifiedEntities = net.ReadTable()
+    dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
+
     player:setDevString( "zoneEditing", nil )
 
     net.Start( "dHeists.StopEditZone" )
