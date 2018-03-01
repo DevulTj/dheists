@@ -82,7 +82,7 @@ function dHeists.db.addEntityToZone( zoneName, entity, callback )
     dHeistsDB.query( addEntitySQL:format(
         dHeistsDB.SQLStr( zoneName ),
         dHeistsDB.SQLStr( entityType ),
-        dHeistsDB.SQLStr( entity:GetClass() ),
+        dHeistsDB.SQLStr( entity.GetEntityType and entity:GetEntityType() or entity:GetClass() ),
         entPos.x, entPos.y, entPos.z,
         entAng.p, entAng.y, entAng.r
     ), callback )
@@ -138,4 +138,9 @@ end
 local getZoneEntitiesSQL = [[SELECT * FROM dheists_zones_entities WHERE zone_name = %s]]
 function dHeists.db.getZoneEntities( zoneName, callback )
     dHeistsDB.query( getZoneEntitiesSQL:format( dHeistsDB.SQLStr( zoneName ) ), callback, function( err ) print( err ) end )
+end
+
+local deleteEntitySQL = [[DELETE FROM dheists_zones_entities WHERE id = %i]]
+function dHeists.db.deleteEntity( creationId, callback )
+    dHeistsDB.query( deleteEntitySQL:format( creationId ), callback )
 end

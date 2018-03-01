@@ -47,7 +47,7 @@ function HeistZone:addEntity( key, entity, typeInfo )
     entity._entityIdentifier = key
 
     if typeInfo.creationId then
-        entity:SetNW2Int( "creationId", typeInfo.creationId )
+        entity:setDevInt( "creationId", typeInfo.creationId )
     end
 end
 

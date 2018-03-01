@@ -218,7 +218,7 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
                 table.insert( dHeists.modifiedEntities, entity )
             end
 
-            draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, hasMoved and Color( 50, 50, 200 ) or Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+            draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:getDevInt( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, hasMoved and Color( 50, 50, 200 ) or Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
     end
 end )

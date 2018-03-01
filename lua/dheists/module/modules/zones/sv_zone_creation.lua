@@ -239,3 +239,34 @@ net.Receive( "dHeists.SaveZone", function( _, player )
     net.Start( "dHeists.StopEditZone" )
     net.Send( player )
 end )
+
+function dHeists.zones:deleteEntityFromZone( zoneName, entity )
+    local zone = self.zones[ zoneName ]
+    if not zone then return end
+
+    local creationId = entity:getDevInt( "creationId" )
+    if not creationId or creationId == 0 then print("No creation ID, or is 0") return end
+
+    local entType = entity._Entity
+
+    dHeists.db.deleteEntity( creationId, function()
+        print("Success")
+
+        for _id, data in pairs( zone[ entType ] or {} ) do
+            if data.creationId == creationId then
+                zone[ entType ][ _id ] = nil
+
+                break
+            end
+        end
+    end )
+end
+
+hook.Add( "EntityRemoved", "dHeists.ZoneDeleteEntity", function( entity )
+    if not entity._Entity then print("Not proper dHeists entity") return end
+
+    local zone = entity.getZone and entity:getZone()
+    if not zone then print("No zone found") return end
+
+    dHeists.zones:deleteEntityFromZone( zone:getName(), entity )
+end )
