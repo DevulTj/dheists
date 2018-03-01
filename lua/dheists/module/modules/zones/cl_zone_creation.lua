@@ -179,12 +179,23 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
         btn.DoClick = function( this )
             net.Start( "dHeists.SaveZone" )
                 net.WriteUInt( zoneId, 16 )
-                -- @TODO: build a list of entities that have been either modified or added.
+
                 local newEntities = dHeists.newZoneEntities or {}
                 net.WriteTable( newEntities )
 
                 local modifiedEntities = dHeists.modifiedEntities or {}
-                net.WriteTable( modifiedEntities )
+                for k, v in pairs( modifiedEntities ) do
+                    if not IsValid( v ) then
+                        modifiedEntities[ k ] = nil
+                    end
+                end
+
+                local newModifiedEntities = {}
+                for k, v in pairs( modifiedEntities ) do
+                    table.insert( newModifiedEntities, v )
+                end
+
+                net.WriteTable( newModifiedEntities )
             net.SendToServer()
         end
 
@@ -196,18 +207,16 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
         local data = entityPos:ToScreen()
 
         if entity:getDevEntity( "creator" ) == LocalPlayer() then
-            dHeists.modifiedEntities = dHeists.modifiedEntities or {}
-            if not table.HasValue( dHeists.modifiedEntities, entity ) then
-                if not string.find( entity:GetClass(), "dheists_" ) then return end
-
-                table.insert( dHeists.modifiedEntities, entity )
-            end
-
             draw.SimpleTextOutlined( entity.PrintName .. " (New)", "dHeists_bagTextItalics", data.x, data.y, Color( 50, 200, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
 
         if entity.GetZoneID and entity:GetZoneID() == zoneId then
             local hasMoved = dHeists.originalZonePos and dHeists.originalZonePos[ entity ] and dHeists.originalZonePos[ entity ] ~= entity:GetPos()
+
+            dHeists.modifiedEntities = dHeists.modifiedEntities or {}
+            if hasMoved and not table.HasValue( dHeists.modifiedEntities, entity ) and entity.GetZoneID and entity:GetZoneID() == zoneId then
+                table.insert( dHeists.modifiedEntities, entity )
+            end
 
             draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, hasMoved and Color( 50, 50, 200 ) or Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end

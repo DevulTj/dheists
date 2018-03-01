@@ -13,7 +13,7 @@ util.AddNetworkString( "dHeists.SaveZone" )
 
 dHeists.zones = dHeists.zones or {}
 
-function dHeists.zones:saveNewEntsToZone( zoneId, newEntities )
+function dHeists.zones:saveNewEntsToZone( zoneId, newEntities, callback )
     local zone
     for zoneName, _zone in pairs( self.zones ) do
         if _zone:getId() == zoneId then
@@ -25,13 +25,40 @@ function dHeists.zones:saveNewEntsToZone( zoneId, newEntities )
     if not zone then return end
 
     print( "Listing new saved entities for zone id " .. zoneId )
-    for _, entity in pairs( newEntities ) do
-        -- @TODO: add each entity via SQL
-        print( entity )
+
+    local lastId = #newEntities
+
+    local function checkForEnd( id, count )
+        if ( id == lastId or count == 0 ) and callback then print("Reached the end for saveNew") callback( zone ) end
+    end
+
+    local count = 0
+    for id, entity in pairs( newEntities ) do
+        count = count + 1
+
+        if not IsValid( entity ) then checkForEnd( id, count ) continue end
+
+        dHeists.db.addEntityToZone( zone:getName(), entity, function( data, lastInsert )
+            if data ~= "ERROR" then
+                print( "Saved new entity for zone id " .. zoneId .. " - " .. tostring( entity ) )
+
+                local entType = entity._Entity
+                zone[ entType ] = zone[ entType ] or {}
+
+                table.insert( zone[ entType ], {
+                    type = entity:GetClass(),
+                    pos = entity:GetPos(),
+                    ang = entity:GetAngles(),
+                    creationId = lastInsert
+                } )
+            end
+
+            checkForEnd( id, count )
+        end )
     end
 end
 
-function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts )
+function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
     local zone
     for zoneName, _zone in pairs( self.zones ) do
         if _zone:getId() == zoneId then
@@ -43,17 +70,66 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts )
     if not zone then return end
 
     print( "Listing modified entities for zone id " .. zoneId )
-    for _, entity in pairs( modifiedEnts ) do
+
+    local lastId = #modifiedEnts
+
+    PrintTable( modifiedEnts )
+
+    local function checkForEnd( id, count )
+        if ( id == lastId or count == 0 ) and callback then print("Reached the end for saveModified") callback( zone ) end
+    end
+
+    -- If there's no entities, just skip this process.
+    if lastId == 0 then
+        if callback then print("No entities, so skipping") callback( zone ) end
+
+        return
+    end
+
+    local count = 0
+    for id, entity in pairs( modifiedEnts ) do
         -- @TODO: edit each entity via SQL
-        print( entity )
+
+        if not IsValid( entity ) then continue end
+        count = count + 1
+
+        dHeists.db.modifyEntityToZone( zone:getName(), entity, function( data )
+            if data ~= "ERROR" then
+                print( "Saved modified entity for zone id " .. zoneId .. " - " .. tostring( entity ) )
+
+                local entType = entity._Entity
+                zone[ entType ] = zone[ entType ] or {}
+
+                for entId, entData in pairs( zone[ entType ] ) do
+                    if entity:getDevEntity( "creationId" ) == entData.creationId then
+                        print( "Replacing information for entity " .. entId .. " ( " .. entData.type .. " | " .. entData.creationId .. ")" )
+                        zone[ entType ][ entId ] = {
+                            type = entData.type,
+                            pos = entity:GetPos(),
+                            ang = entity:GetAngles(),
+                            creationId = entData.creationId
+                        }
+
+                        break
+                    end
+                end
+
+                checkForEnd( id, count )
+            end
+        end )
     end
 end
 
 function dHeists.zones:saveZone( zoneId, newEntities, modifiedEnts )
-    self:saveNewEntsToZone( zoneId, newEntities )
-    self:saveModifiedEntsToZone( zoneId, modifiedEnts )
+    self:saveNewEntsToZone( zoneId, newEntities, function()
+        self:saveModifiedEntsToZone( zoneId, modifiedEnts, function( zone )
 
-    -- @TODO: respawn zones
+            for k, v in pairs( newEntities ) do SafeRemoveEntity( v ) end
+
+            zone:destroyEntities()
+            zone:spawnEntities()
+        end )
+    end )
 end
 
 --[[ Command to open zone creator ]]
@@ -155,6 +231,7 @@ net.Receive( "dHeists.SaveZone", function( _, player )
 
     local newEntities = net.ReadTable()
     local modifiedEntities = net.ReadTable()
+
     dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
 
     player:setDevString( "zoneEditing", nil )

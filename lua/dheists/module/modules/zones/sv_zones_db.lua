@@ -68,6 +68,45 @@ function dHeists.db.createZone( player, zoneName, callback )
     end )
 end
 
+local addEntitySQL = [[INSERT INTO dheists_zones_entities (zone_name, entity, entity_class, pos_x, pos_y, pos_z, ang_p, ang_y, ang_r) 
+                       VALUES(%s, %s, %s, %i, %i, %i, %i, %i, %i)]]
+
+function dHeists.db.addEntityToZone( zoneName, entity, callback )
+
+    local entityType = entity._Entity
+    if not entityType then return end
+
+    local entPos = entity:GetPos()
+    local entAng = entity:GetAngles()
+
+    dHeistsDB.query( addEntitySQL:format(
+        dHeistsDB.SQLStr( zoneName ),
+        dHeistsDB.SQLStr( entityType ),
+        dHeistsDB.SQLStr( entity:GetClass() ),
+        entPos.x, entPos.y, entPos.z,
+        entAng.p, entAng.y, entAng.r
+    ), callback )
+end
+
+local modifyEntitySQL = [[UPDATE dheists_zones_entities SET 
+                            pos_x = %i, pos_y = %i, pos_z = %i, ang_p = %i, ang_y = %i, ang_r = %i 
+                            WHERE id = %i
+                        ]]
+
+function dHeists.db.modifyEntityToZone( zoneName, entity, callback )
+    local creationId = entity:getDevInt( "creationId" )
+    if not creationId or creationId == 0 then return end
+
+    local entPos = entity:GetPos()
+    local entAng = entity:GetAngles()
+
+    dHeistsDB.query( modifyEntitySQL:format(
+        entPos.x, entPos.y, entPos.z,
+        entAng.p, entAng.y, entAng.r,
+        creationId
+    ), callback )
+end
+
 function dHeists.db.loadZones()
     dHeistsDB.queueQuery( [[
         SELECT zone_name, origin_x, origin_y, origin_z FROM dheists_zones

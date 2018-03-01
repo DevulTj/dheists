@@ -19,6 +19,9 @@ ENT.AdminSpawnable	= true
 ENT.IsAlarm = true
 ENT.DHeists = true
 
+-- Used for saving
+ENT._Entity = "tvs"
+
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
     self:NetworkVar( "String", 0, "ZoneName" )

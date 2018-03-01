@@ -19,6 +19,9 @@ ENT.AdminSpawnable	= true
 ENT.IsRobbableEntity = true
 ENT.DHeists = true
 
+-- Used for saving
+ENT._Entity = "objects"
+
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "ZoneID" )
     self:NetworkVar( "String", 0, "EntityType" )

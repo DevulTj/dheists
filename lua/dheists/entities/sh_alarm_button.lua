@@ -19,6 +19,9 @@ ENT.AdminSpawnable	= true
 ENT.IsAlarmButton = true
 ENT.DHeists = true
 
+-- Used for saving
+ENT._Entity = "alarmButtons"
+
 function ENT:SetupDataTables()
 
 end
