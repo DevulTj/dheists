@@ -20,6 +20,7 @@ ENT.IsRobbableEntity = true
 ENT.DHeists = true
 
 function ENT:SetupDataTables()
+    self:NetworkVar( "Int", 0, "ZoneID" )
     self:NetworkVar( "String", 0, "EntityType" )
     self:NetworkVar( "Entity", 0, "Drill" )
 
@@ -51,6 +52,8 @@ if SERVER then
 
     function ENT:setZone( zone )
         self.zone = zone
+
+        self:SetZoneID( zone:getId() )
     end
 
     function ENT:setEntityType( entType )

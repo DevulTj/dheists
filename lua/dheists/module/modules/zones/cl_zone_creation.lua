@@ -113,9 +113,15 @@ net.Receive( "dHeists.OpenZoneCreator", function()
     dHeists.zoneList = frame
 end )
 
-hook.Add( "PostPlayerDraw", "dHeists.ZoneCreator", function( player )
+net.Receive( "dHeists.EditZone", function()
+    local zoneId = net.ReadUInt( 16 )
+    dHeists.currentEditingZone = zoneId
+
+end )
+
+hook.Add( "PostPlayerDraw", "dHeists.ZoneEditor", function( player )
     if not player:Alive() then return end
-    if not player:getDevBool( "inZoneCreator", false ) then return end
+    if not player:getDevBool( "inZoneEditor", false ) then return end
 
     local offset = Vector( 0, 0, 79 )
     local ang = LocalPlayer():EyeAngles()

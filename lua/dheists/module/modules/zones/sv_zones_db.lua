@@ -70,7 +70,32 @@ function dHeists.db.loadZones()
         if not data then return end
 
         for _, zoneInfo in pairs( data ) do
-            dHeists.zones:createDynamicZone( zoneInfo.zone_name, Vector( zoneInfo.origin_x, zoneInfo.origin_y, zoneInfo.origin_z ) )
+            local zoneName = zoneInfo.zone_name
+            local zone = dHeists.zones:createDynamicZone( zoneName, Vector( zoneInfo.origin_x, zoneInfo.origin_y, zoneInfo.origin_z ) )
+
+            dHeists.db.getZoneEntities( zoneName, function( entities )
+                PrintTable( entities or {} )
+
+                for _, entInfo in pairs( entities or {} ) do
+                    print( entInfo, "registering" )
+                    zone[ entInfo.entity ] = zone[ entInfo.entity ] or {}
+
+                    table.insert( zone[ entInfo.entity ], {
+                        type = entInfo.entity_class,
+                        pos = Vector( entInfo.pos_x, entInfo.pos_y, entInfo.pos_z ),
+                        ang = Angle( entInfo.ang_p, entInfo.ang_y, entInfo.ang_r )
+                    } )
+                end
+
+                print( "Spawning ents" )
+
+                zone:spawnEntities()
+            end )
         end
     end )
+end
+
+local getZoneEntitiesSQL = [[SELECT * FROM dheists_zones_entities WHERE zone_name = %s]]
+function dHeists.db.getZoneEntities( zoneName, callback )
+    dHeistsDB.query( getZoneEntitiesSQL:format( dHeistsDB.SQLStr( zoneName ) ), callback, function( err ) print( err ) end )
 end
