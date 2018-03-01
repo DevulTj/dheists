@@ -38,6 +38,20 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
+    function ENT:SpawnFunction( ply, tr, ClassName )
+        if not tr.Hit then return end
+
+        local SpawnPos = tr.HitPos + tr.HitNormal * 16
+
+        local ent = ents.Create( ClassName )
+        ent:SetPos( SpawnPos )
+        ent:setDevEntity( "creator", ply )
+        ent:Spawn()
+        ent:Activate()
+
+        return ent
+    end
+
     function ENT:Initialize()
         local selectedModel = dHeists.config.bagModel
         local isValidModel = file.Exists( selectedModel, "GAME" )

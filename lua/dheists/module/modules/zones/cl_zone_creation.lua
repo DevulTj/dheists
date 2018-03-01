@@ -148,9 +148,14 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
         if not zoneId then return end
 
         for _, entity in pairs( ents.FindByClass( "dheists_*" ) ) do
-            if entity.GetZoneID and entity:GetZoneID() == zoneId then
-                local data = entity:GetPos():ToScreen()
+            local entityPos = entity:GetPos()
+            local data = entityPos:ToScreen()
 
+            if entity:getDevEntity( "creator" ) == LocalPlayer() then
+                draw.SimpleTextOutlined( entity.PrintName .. " (New)", "dHeists_bagTextItalics", data.x, data.y, Color( 50, 200, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+            end
+
+            if entity.GetZoneID and entity:GetZoneID() == zoneId then
                 draw.SimpleTextOutlined( entity.PrintName .. ( " (#%s)" ):format( entity:GetNW2Int( "creationId" ) ), "dHeists_bagTextItalics", data.x, data.y, Color( 200, 50, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
             end
         end
