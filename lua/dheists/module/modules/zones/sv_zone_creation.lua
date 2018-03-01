@@ -33,6 +33,13 @@ function dHeists.zones:saveNewEntsToZone( zoneId, newEntities, callback )
     end
 
     local count = 0
+
+    if lastId == 0 then
+        if callback then callback( zone ) end
+
+        return
+    end
+
     for id, entity in pairs( newEntities ) do
         count = count + 1
 
@@ -43,10 +50,12 @@ function dHeists.zones:saveNewEntsToZone( zoneId, newEntities, callback )
                 print( "Saved new entity for zone id " .. zoneId .. " - " .. tostring( entity ) )
 
                 local entType = entity._Entity
+                if not entType then debug.Trace() return end
+
                 zone[ entType ] = zone[ entType ] or {}
 
                 table.insert( zone[ entType ], {
-                    type = entity:GetClass(),
+                    type = entity.GetEntityType and entity:GetEntityType() or entity:GetClass(),
                     pos = entity:GetPos(),
                     ang = entity:GetAngles(),
                     creationId = lastInsert
@@ -73,8 +82,6 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
 
     local lastId = #modifiedEnts
 
-    PrintTable( modifiedEnts )
-
     local function checkForEnd( id, count )
         if ( id == lastId or count == 0 ) and callback then print("Reached the end for saveModified") callback( zone ) end
     end
@@ -92,7 +99,8 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
 
         if not IsValid( entity ) then continue end
         count = count + 1
-
+        
+        print( entity )
         dHeists.db.modifyEntityToZone( zone:getName(), entity, function( data )
             if data ~= "ERROR" then
                 print( "Saved modified entity for zone id " .. zoneId .. " - " .. tostring( entity ) )
@@ -100,8 +108,11 @@ function dHeists.zones:saveModifiedEntsToZone( zoneId, modifiedEnts, callback )
                 local entType = entity._Entity
                 zone[ entType ] = zone[ entType ] or {}
 
+                local creationId = entity:getDevInt( "creationId" )
+
                 for entId, entData in pairs( zone[ entType ] ) do
-                    if entity:getDevEntity( "creationId" ) == entData.creationId then
+                    print(type(creationId), type(entData.creationId))
+                    if creationId == tonumber( entData.creationId ) then
                         print( "Replacing information for entity " .. entId .. " ( " .. entData.type .. " | " .. entData.creationId .. ")" )
                         zone[ entType ][ entId ] = {
                             type = entData.type,
@@ -232,6 +243,8 @@ net.Receive( "dHeists.SaveZone", function( _, player )
     local newEntities = net.ReadTable()
     local modifiedEntities = net.ReadTable()
 
+    PrintTable( modifiedEntities )
+
     dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
 
     player:setDevString( "zoneEditing", nil )
@@ -250,8 +263,6 @@ function dHeists.zones:deleteEntityFromZone( zoneName, entity )
     local entType = entity._Entity
 
     dHeists.db.deleteEntity( creationId, function()
-        print("Success")
-
         for _id, data in pairs( zone[ entType ] or {} ) do
             if data.creationId == creationId then
                 zone[ entType ][ _id ] = nil
@@ -261,12 +272,3 @@ function dHeists.zones:deleteEntityFromZone( zoneName, entity )
         end
     end )
 end
-
-hook.Add( "EntityRemoved", "dHeists.ZoneDeleteEntity", function( entity )
-    if not entity._Entity then print("Not proper dHeists entity") return end
-
-    local zone = entity.getZone and entity:getZone()
-    if not zone then print("No zone found") return end
-
-    dHeists.zones:deleteEntityFromZone( zone:getName(), entity )
-end )

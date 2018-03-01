@@ -214,7 +214,7 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
             local hasMoved = dHeists.originalZonePos and dHeists.originalZonePos[ entity ] and dHeists.originalZonePos[ entity ] ~= entity:GetPos()
 
             dHeists.modifiedEntities = dHeists.modifiedEntities or {}
-            if hasMoved and not table.HasValue( dHeists.modifiedEntities, entity ) and entity.GetZoneID and entity:GetZoneID() == zoneId then
+            if hasMoved and not table.HasValue( dHeists.modifiedEntities, entity ) then
                 table.insert( dHeists.modifiedEntities, entity )
             end
 
