@@ -9,6 +9,7 @@ util.AddNetworkString( "dHeists.CloseZoneCreator" )
 util.AddNetworkString( "dHeists.CreateZone" )
 util.AddNetworkString( "dHeists.EditZone" )
 util.AddNetworkString( "dHeists.StopEditZone" )
+util.AddNetworkString( "dHeists.SaveZone" )
 
 --[[ Command to open zone creator ]]
 dHeists.commands:add( {
@@ -52,7 +53,9 @@ dHeists.commands:add( {
                 return
             end
 
-            text = table.concat( text, " " )
+            if istable( text ) then
+                text = table.concat( text, " " )
+            end
 
             local zone = dHeists.zones.zones[ text ]
             if not zone then return end
@@ -99,4 +102,11 @@ net.Receive( "dHeists.CreateZone", function( _, player )
     local zoneName = net.ReadString()
 
     dHeists.zones:createZone( player, zoneName )
+end )
+
+net.Receive( "dHeists.SaveZone", function( _, player )
+    player:setDevString( "zoneEditing", nil )
+
+    net.Start( "dHeists.StopEditZone" )
+    net.Send( player )
 end )

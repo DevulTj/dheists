@@ -36,7 +36,7 @@ function FRAME:Init()
     self.createZone.DoClick = function( this )
         dHeists.zoneCreationMenu = vgui.Create( "dHeists.ZoneCreationMenu" )
 
-        self:Remove()
+        self:Close()
     end
 
     self.panel = self:Add( "DPanel" )
@@ -61,6 +61,12 @@ function FRAME:Setup( zoneList )
         button:Dock( TOP )
         button:SetTall( 32 )
         button:SetText( zoneName .. ( isDynamic and " (Dynamic)" or "" ) )
+
+        button.DoClick = function( this )
+            RunConsoleCommand( "dheists", "editzone", zoneName )
+
+            self:Close()
+        end
     end
 
     self.title:SetText( ZONES_TITLE:format( count, count == 1 and "" or "s" ) )
@@ -129,6 +135,8 @@ end )
 net.Receive( "dHeists.StopEditZone", function()
     dHeists.currentEditingZone = nil
     dHeists.originalZonePos = nil
+
+    if IsValid( dHeists.saveZoneButton ) then dHeists.saveZoneButton:Remove() end
 end )
 
 hook.Add( "PostPlayerDraw", "dHeists.ZoneEditor", function( player )
@@ -158,6 +166,23 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
     local zoneName = LocalPlayer():getDevString( "zoneEditing" )
     draw.SimpleTextOutlined( dL( "editing_zone", zoneName ), "dHeistsHuge", ScrW() / 2, ScrH() * 0.01, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
     draw.SimpleTextOutlined( dL "save_zone_prompt", "dHeists_bagTextItalics", ScrW() / 2, ScrH() * 0.065, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+
+    if not IsValid( dHeists.saveZoneButton ) then
+        local btn = vgui.Create( "DButton" )
+        btn:SetSkin( "devUI" )
+        btn:SetSize( 256, 32 )
+        btn:SetPos( ScrW() / 2 - ( btn:GetWide() / 2 ), ScrH() * 0.095 )
+        btn:SetText( dL "save_zone" )
+
+        btn.DoClick = function( this )
+            net.Start( "dHeists.SaveZone" )
+                net.WriteUInt( zoneId, 16 )
+                -- @TODO: build a list of entities that have been either modified or added.
+            net.SendToServer()
+        end
+
+        dHeists.saveZoneButton = btn
+    end
 
     for _, entity in pairs( ents.FindByClass( "dheists_*" ) ) do
         local entityPos = entity:GetPos()

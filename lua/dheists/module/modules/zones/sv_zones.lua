@@ -65,7 +65,7 @@ function dHeists.zones:createDynamicZone( zoneName, origin )
     self.zones[ zoneName ] = zone
 
     dHeists.print( "Created dynamic zone " .. zoneName .. " (" .. tostring( zone ) .. ")" )
-    
+
     return zone
 end
 
