@@ -75,14 +75,14 @@ if SERVER then
 
     function ENT:Use( player )
         local bag = player:getBag()
-        if not bag then player:dHeistsNotify( dL "loot_hint_text", NOTIFY_ERROR ) return end
+        if not bag then player:dHeistsHint( dL "loot_hint_text", NOTIFY_ERROR ) return end
 
         dHeists.actions.doAction( player, self.actionTime or 0, function()
             if not player:getBag() then return end
 
             local canDo, reason = player:addLoot( self:GetLootType() )
             if canDo == false then
-                player:dHeistsNotify( reason or "You can't pick this up", NOTIFY_ERROR )
+                player:dHeistsHint( reason or "You can't pick this up", NOTIFY_ERROR )
 
                 return
             end
@@ -91,7 +91,7 @@ if SERVER then
         end, {
             ent = self,
             ActionColor = dHeists.config.pickUpLootActionColor,
-            ActionTimeRemainingTextPhrase =dL( "picking_up_loot" )
+            ActionTimeRemainingTextPhrase = dL( "picking_up_loot" )
         } )
     end
 

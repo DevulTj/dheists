@@ -57,6 +57,7 @@ function NOTIFICATION:Setup( text, hintType, lifetime )
 
     self:SizeTo( self.targetW, self:GetTall(), FADE_TIME, 0, 1.5, function()
         timer.Simple( lifetime, function()
+            if not IsValid( self ) then return end
             self:Close()
         end )
     end )
@@ -112,6 +113,10 @@ end
 vgui.Register( "dHeistsHint", NOTIFICATION, "DPanel" )
 
 function dHeists.hints:add( text, hintType, lifetime )
+    if IsValid( dHeists.currentHint ) then
+        dHeists.currentHint:Remove()
+    end
+
     dHeists.currentHint = vgui.Create( "dHeistsHint" )
     dHeists.currentHint:Setup( text, hintType, lifetime )
 end

@@ -231,6 +231,9 @@ if SERVER then
 
     function ENT:setDrill( drillEnt )
         if not self.GetEntityType then return end
+        if self.CanNextInteract and self.CanNextInteract > CurTime() then return end
+
+        self.CanNextInteract = CurTime() + 1
 
         local canDo, reason = self:canRob()
         if canDo == false then
