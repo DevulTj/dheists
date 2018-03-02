@@ -8,11 +8,6 @@ dHeists.privileges = {
 
 function dHeists.registerPrivilege( data )
     CAMI.RegisterPrivilege( data )
-
-    -- Add ServerGuard support
-    if serverguard then
-        serverguard.permission:Add( data.Name )
-    end
 end
 
 local function registerPrivileges()
@@ -38,7 +33,4 @@ local function registerPrivileges()
     }
 end
 
-hook.Add( "InitPostEntity", "dheists.privileges", registerPrivileges )
-
--- Auto-refresh support
 registerPrivileges()

@@ -6,17 +6,9 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
-local pocketWhitelist = {
-    [ "dheists_drill_base" ] = function( ent )
-        if ent:GetIsDrilling() then return false end
-
-        return true
-    end,
-}
-
 hook.Add( "canPocket", "dHeists.disallowPocket", function( player, entity )
     if entity.DHeists and dHeists.config.disablePocket then
-        if pocketWhitelist[ entity:GetClass() ] then return pocketWhitelist[ entity:GetClass() ]( entity ) end
+        if dHeists.pocketWhitelist[ entity:GetClass() ] then return dHeists.pocketWhitelist[ entity:GetClass() ]( entity ) end
 
         return false
     end
