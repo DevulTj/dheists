@@ -65,5 +65,10 @@ i18n.registerPhrases( "en", {
     save_zone_prompt = "Press Y and press 'Save' to save your changes",
     save_zone = "Save",
     editing_zone = "Editing Zone '%s'",
-    zone_saved = "You saved a Zone"
+    zone_saved = "You saved a Zone",
+
+    drill_active = "Drill is active",
+    cooldown_active = "Cooldown is active",
+    required_tools = "Required tools:%s",
+    not_enough_cops = "Not enough Police online"
 } )

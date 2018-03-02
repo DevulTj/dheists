@@ -172,7 +172,7 @@ if SERVER then
 
     function ENT:canDeploy( player )
         if self:isOnCooldown() then
-            player:dHeistsNotify( "Cooldown is active", NOTIFY_ERROR )
+            player:dHeistsNotify( dL "cooldown_active", NOTIFY_ERROR )
 
             return
         end
@@ -182,7 +182,7 @@ if SERVER then
             if drill:isFinished() then
                 return true
             else
-                player:dHeistsNotify( "Drill is active", NOTIFY_ERROR )
+                player:dHeistsHint( dL "drill_active", NOTIFY_ERROR )
 
                 return false
             end
@@ -199,7 +199,7 @@ if SERVER then
 
         toolList = toolList:sub( 1, #toolList - 1 )
 
-        player:dHeistsNotify( "You can use the following tools to unlock this:" .. toolList )
+        player:dHeistsHint( dL( "required_tools", toolList ), NOTIFY_HINT )
 
         return false
     end
@@ -209,20 +209,38 @@ if SERVER then
     end
 
     function ENT:canRob()
-        if self.GetDrill and IsValid( self:GetDrill() ) then return false, "Drill is active" end -- Disallow more than one drill on an entity at once.
-        if self:isOnCooldown() then return false, "On cooldown" end
+        if self.GetDrill and IsValid( self:GetDrill() ) then return false, dL "drill_active" end -- Disallow more than one drill on an entity at once.
+        if self:isOnCooldown() then return false, dL "cooldown_active" end
 
-        if self:getZone() and not self:getZone():isRequiredPoliceCount() then return false, "Not enough Police online" end
+        if self:getZone() and not self:getZone():isRequiredPoliceCount() then return false, dL "not_enough_cops" end
 
         return true
     end
+
+    hook.Add( "GravGunOnPickedUp", "dHeists.Drills", function( player, entity )
+        if entity.DHeists and entity.IsDrill then
+            entity:SetLastPickedUp( player )
+        end
+    end )
+
+    hook.Add( "GravGunOnDropped", "dHeists.Drills", function( player, entity )
+        if entity.DHeists and entity.IsDrill then
+            entity:SetLastPickedUp( nil )
+        end
+    end )
 
     function ENT:setDrill( drillEnt )
         if not self.GetEntityType then return end
 
         local canDo, reason = self:canRob()
         if canDo == false then
-            if reason then dHeists.print( reason ) end
+            if reason then
+                if IsValid( drillEnt:GetLastPickedUp() ) then
+                    drillEnt:GetLastPickedUp():dHeistsHint( reason, NOTIFY_ERROR )
+                else
+                    dHeists.print( reason )
+                end
+            end
             return
         end
 

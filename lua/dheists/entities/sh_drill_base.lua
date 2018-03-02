@@ -37,6 +37,7 @@ function ENT:SetupDataTables()
     self:NetworkVar( "Bool", 0, "IsDrilling" )
     self:NetworkVar( "Float", 0, "DrillStart" )
     self:NetworkVar( "Float", 1, "DrillEnd" )
+    self:NetworkVar( "Entity", 1, "LastPickedUp" )
 end
 
 function ENT:SpawnFunction( ply, tr, ClassName )
