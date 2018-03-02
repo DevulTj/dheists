@@ -70,5 +70,6 @@ i18n.registerPhrases( "en", {
     drill_active = "Drill is active",
     cooldown_active = "Cooldown is active",
     required_tools = "Required tools:%s",
-    not_enough_cops = "Not enough Police online"
+    not_enough_cops = "Not enough Police online",
+    reloaded_zones = "Reloaded all Zones"
 } )

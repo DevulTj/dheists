@@ -41,6 +41,8 @@ concommand.Add( "dheists_reload_zones", function( player )
     local function hasAccessCallback( hasAccess )
         if not hasAccess then return end
 
+        if IsValid( player ) then player:dHeistsHint( dL "reloaded_zones", NOTIFY_SUCCESS ) end
+
         dHeists.zones:spawnZones()
     end
 
