@@ -6,25 +6,39 @@ dHeists.privileges = {
     EDIT_ZONES = "dHeists_edit_zones",
 }
 
-CAMI.RegisterPrivilege {
-    Name = dHeists.privileges.RELOAD_ZONES,
-    Description = "",
-    MinAccess = "admin"
-}
+function dHeists.registerPrivilege( data )
+    CAMI.RegisterPrivilege( data )
 
-CAMI.RegisterPrivilege {
-    Name = dHeists.privileges.RELOAD_ENTS,
-    MinAccess = "admin"
-}
+    -- Add ServerGuard support
+    if serverguard then
+        serverguard.permission:Add( data.Name )
+    end
+end
 
--- DEBUG PRIVILEGES
-CAMI.RegisterPrivilege {
-    Name = dHeists.privileges.DEBUG_SET_BAG_TYPE,
-    MinAccess = "superadmin"
-}
+local function registerPrivileges()
+    dHeists.registerPrivilege {
+        Name = dHeists.privileges.RELOAD_ZONES,
+        Description = "",
+        MinAccess = "superadmin"
+    }
 
--- DEBUG PRIVILEGES
-CAMI.RegisterPrivilege {
-    Name = dHeists.privileges.EDIT_ZONES,
-    MinAccess = "superadmin"
-}
+    dHeists.registerPrivilege {
+        Name = dHeists.privileges.RELOAD_ENTS,
+        MinAccess = "superadmin"
+    }
+
+    dHeists.registerPrivilege {
+        Name = dHeists.privileges.DEBUG_SET_BAG_TYPE,
+        MinAccess = "superadmin"
+    }
+
+    dHeists.registerPrivilege {
+        Name = dHeists.privileges.EDIT_ZONES,
+        MinAccess = "superadmin"
+    }
+end
+
+hook.Add( "InitPostEntity", "dheists.privileges", registerPrivileges )
+
+-- Auto-refresh support
+registerPrivileges()
