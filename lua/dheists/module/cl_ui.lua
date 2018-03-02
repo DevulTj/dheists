@@ -317,7 +317,7 @@ timer.Simple( 0, function()
     end
 
     function SKIN:PaintWindowCloseButton( panel, w, h )
-        draw.SimpleText("✕", SKIN.fontFrame, w / 1.5, h / 3, panel:IsDown() and Color( 125, 125, 125, 255 ) or panel:IsHovered() and Color( 185, 185, 185, 255 ) or color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+        draw.SimpleText("✕", SKIN.fontFrame, w / 1.5, h / 2.5, panel:IsDown() and Color( 125, 125, 125, 255 ) or panel:IsHovered() and Color( 185, 185, 185, 255 ) or color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
     end
 
     --[[---------------------------------------------------------
