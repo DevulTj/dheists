@@ -11,10 +11,12 @@ function dHeists.zones:spawnZones()
     for zoneName, zone in pairs( self.zones ) do
         -- Clear objects and the zone itself
         zone:destroyEntities()
-        self.zones[ zoneName ] = nil
+        zone:spawnEntities()
     end
 
     for zoneName, typeInfo in pairs( self:getZones() or {} ) do
+        if self.zones[ zoneName ] then continue end
+
         -- Create zone object
         local zone = HeistZone:new( typeInfo )
         zone:setName( zoneName )

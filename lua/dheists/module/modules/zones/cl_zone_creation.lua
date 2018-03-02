@@ -9,7 +9,7 @@ local FRAME = {}
 local ZONES_TITLE = "Listing %i zone%s"
 
 function FRAME:Init()
-    self:SetSize( 256, 256 )
+    self:SetSize( 256, 256 + 34 )
     self:Center()
     self:SetTitle( "Zones" )
     self:MakePopup()
@@ -26,6 +26,19 @@ function FRAME:Init()
     self.desc:SetFont( "devUI_TextSmall" )
     self.desc:SetTall( 20 )
     self.desc:SetContentAlignment( 1 )
+
+    self.reloadAllZones = self:Add( "DButton" )
+    self.reloadAllZones:SetText( "Reload All Zones" )
+    self.reloadAllZones:Dock( BOTTOM )
+    self.reloadAllZones:SetTall( 32 )
+    self.reloadAllZones:DockMargin( 0, 4, 0, 0 )
+    self.reloadAllZones.Tint = Color( 50, 25, 25 )
+
+    self.reloadAllZones.DoClick = function( this )
+        RunConsoleCommand( "dheists_reload_zones" )
+
+        self:Close()
+    end
 
     self.createZone = self:Add( "DButton" )
     self.createZone:SetText( "Create Zone" )
