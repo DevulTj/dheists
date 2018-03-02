@@ -52,17 +52,17 @@ local function createZone( player, zoneName, origin, callback )
     if not tonumber( origin.x ) and not tonumber( origin.y ) and not tonumber( origin.z ) then return end
 
     dHeistsDB.query( zoneInsertSQL:format( dHeistsDB.SQLStr( zoneName ), ceil( origin.x ), ceil( origin.y ), ceil( origin.z ) ), function( data )
-        player:dHeistsNotify( dL "zone_created" )
+        player:dHeistsHint( dL "zone_created" )
 
         if callback then callback() end
     end, function( err )
-        player:dHeistsNotify( dL "zone_duplicate", NOTIFY_ERROR )
+        player:dHeistsHint( dL "zone_duplicate", NOTIFY_ERROR )
     end )
 end
 
 function dHeists.db.createZone( player, zoneName, callback )
-    CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ENTS, function( hasAccess )
-        if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
+    CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
+        if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
 
         createZone( player, zoneName, player:GetPos(), callback )
     end )

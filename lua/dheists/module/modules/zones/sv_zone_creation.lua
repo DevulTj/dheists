@@ -142,7 +142,7 @@ dHeists.commands:add( {
         return true
     end,
     func = function( player, text, commandData )
-        CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ENTS, function( hasAccess )
+        CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
             if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
 
             if player:getDevBool( "inZoneCreator" ) == true then
@@ -167,7 +167,7 @@ dHeists.commands:add( {
         return true
     end,
     func = function( player, text, commandData )
-        CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ENTS, function( hasAccess )
+        CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
             if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
             if not text then return end
 
@@ -200,7 +200,7 @@ dHeists.commands:add( {
         return true
     end,
     func = function( player, text, commandData )
-        CAMI.PlayerHasAccess( player, dHeists.privileges.RELOAD_ENTS, function( hasAccess )
+        CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
             if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
             if not text then return end
 
@@ -219,7 +219,11 @@ dHeists.commands:add( {
 } )
 
 net.Receive( "dHeists.CloseZoneCreator", function( _, player )
-    player:setDevBool( "inZoneCreator", false )
+    CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
+        if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
+
+        player:setDevBool( "inZoneCreator", false )
+    end )
 end )
 
 net.Receive( "dHeists.CreateZone", function( _, player )
@@ -232,19 +236,21 @@ net.Receive( "dHeists.SaveZone", function( _, player )
     local zoneId = net.ReadUInt( 16 )
     if not zoneId then return end
 
-    local newEntities = net.ReadTable()
-    local modifiedEntities = net.ReadTable()
+    CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
+        if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
 
-    PrintTable( modifiedEntities )
+        local newEntities = net.ReadTable()
+        local modifiedEntities = net.ReadTable()
 
-    dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
+        dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
 
-    player:setDevString( "zoneEditing", nil )
+        player:setDevString( "zoneEditing", nil )
 
-    dHeists.hints:hintPlayer( player, dL "zone_saved", NOTIFY_SUCCESS )
+        dHeists.hints:hintPlayer( player, dL "zone_saved", NOTIFY_SUCCESS )
 
-    net.Start( "dHeists.StopEditZone" )
-    net.Send( player )
+        net.Start( "dHeists.StopEditZone" )
+        net.Send( player )
+    end )
 end )
 
 function dHeists.zones:deleteEntityFromZone( zoneName, entity )

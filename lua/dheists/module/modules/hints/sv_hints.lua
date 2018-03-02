@@ -19,3 +19,8 @@ function dHeists.hints:hintPlayer( player, text, hintType, lifetime )
         net.WriteUInt( lifetime or 3, 4 )
     net.Send( player )
 end
+
+local PLAYER = FindMetaTable( "Player" )
+function PLAYER:dHeistsHint( text, hintType, lifetime )
+    return dHeists.hints:hintPlayer( self, text, hintType, lifetime )
+end
