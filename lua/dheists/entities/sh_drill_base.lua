@@ -34,6 +34,7 @@ sound.Add {
 ENT.IsDrill = true
 
 function ENT:SetupDataTables()
+    self:NetworkVar( "String", 2, "DrillType" )
     self:NetworkVar( "Bool", 0, "IsDrilling" )
     self:NetworkVar( "Float", 0, "DrillStart" )
     self:NetworkVar( "Float", 1, "DrillEnd" )
@@ -72,7 +73,33 @@ function ENT:Initialize()
     self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
     self:Activate()
 
+    local randomDrillData = table.Random( dHeists.drills.list )
+    if not randomDrillData then
+        SafeRemoveEntity( self )
+
+        return
+    end
+
+    self:setDrillType( randomDrillData )
     self:SetAutomaticFrameAdvance( false )
+end
+
+function ENT:setDrillType( drillType )
+    local drillData = istable( drillType ) and drillType or dHeists.drills:getDrill( drillType )
+    if not drillData then return end
+
+    self:SetDrillType( drillData.name )
+
+    if drillData.model then
+        self:SetModel( drillData.model )
+    end
+
+    if drillData.skin then
+        self:SetSkin( drillData.skin )
+    end
+
+    self.rate = drillData.rate
+    self.InventoryItemID = drillData
 end
 
 function ENT:getPercent()
