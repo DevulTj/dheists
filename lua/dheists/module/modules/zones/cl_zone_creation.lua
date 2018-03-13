@@ -32,7 +32,6 @@ function FRAME:Init()
     self.reloadAllZones:Dock( BOTTOM )
     self.reloadAllZones:SetTall( 32 )
     self.reloadAllZones:DockMargin( 0, 4, 0, 0 )
-    self.reloadAllZones.Tint = Color( 50, 25, 25 )
 
     self.reloadAllZones.DoClick = function( this )
         RunConsoleCommand( "dheists_reload_zones" )
@@ -80,6 +79,43 @@ function FRAME:Setup( zoneList )
             RunConsoleCommand( "dheists", "editzone", zoneName )
 
             self:Close()
+        end
+
+        if isDynamic then
+            local deleteButton = button:Add( "DButton" )
+            deleteButton:Dock( RIGHT )
+            deleteButton:SetWide( 6 )
+            deleteButton:SetText( "" )
+            deleteButton.Tint = Color( 125, 50, 50 )
+
+            deleteButton.PaintOver = function( this, w, h )
+                local isHovered = this:IsHovered()
+
+                if not this.inMovement then
+                    if isHovered then
+                        this.inMovement = true
+                        this:SizeTo( 48, this:GetTall(), 0.5, 0, 2.5, function()
+                            this.inMovement = false
+                        end )
+                    else
+                        this:SizeTo( 6, this:GetTall(), 0.5, 0, 2.5 )
+                    end
+                end
+
+                if isHovered then this:SetText( "Delete" ) else this:SetText( "" ) end
+            end
+
+            deleteButton.DoClick = function( this )
+                Derma_Query( dL "delete_zone_confirmation", "",
+                    dL "yes", function()
+                        RunConsoleCommand( "dheists", "deletezone", zoneName )
+                        self:Close()
+                    end,
+                    dL "no", function()
+
+                    end
+                )
+            end
         end
     end
 
