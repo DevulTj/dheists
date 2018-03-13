@@ -74,11 +74,11 @@ function dHeists.zones:createDynamicZone( zoneName, origin )
 end
 
 
-function dHeists.zones:createZone( player, zoneName )
+function dHeists.zones:createZone( player, zoneName, origin )
     CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
         if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
 
-        dHeists.db.createZone( player, zoneName, function( origin )
+        dHeists.db.createZone( player, zoneName, function()
             self:createDynamicZone( zoneName, origin )
         end )
     end )

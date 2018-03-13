@@ -252,7 +252,7 @@ end )
 net.Receive( "dHeists.CreateZone", function( _, player )
     local zoneName = net.ReadString()
 
-    dHeists.zones:createZone( player, zoneName )
+    dHeists.zones:createZone( player, zoneName, player:GetPos() )
 end )
 
 net.Receive( "dHeists.SaveZone", function( _, player )
