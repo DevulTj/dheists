@@ -50,8 +50,8 @@ i18n.registerPhrases( "en", {
     click_to_disable_alarm = "Disable Alarm",
 
     cctv_title = "CCTV",
-    screen_restock = "RESTOCKING",
-    screen_active = "ACTIVE",
+    screen_restock = "CLOSED",
+    screen_active = "OPEN",
 
     loot_hint_text = "You need a Bag",
     already_have_bag = "You already have a Bag",
