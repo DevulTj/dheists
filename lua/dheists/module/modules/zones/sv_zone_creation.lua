@@ -143,10 +143,10 @@ dHeists.commands:add( {
     end,
     func = function( player, text, commandData )
         CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
-            if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
+            if not hasAccess then player:dHeistsHint( dL( "no_access_x", "Zones" ), NOTIFY_ERROR ) return end
 
             if player:getDevBool( "inZoneCreator" ) == true then
-                player:dHeistsNotify( dL "already_in_zone_creator" )
+                player:dHeistsHint( dL "already_in_zone_creator" )
 
                 return
             end
@@ -168,11 +168,11 @@ dHeists.commands:add( {
     end,
     func = function( player, text, commandData )
         CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
-            if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
+            if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
             if not text then return end
 
             if player:getDevString( "zoneEditing" ) ~= "" then
-                player:dHeistsNotify( dL "already_in_zone_creator" )
+                player:dHeistsHint( dL "already_in_zone_creator" )
 
                 return
             end
@@ -193,6 +193,29 @@ dHeists.commands:add( {
     end
 } )
 
+--[[ Command to delete a zone ]]
+dHeists.commands:add( {
+    name = "deletezone",
+    canDo = function( player, commandData )
+        return true
+    end,
+    func = function( player, text, commandData )
+        CAMI.PlayerHasAccess( player, dHeists.privileges.DELETE_ZONES, function( hasAccess )
+            if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
+            if not text then return end
+
+            if istable( text ) then
+                text = table.concat( text, " " )
+            end
+
+            local zone = dHeists.zones.zones[ text ]
+            if not zone then return end
+
+            dHeists.zones:deleteDynamicZone( player, text )
+        end )
+    end
+} )
+
 --[[ Command to stop zone editor ]]
 dHeists.commands:add( {
     name = "stopeditzone",
@@ -201,11 +224,11 @@ dHeists.commands:add( {
     end,
     func = function( player, text, commandData )
         CAMI.PlayerHasAccess( player, dHeists.privileges.EDIT_ZONES, function( hasAccess )
-            if not hasAccess then player:dHeistsNotify( dL "no_access", NOTIFY_ERROR ) return end
+            if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
             if not text then return end
 
             if player:getDevString( "zoneEditing" ) == "" then
-                player:dHeistsNotify( dL "not_editing_zone" )
+                player:dHeistsHint( dL "not_editing_zone" )
 
                 return
             end
@@ -242,11 +265,20 @@ net.Receive( "dHeists.SaveZone", function( _, player )
         local newEntities = net.ReadTable()
         local modifiedEntities = net.ReadTable()
 
+        -- @TODO: improve the performance, as this is a terrible way to get names easily.
+        local zone
+        for _, _zone in pairs( dHeists.zones.zones ) do
+            if _zone:getId() == zoneId then
+                zone = _zone
+                break
+            end
+        end
+
         dHeists.zones:saveZone( zoneId, newEntities, modifiedEntities )
 
         player:setDevString( "zoneEditing", nil )
 
-        dHeists.hints:hintPlayer( player, dL "zone_saved", NOTIFY_SUCCESS )
+        dHeists.hints:hintPlayer( player, dL ( "zone_saved_x", zone:getName() ), NOTIFY_SUCCESS )
 
         net.Start( "dHeists.StopEditZone" )
         net.Send( player )

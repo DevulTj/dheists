@@ -58,6 +58,7 @@ i18n.registerPhrases( "en", {
 
     already_in_zone_creator = "You are already in the Zone Creator.",
     no_access = "You do not have access to this.",
+    no_access_x = "You do not have access to %s.",
 
     zone_created = "You created a zone.",
     zone_duplicate = "A zone with this name already exists.",
@@ -65,11 +66,11 @@ i18n.registerPhrases( "en", {
     save_zone_prompt = "Press Y and press 'Save' to save your changes",
     save_zone = "Save",
     editing_zone = "Editing Zone '%s'",
-    zone_saved = "You saved a Zone",
+    zone_saved_x = "You saved data for '%s'",
 
-    drill_active = "Drill is active",
-    cooldown_active = "Cooldown is active",
+    drill_active = "Drill is active.",
+    cooldown_active = "Cooldown is active.",
     required_tools = "Required tools:%s",
-    not_enough_cops = "Not enough Police online",
-    reloaded_zones = "Reloaded all Zones"
+    not_enough_cops = "Not enough Police online.",
+    reloaded_zones = "You reloaded all Zones."
 } )

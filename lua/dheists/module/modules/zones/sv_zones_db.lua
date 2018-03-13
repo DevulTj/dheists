@@ -144,3 +144,12 @@ local deleteEntitySQL = [[DELETE FROM dheists_zones_entities WHERE id = %i]]
 function dHeists.db.deleteEntity( creationId, callback )
     dHeistsDB.query( deleteEntitySQL:format( creationId ), callback )
 end
+
+local deleteZoneEntitiesSQL = [[DELETE FROM dheists_zones WHERE zone_name = %i]]
+local deleteZoneSQL = [[DELETE FROM dheists_zones_entities WHERE zone_name = %i]]
+function dHeists.db.deleteZone( zoneName, callback )
+    dHeistsDB.begin()
+        dHeistsDB.queueQuery( deleteZoneSQL:format( zoneName ) )
+        dHeistsDB.queueQuery( deleteZoneEntitiesSQL:format( zoneName ) )
+    dHeistsDB.commit( callback )
+end

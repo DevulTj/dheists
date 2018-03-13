@@ -84,6 +84,19 @@ function dHeists.zones:createZone( player, zoneName )
     end )
 end
 
+
+function dHeists.zones:deleteDynamicZone( player, zoneName )
+    local zone = self.zones[ zoneName ]
+    if not zone then return end
+
+    dHeists.db.deleteZone( zoneName, function()
+        player:dHeistsHint( dL "deleted_zone", NOTIFY_SUCCESS )
+
+        zone:destroyEntities()
+        zone = nil
+    end )
+end
+
 function dHeists.zones:gatherZoneNames()
     local tbl = {}
     for zoneName, zone in pairs( self.zones ) do
