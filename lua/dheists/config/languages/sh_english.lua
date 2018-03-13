@@ -72,5 +72,10 @@ i18n.registerPhrases( "en", {
     cooldown_active = "Cooldown is active.",
     required_tools = "Required tools:%s",
     not_enough_cops = "Not enough Police online.",
-    reloaded_zones = "You reloaded all Zones."
+    reloaded_zones = "You reloaded all Zones.",
+
+    delete_zone_confirmation = "Are you sure you want to delete this zone?",
+    deleted_zone = "You deleted a Zone.",
+    yes = "Yes",
+    no = "No"
 } )
