@@ -15,7 +15,7 @@ function dHeists.hints:hintPlayer( player, text, hintType, lifetime )
 
     net.Start( "dHeists.hints.add" )
         net.WriteString( text )
-        net.WriteUInt( hintType, 8 )
+        net.WriteUInt( hintType or NOTIFY_GENERIC, 8 )
         net.WriteUInt( lifetime or 3, 4 )
     net.Send( player )
 end

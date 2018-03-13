@@ -93,7 +93,7 @@ function dHeists.zones:deleteDynamicZone( player, zoneName )
         player:dHeistsHint( dL "deleted_zone", NOTIFY_SUCCESS )
 
         zone:destroyEntities()
-        zone = nil
+        self.zones[ zoneName ] = nil
     end )
 end
 
