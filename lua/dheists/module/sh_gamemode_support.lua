@@ -20,13 +20,11 @@ end
 frile.includeFolder( "dheists/gamemodes/" )
 
 function dHeists.gamemodes:findCurrentGamemode()
-    -- Include gamemode files
-
     for name, data in pairs( self.list ) do
-        PrintTable( data )
+
         if data.gamemodeCallback and data.gamemodeCallback() then
             self.currentGamemode = name
-            print("found cur gamemode")
+            hook.Run( "dHeists.onGamemodeLoaded" )
 
             break
         end

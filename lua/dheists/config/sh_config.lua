@@ -11,6 +11,11 @@ dHeists.config.disablePlayerDrawHook = true
 
 dHeists.config.drillModel = "models/monmonstar/pd2_drill/drill_small.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.drillMaterial = nil -- You can set custom materials for the drill
+dHeists.config.drillWorth = 2500
+dHeists.config.drillTeams = {
+    "Gangster",
+    "Mob boss"
+}
 
 dHeists.config.bagModel = "models/jessev92/payday2/item_Bag_loot.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.defaultBagCapacity = 4
