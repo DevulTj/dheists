@@ -19,23 +19,43 @@ function dHeists.db.zonesDBInit()
         )
     ]] )
 
-    local AUTOINCREMENT = dHeistsDB.isMySQL() and "AUTO_INCREMENT " or ""
-    dHeistsDB.queueQuery( [[
-        CREATE TABLE IF NOT EXISTS dheists_zones_entities (
-            id BIGINT ]] .. AUTOINCREMENT .. [[PRIMARY KEY,
-            zone_name VARCHAR( 66 ) NOT NULL,
-            entity TEXT NOT NULL,
-            entity_class TEXT NOT NULL,
+    local SQLITE = not dHeistsDB.isMySQL()
 
-            pos_x BIGINT NOT NULL,
-            pos_y BIGINT NOT NULL,
-            pos_z BIGINT NOT NULL,
+    if SQLITE then
+        dHeistsDB.queueQuery( [[
+            CREATE TABLE IF NOT EXISTS dheists_zones_entities (
+                id INTEGER PRIMARY KEY,
+                zone_name VARCHAR( 66 ) NOT NULL,
+                entity TEXT NOT NULL,
+                entity_class TEXT NOT NULL,
 
-            ang_p BIGINT NOT NULL,
-            ang_y BIGINT NOT NULL,
-            ang_r BIGINT NOT NULL
-        )
-    ]] )
+                pos_x BIGINT NOT NULL,
+                pos_y BIGINT NOT NULL,
+                pos_z BIGINT NOT NULL,
+
+                ang_p BIGINT NOT NULL,
+                ang_y BIGINT NOT NULL,
+                ang_r BIGINT NOT NULL
+            )
+        ]], nil, function( err ) print( err ) end )
+    else
+        dHeistsDB.queueQuery( [[
+            CREATE TABLE IF NOT EXISTS dheists_zones_entities (
+                id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                zone_name VARCHAR( 66 ) NOT NULL,
+                entity TEXT NOT NULL,
+                entity_class TEXT NOT NULL,
+
+                pos_x BIGINT NOT NULL,
+                pos_y BIGINT NOT NULL,
+                pos_z BIGINT NOT NULL,
+
+                ang_p BIGINT NOT NULL,
+                ang_y BIGINT NOT NULL,
+                ang_r BIGINT NOT NULL
+            )
+        ]], nil, function( err ) print( err ) end )
+    end
 
     dHeists.db.loadZones()
 
@@ -69,8 +89,8 @@ function dHeists.db.createZone( player, zoneName, callback )
     end )
 end
 
-local addEntitySQL = [[INSERT INTO dheists_zones_entities (zone_name, entity, entity_class, pos_x, pos_y, pos_z, ang_p, ang_y, ang_r) 
-                       VALUES(%s, %s, %s, %i, %i, %i, %i, %i, %i)]]
+local addEntitySQL = [[INSERT INTO dheists_zones_entities (id, zone_name, entity, entity_class, pos_x, pos_y, pos_z, ang_p, ang_y, ang_r) 
+                       VALUES(NULL, %s, %s, %s, %i, %i, %i, %i, %i, %i)]]
 
 function dHeists.db.addEntityToZone( zoneName, entity, callback )
 
