@@ -21,7 +21,7 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
 
     dHeistsDB.queueQuery( [[
         CREATE TABLE IF NOT EXISTS dheists_zones_entities (
-            id BIGINT NOT NULL AUTO_INCREMENT,
+            id BIGINT NOT NULL ]] .. ( dHeistsDB.isMySQL() and "AUTO_INCREMENT" or "AUTOINCREMENT" ) .. [[,
             zone_name VARCHAR( 66 ) NOT NULL,
             entity TEXT NOT NULL,
             entity_class TEXT NOT NULL,

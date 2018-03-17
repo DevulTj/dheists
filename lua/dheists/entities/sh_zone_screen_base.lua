@@ -100,7 +100,7 @@ if CLIENT then
         cam.Start3D2D(pos, fix_angles, .25)
             draw.RoundedBox(0, -187, -45, 374, 90, bgcolor)
 
-            draw.DrawText(self:GetZoneName() ~= "" and self:GetZoneName() or "Bank of Rockford", "dHeists_LCD", 0, -38, color_white, TEXT_ALIGN_CENTER)
+            draw.DrawText(self:GetZoneName() ~= "" and self:GetZoneName() or "New Zone", "dHeists_LCD", 0, -38, color_white, TEXT_ALIGN_CENTER)
             draw.DrawText(text, "dHeists_LCDBig", 0, -8, fontcolor, TEXT_ALIGN_CENTER)
         cam.End3D2D()
     end
