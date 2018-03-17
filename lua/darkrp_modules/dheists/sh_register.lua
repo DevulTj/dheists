@@ -37,6 +37,8 @@ local function registerBags()
 
             allowed = teamsFromNames( data.teams ),
             category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+
+            dHeistsBag = data.bagType
         })
     end
 end
@@ -57,6 +59,8 @@ local function registerMasks()
 
             allowed = teamsFromNames( data.teams ),
             category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+
+            dHeistsMask = true
         })
     end
 end
@@ -83,7 +87,9 @@ local function RegisterItems()
         name = "dHeists",
         categorises = "entities",
         canSee = fp{ fn.Id, true },
-        sortOrder = 102
+        sortOrder = 102,
+        color = Color( 0, 100, 200 ),
+        startExpanded = true
     }
 
     registerBags()
@@ -92,3 +98,17 @@ local function RegisterItems()
 end
 
 hook.Add( "dHeists.onGamemodeLoaded", "DarkRP.dHeists", RegisterItems )
+
+hook.Add( "playerBoughtCustomEntity", "DarkRP.dHeists", function( player, entityTable, ent, price )
+    if entityTable.category ~= "dHeists" then return end
+
+    -- Masks support
+    if entityTable.dHeistsMask then
+        ent:setMaskType( entityTable.name )
+    end
+
+    -- Bag support
+    if entityTable.dHeistsBag then
+        ent:setBagType( entityTable.dHeistsBag )
+    end
+end )
