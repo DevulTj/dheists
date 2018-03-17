@@ -54,9 +54,6 @@ dHeists.robbing:registerEnt( "Small Vault", {
     customLootSpawn = true,
 
     onSpawn = function( ent )
-        // TODO: re-enable if we still are crashing!
-        // ent:SetAutomaticFrameAdvance( true )
-
         ent:SetBodygroup( 1, 1 )
     end,
 

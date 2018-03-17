@@ -4,13 +4,14 @@
 	without permission of its author (devultj@gmail.com).
 ]]
 
+--[[
+    Don't touch this if you don't know what you're doing.
+]]
 dHeists.ent.create( "Loot Trigger", {
     model = "models/hunter/tubes/circle4x4.mdl",
     noDisplay = true,
 
     startTouch = function( self, entity )
-        --dHeists.collectBag( self, entity )
-
         if entity:IsPlayer() then
             local bag = entity:getBag()
             if not bag then return end

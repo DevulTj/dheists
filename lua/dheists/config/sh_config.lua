@@ -30,8 +30,8 @@ dHeists.config.defaultBagThrowStrength = 300
 dHeists.config.defaultBagThrowStrengthSprintMultiplier = 2
 dHeists.config.holdingBagAngleOffset = 5 -- 10 degrees
 dHeists.config.dropBagCommand = "dheists_dropbag"
-dHeists.config.dropBagKey = KEY_J
 
+dHeists.config.dropBagKey = KEY_J
 dHeists.config.maskEquipKey = KEY_H
 
 dHeists.config.confiscateBagActionColor = Color( 20, 20, 151 )
@@ -44,20 +44,6 @@ dHeists.config.stealPickUpBagActionColor = Color( 255, 165, 20 )
 dHeists.config.stealPickUpBagTime = 4
 
 dHeists.config.pickUpLootActionColor = Color( 20, 151, 20 )
-
-dHeists.config.robberyTime = 60
-
-dHeists.config.getJobName = function( player )
-    return team.GetName( player:Team() )
-end
-
-dHeists.config.getJobCategory = function( player )
-    return team.GetName( player:Team() )
-end
-
-dHeists.config.addMoneyFunction = function( player, amount )
-    return player:addMoney( amount )
-end
 
 dHeists.config.playMaskEquipSound = true
 dHeists.config.maskOnSounds = {
@@ -74,6 +60,7 @@ dHeists.config.maskOnSounds = {
     }
 }
 
+--[[ Disallow pocketing dHeist entities: ADVISED to keep to true ]]
 dHeists.config.disablePocket = true
 
 dHeists.config.cameraRespawnTime = 600
