@@ -6,7 +6,7 @@
 
 dHeists.db = dHeists.db or {}
 
-hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
+function dHeists.db.zonesDBInit()
     dHeistsDB.begin()
 
     dHeistsDB.queueQuery( [[
@@ -19,9 +19,10 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
         )
     ]] )
 
+    local AUTOINCREMENT = dHeistsDB.isMySQL() and "AUTO_INCREMENT " or ""
     dHeistsDB.queueQuery( [[
         CREATE TABLE IF NOT EXISTS dheists_zones_entities (
-            id BIGINT NOT NULL ]] .. ( dHeistsDB.isMySQL() and "AUTO_INCREMENT" or "AUTOINCREMENT" ) .. [[,
+            id BIGINT ]] .. AUTOINCREMENT .. [[PRIMARY KEY,
             zone_name VARCHAR( 66 ) NOT NULL,
             entity TEXT NOT NULL,
             entity_class TEXT NOT NULL,
@@ -32,16 +33,16 @@ hook.Add( "dHeistsDBInitialized", "dHeists.zones", function()
 
             ang_p BIGINT NOT NULL,
             ang_y BIGINT NOT NULL,
-            ang_r BIGINT NOT NULL,
-
-            PRIMARY KEY ( id )
+            ang_r BIGINT NOT NULL
         )
     ]] )
 
     dHeists.db.loadZones()
 
     dHeistsDB.commit()
-end )
+end
+
+hook.Add( "dHeistsDBInitialized", "dHeists.zones", dHeists.db.zonesDBInit )
 
 
 local ceil = math.ceil
@@ -74,7 +75,7 @@ local addEntitySQL = [[INSERT INTO dheists_zones_entities (zone_name, entity, en
 function dHeists.db.addEntityToZone( zoneName, entity, callback )
 
     local entityType = entity._Entity
-    if not entityType then return end
+    if not entityType then print( "No entity type aaaa" ) return end
 
     local entPos = entity:GetPos()
     local entAng = entity:GetAngles()
@@ -85,7 +86,9 @@ function dHeists.db.addEntityToZone( zoneName, entity, callback )
         dHeistsDB.SQLStr( entity.GetEntityType and entity:GetEntityType() or entity:GetClass() ),
         entPos.x, entPos.y, entPos.z,
         entAng.p, entAng.y, entAng.r
-    ), callback )
+    ), callback, function( err )
+        print("falied to add entity to zone", err)
+    end )
 end
 
 local modifyEntitySQL = [[UPDATE dheists_zones_entities SET 
