@@ -103,6 +103,8 @@ if SERVER then
                 id = sID,
                 title = sTitle
             } )
+
+            resource.AddWorkshop( sID )
         end
     end
 
