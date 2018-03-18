@@ -63,6 +63,8 @@ function dHeists.zones:createDynamicZone( zoneName, origin )
         origin = origin,
         name = zoneName,
         minJobOnlineForRobbery = dHeists.config.minJobOnlineForRobbery or 0,
+        jobCategories = dHeists.config.defaultCopCategories,
+        jobNames = dHeists.config.defaultCopJobs,
         dynamic = true
     } )
 

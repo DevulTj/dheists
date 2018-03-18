@@ -190,10 +190,10 @@ end
 function HeistZone:combineCategores()
     self.teams = {}
 
-    if not self.jobCategories then return end
-
     for teamIndex, jobData in pairs( dHeists.gamemodes:getJobList() or {} ) do
-        if self.jobCategories[ jobData[ dHeists.gamemodes:getCategoryIndex() ] ] then
+        if self.jobNames and self.jobNames[ jobData.name ] then
+            self.teams[ teamIndex ] = true
+        elseif self.jobCategories and self.jobCategories[ jobData[ dHeists.gamemodes:getCategoryIndex() ] ] then
             self.teams[ teamIndex ] = true
         end
     end

@@ -72,3 +72,16 @@ dHeists.config.cameraRespawnTime = 600
 
 --[[ Determines how many police should be online for a robbery to start ]]
 dHeists.config.minJobOnlineForRobbery = 3
+
+--[[ JOBS defined by your gamemode's job list ]]
+dHeists.config.defaultCopJobs = {
+    [ "Civil Protection" ] = true,
+    [ "Civil Protection Chief" ] = true,
+    [ "SWAT" ] = true
+}
+
+--[[ CATEGORIES defined by your gamemode's category list ]]
+dHeists.config.defaultCopCategories = {
+    [ "Police" ] = true,
+    [ "Government" ] = true
+}
