@@ -33,8 +33,8 @@ function i18n.getPhrase( identifier, ... )
         or _phrases[ gameLanguage:GetString() ] 
         or _phrases.en
 
-    if not phrases[ identifier ] then
-        if not _phrases.en[ identifier ] then return identifier end
+    if not phrases or not phrases[ identifier ] then
+        if not _phrases.en or not _phrases.en[ identifier ] then return identifier end
 
         return string.format( _phrases.en[ identifier ], ... )
     end
