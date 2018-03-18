@@ -69,3 +69,6 @@ dHeists.config.maskOnSounds = {
 dHeists.config.disablePocket = true
 
 dHeists.config.cameraRespawnTime = 600
+
+--[[ Determines how many police should be online for a robbery to start ]]
+dHeists.config.minJobOnlineForRobbery = 3

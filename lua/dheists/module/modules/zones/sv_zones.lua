@@ -62,6 +62,7 @@ function dHeists.zones:createDynamicZone( zoneName, origin )
     local zone = HeistZone:new( {
         origin = origin,
         name = zoneName,
+        minJobOnlineForRobbery = dHeists.config.minJobOnlineForRobbery or 0,
         dynamic = true
     } )
 
