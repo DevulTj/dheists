@@ -1,0 +1,3 @@
+[submodule "lua/dheists/config/languages"]
+	path = lua/dheists/config/languages
+	url = https://github.com/DevulTj/dheists_languages
