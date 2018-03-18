@@ -75,7 +75,7 @@ timer.Simple( 0, function()
 
     local gradient = Material( "gui/gradient_up" )
     function SKIN:PaintFrame( panel )
-        local color = RRL.theme.primaryColor
+        local color = dHeists.theme.primaryColor
         local w, h = panel:GetWide(), panel:GetTall()
 
         local posX, posY = panel:GetPos()
@@ -86,13 +86,13 @@ timer.Simple( 0, function()
         DisableClipping( false )
 
         draw.RoundedBox( 4, 0, 0, w, h, Color( color.r, color.g, color.b, color.a ) )
-        draw.RoundedBoxEx( 4, 0, 0, w, 24, RRL.theme.secondaryColor, true, true, false, false )
+        draw.RoundedBoxEx( 4, 0, 0, w, 24, dHeists.theme.secondaryColor, true, true, false, false )
 
         if IsValid( panel.lblTitle ) then
             panel.lblTitle:SetFont( SKIN.fontFrame )
         end
 
-        surface.SetDrawColor( RRL.theme.tertiaryColor )
+        surface.SetDrawColor( dHeists.theme.tertiaryColor )
         surface.SetMaterial( SKIN.GlowMaterial )
         surface.DrawTexturedRect( - w / 2,  - h / 2, w * 2, h * 2 )
     end
@@ -101,7 +101,7 @@ timer.Simple( 0, function()
         surface.SetDrawColor( 0, 0, 0, 100 )
         surface.DrawOutlinedRect( 0, 0, w, h )
 
-        surface.SetDrawColor( RRL.theme.outlineColor )
+        surface.SetDrawColor( dHeists.theme.outlineColor )
         surface.DrawOutlinedRect( 1, 1, w - 2, h - 2 )
     end
 
@@ -111,7 +111,7 @@ timer.Simple( 0, function()
             surface.SetDrawColor( 0, 0, 0, 100 )
             surface.DrawOutlinedRect( 0, 0, w, h )
 
-            surface.SetDrawColor( RRL.theme.outlineColor )
+            surface.SetDrawColor( dHeists.theme.outlineColor )
             surface.DrawOutlinedRect( 1, 1, w - 2, h - 2 )
         end
     end
@@ -130,9 +130,9 @@ timer.Simple( 0, function()
             end
 
             local col = Color(
-                panel.Tint and panel.Tint.r or RRL.theme.buttonColor.r,
-                panel.Tint and panel.Tint.g or RRL.theme.buttonColor.g,
-                panel.Tint and panel.Tint.b or RRL.theme.buttonColor.b
+                panel.Tint and panel.Tint.r or dHeists.theme.buttonColor.r,
+                panel.Tint and panel.Tint.g or dHeists.theme.buttonColor.g,
+                panel.Tint and panel.Tint.b or dHeists.theme.buttonColor.b
             )
 
             draw.RoundedBox( 0, 0, 0, w, h, Color( col.r, col.g, col.b, alpha ) )
@@ -140,7 +140,7 @@ timer.Simple( 0, function()
             surface.SetDrawColor(0, 0, 0, 100)
             surface.DrawOutlinedRect(0, 0, w, h)
 
-            surface.SetDrawColor( RRL.theme.outlineColor )
+            surface.SetDrawColor( dHeists.theme.outlineColor )
             surface.DrawOutlinedRect( 1, 1, w - 2, h - 2 )
         end
 
@@ -151,7 +151,7 @@ timer.Simple( 0, function()
         surface.SetDrawColor(0, 0, 0, 100)
         surface.DrawOutlinedRect(0, 0, w, h)
 
-        surface.SetDrawColor( RRL.theme.outlineColor )
+        surface.SetDrawColor( dHeists.theme.outlineColor )
         surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
 
     	panel:DrawTextEntryText( color_white, Color( 25, 55, 100, 125 ), Color( 200, 200, 200, 200 ) )
@@ -199,7 +199,7 @@ timer.Simple( 0, function()
             surface.SetDrawColor( 0, 0, 0, 100 )
             surface.DrawOutlinedRect( 0, 0, w, h )
 
-            surface.SetDrawColor( RRL.theme.outlineColor )
+            surface.SetDrawColor( dHeists.theme.outlineColor )
             surface.DrawOutlinedRect( 1, 1, w - 2, h - 2 )
         end
     end
@@ -226,7 +226,7 @@ timer.Simple( 0, function()
             surface.SetDrawColor(0, 0, 0, 100)
             surface.DrawOutlinedRect(0, 0, w, h)
 
-            surface.SetDrawColor(RRL.theme.outlineColor)
+            surface.SetDrawColor(dHeists.theme.outlineColor)
             surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
         end
     end
@@ -253,7 +253,7 @@ timer.Simple( 0, function()
             surface.SetDrawColor(0, 0, 0, 100)
             surface.DrawOutlinedRect(0, 0, w, h)
 
-            surface.SetDrawColor(RRL.theme.outlineColor)
+            surface.SetDrawColor(dHeists.theme.outlineColor)
             surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
         end
     end
@@ -266,7 +266,7 @@ timer.Simple( 0, function()
         surface.SetDrawColor(0, 0, 0, 100)
         surface.DrawOutlinedRect(0, 0, w, h)
 
-        surface.SetDrawColor(RRL.theme.outlineColor)
+        surface.SetDrawColor(dHeists.theme.outlineColor)
         surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
         end
     end
