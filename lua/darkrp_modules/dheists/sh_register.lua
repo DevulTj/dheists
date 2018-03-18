@@ -6,7 +6,7 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local function teamsFromNames( tbl )
+function dHeists.teamsFromNames( tbl )
     if not tbl then return end
 
     local newTbl = {}
@@ -35,7 +35,7 @@ local function registerBags()
             max = data.max or 10,
             cmd = "buy" .. string.Replace( bagName, " ", "_" ),
 
-            allowed = teamsFromNames( data.teams ),
+            allowed = dHeists.teamsFromNames( data.teams ),
             category = "dHeists", -- The name of the category it is in. Note: the category must be created!
 
             dHeistsBag = data.bagType
@@ -57,7 +57,7 @@ local function registerMasks()
             max = data.max or 10,
             cmd = "buy" .. string.Replace( maskName, " ", "_" ),
 
-            allowed = teamsFromNames( data.teams ),
+            allowed = dHeists.teamsFromNames( data.teams ),
             category = "dHeists", -- The name of the category it is in. Note: the category must be created!
 
             dHeistsMask = true
@@ -75,7 +75,7 @@ local function registerDrill()
         max = 10,
         cmd = "buydrill",
 
-        allowed = teamsFromNames( dHeists.config.drillTeams ),
+        allowed = dHeists.teamsFromNames( dHeists.config.drillTeams ),
         category = "dHeists", -- The name of the category it is in. Note: the category must be created!
     })
 end
