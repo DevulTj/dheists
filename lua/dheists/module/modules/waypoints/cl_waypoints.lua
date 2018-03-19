@@ -21,6 +21,9 @@ end )
 
 net.Receive( "dHeists.waypoints.clearLocation", function()
     dHeists.waypoints.setLocation( nil )
+
+
+    hook.Run( "dHeists.clearWaypoint", LocalPlayer() )
 end )
 
 function dHeists.waypoints.getLocation()
@@ -106,4 +109,6 @@ function dHeists.waypoints.setLocation( location, text )
             self.compassModel:Remove()
         end
     end
+
+    hook.Run( "dHeists.setWaypoint", LocalPlayer(), location, text )
 end

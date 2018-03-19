@@ -14,11 +14,15 @@ function dHeists.waypoints.setLocation( player, location, text )
         net.WriteVector( location )
         net.WriteString( text )
     net.Send( player )
+
+    hook.Run( "dHeists.setWaypoint", player, location, text )
 end
 
 function dHeists.waypoints.clearLocation( player )
     net.Start( "dHeists.waypoints.clearLocation" )
     net.Send( player )
+
+    hook.Run( "dHeists.clearWaypoint", player )
 end
 
 local function setLootWaypoint( player )
