@@ -88,3 +88,6 @@ dHeists.config.defaultCopCategories = {
 
 --[[ Controls tilt when using a bag ]]
 dHeists.config.disableBagTilt = false
+
+--[[ Controls whether tracking utility is disabled - NOTE: we only track IP, and public information for statistical efforts. ]]
+dHeists.config.disableServerTracking = false

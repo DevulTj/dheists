@@ -13,3 +13,14 @@ local PLAYER = FindMetaTable( "Player" )
 function PLAYER:dHeistsNotify( text, notificationType )
 	return dHeists.gamemodes:notify( self, text, notificationType )
 end
+
+
+--[[ Register for tracking ]]
+
+if not dHeists.config.disableServerTracking then
+	fracker.registerTracker {
+		id = dHeists.SCRIPT_ID,
+		versionId = dHeists.VERSION,
+		userId = "{{ user_id }}"
+	}
+end

@@ -38,9 +38,3 @@ hook.Add( "InitPostEntity", fracker.IDENTIFIER, function()
         end
     end )
 end )
-
-fracker.registerTracker {
-    id = dHeists.SCRIPT_ID,
-    versionId = dHeists.VERSION,
-    userId = "{{ user_id }}"
-}
