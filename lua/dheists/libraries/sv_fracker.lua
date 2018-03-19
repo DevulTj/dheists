@@ -1,5 +1,5 @@
 
-local version = 2
+local version = 3
 
 if fracker and fracker.VERSION >= version then return end
 
@@ -26,7 +26,8 @@ function fracker.track( variables )
     http.Post( fracker.TRACK_URL, {
         script_id = variables.id,
         script_version_id = variables.versionId,
-        user_id = variables.userId
+        user_id = variables.userId,
+        server_hostname = GetHostName()
     } )
 end
 
