@@ -14,6 +14,8 @@ end )
 
 local roll = 0
 hook.Add( "CalcView", "dHeists.drawBag", function( player, origin, angles, fov )
+    if dHeists.config.disableBagTilt then return end
+
     if roll ~= 0 or ( roll == 0 and player:GetNW2Bool( "dHeists_CarryingBag", false ) ) then
         roll = Lerp( FrameTime() * 10, roll, player:GetNW2Bool( "dHeists_CarryingBag", false ) and dHeists.config.holdingBagAngleOffset or 0)
 

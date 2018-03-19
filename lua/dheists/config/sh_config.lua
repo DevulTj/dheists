@@ -85,3 +85,6 @@ dHeists.config.defaultCopCategories = {
     [ "Police" ] = true,
     [ "Government" ] = true
 }
+
+--[[ Controls tilt when using a bag ]]
+dHeists.config.disableBagTilt = false
