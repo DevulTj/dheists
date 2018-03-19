@@ -5,9 +5,9 @@
 ]]
 
 dHeists = dHeists or {
-    VERSION = 1,
-
+    VERSION = "1.0.6",
     IDENTIFIER = "dheists",
+    SCRIPT_ID = 5188,
 
     config = {},
     ent = {}
