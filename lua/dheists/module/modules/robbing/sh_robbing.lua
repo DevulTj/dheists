@@ -18,6 +18,15 @@ function dHeists.robbing.getEnt( entName )
     return dHeists.robbing.list[ entName ]
 end
 
+function dHeists.robbing:getEntNames()
+    local tbl = {}
+    for name, data in pairs( self.list ) do
+        table.insert( tbl, name )
+    end
+
+    return tbl
+end
+
 hook.Run( "dHeists.robbing.registerEnt" )
 
 -- Include configuration for robbing
