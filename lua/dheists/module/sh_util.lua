@@ -49,3 +49,52 @@ concommand.Add( "dheists_ent_export", function( player )
 
 	print( myStr )
 end )
+
+if CLIENT then
+	function Derma_ComboRequest( strTitle, strText, tDropdownOptions, strSubmit, strSubmitCallback )
+
+		local Window = vgui.Create( "DFrame" )
+		Window:SetTitle( strTitle or "Message Title (First Parameter)" )
+		Window:SetDraggable( false )
+		Window:ShowCloseButton( true )
+		Window:SetBackgroundBlur( true )
+		Window:SetDrawOnTop( true )
+
+		local InnerPanel = Window:Add( "DPanel" )
+		InnerPanel:Dock( FILL )
+		InnerPanel:SetPaintBackground( false )
+
+		local Text = InnerPanel:Add( "DLabel" )
+		Text:Dock( TOP )
+		Text:DockMargin( 0, 0, 0, 4 )
+		Text:SetText( strText or "Message Text (Second Parameter)" )
+		Text:SizeToContents()
+		Text:SetContentAlignment( 5 )
+		Text:SetTextColor( color_white )
+
+		local Combo = InnerPanel:Add( "DComboBox" )
+		Combo:Dock( TOP )
+		Combo:SetTall( 32 )
+		Combo:SetValue( "Select an option" )
+
+		for _, v in pairs( tDropdownOptions or {} ) do
+			Combo:AddChoice( v )
+		end
+
+		local Confirm = InnerPanel:Add( "DButton" )
+		Confirm:Dock( BOTTOM )
+		Confirm:SetText( strSubmit or "Submit" )
+
+		Confirm.DoClick = function( this )
+			if strSubmitCallback then strSubmitCallback( this, Combo:GetSelected() ) end
+
+			Window:Close()
+		end
+
+		Window:SetSize( 512, 108 )
+		Window:Center()
+		Window:MakePopup()
+
+		return Window
+	end
+end
