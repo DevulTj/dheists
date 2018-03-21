@@ -365,4 +365,40 @@ if CLIENT then
 	end
 end
 
+properties.Add( "setrobenttype", {
+	MenuLabel = "Set Entity Type",
+	Order = 0,
+	MenuIcon = "icon16/briefcase.png",
+
+	Filter = function( self, ent, ply )
+		if not ent.IsRobbableEntity then return false end
+		if not gamemode.Call( "CanProperty", ply, "setrobenttype", ent ) then return false end
+
+		return true
+	end,
+    Action = function( self, ent ) -- CLIENT
+        Derma_ComboRequest(
+            "Set Entity Type",
+            "Select which Robbable Entity you would like to use.",
+            dHeists.robbing:getEntNames(),
+            "Submit",
+            function( button, value, data )
+                if not tostring( value ) then return end
+
+                self:MsgStart()
+                    net.WriteEntity( ent )
+                    net.WriteString( value )
+                self:MsgEnd()
+            end
+        )
+
+	end,
+	Receive = function( self, length, player ) -- SERVER
+		local ent = net.ReadEntity()
+		if not self:Filter( ent, player ) then return end
+
+		ent:setEntityType( net.ReadString() )
+	end
+} )
+
 scripted_ents.Register( ENT, "dheists_rob_ent_base" )
