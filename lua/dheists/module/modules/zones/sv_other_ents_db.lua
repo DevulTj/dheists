@@ -40,7 +40,7 @@ function dHeists.db.otherEntsDBInit()
                 )
             ]], nil, function( err ) print( err ) end )
         end
-        HeistsDB.loadOtherEntities()
+        dHeists.db.loadOtherEntities()
     dHeistsDB.commit()
 end
 
