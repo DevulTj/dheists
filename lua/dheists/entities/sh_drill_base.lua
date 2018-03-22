@@ -102,6 +102,39 @@ function ENT:getDrillState()
     return self.DrillStates.Error
 end
 
+function ENT:doDestroyAction( player )
+    dHeists.actions.doAction( player, dHeists.config.drillDestroyTime or 5, function()
+        if not IsValid( self ) or self.IsTaken then return end
+
+        SafeRemoveEntity( self )
+
+        if IsValid( self:GetParent() ) then
+            self:GetParent():StopSound( "dHeists.drillSound" )
+        end
+
+        self.IsTaken = true
+
+        local moneyGiven = dHeists.config.drillDestroyMoneyPrize or 500
+        dHeists.addMoney( player, moneyGiven )
+
+        player:dHeistsNotify( dL( "drill_destroyed_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
+    end, {
+        ent = self,
+        ActionColor = dHeists.config.drillDestroyActionColor,
+        ActionTimeRemainingTextPhrase = dL( "destroying_drill" )
+    } )
+end
+
+function ENT:Use( player )
+    if player:KeyDown( IN_WALK ) then return end
+
+    local shouldDestroy = dHeists.gamemodes:isPolice( player )
+
+    if shouldDestroy then
+        self:doDestroyAction( player )
+    end
+end
+
 function ENT:StartTouch( eEnt )
     if not IsEntity( eEnt ) then return end
 

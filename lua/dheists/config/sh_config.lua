@@ -16,6 +16,13 @@ dHeists.config.drillTeams = {
     "Mob boss"
 }
 
+--[[ Time taken to destroy a drill (ACTION) - seconds ]]
+dHeists.config.drillDestroyTime = 5
+--[[ Money gained from a police officer destroying a drill ]]
+dHeists.config.drillDestroyMoneyPrize = 500
+--[[ Action Color ]]
+dHeists.config.drillDestroyActionColor = Color( 50, 50, 200 )
+
 dHeists.config.bagModel = "models/jessev92/payday2/item_Bag_loot.mdl" -- Leave to default if you don't know what to do with this
 dHeists.config.defaultBagCapacity = 4
 
@@ -38,7 +45,7 @@ dHeists.config.dropBagCommand = "dheists_dropbag"
 dHeists.config.dropBagKey = KEY_J
 dHeists.config.maskEquipKey = KEY_H
 
-dHeists.config.confiscateBagActionColor = Color( 20, 20, 151 )
+dHeists.config.confiscateBagActionColor = Color( 50, 50, 200 )
 dHeists.config.confiscateBagMoneyPrize = 1250
 dHeists.config.bagConfiscateTime = 4
 
