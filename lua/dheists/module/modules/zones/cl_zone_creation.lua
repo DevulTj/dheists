@@ -9,7 +9,7 @@ local FRAME = {}
 local ZONES_TITLE = "Listing %i zone%s"
 
 function FRAME:Init()
-    self:SetSize( 256, 256 + 34 )
+    self:SetSize( 256, 256 + 34 + 34 )
     self:Center()
     self:SetTitle( "Zones" )
     self:MakePopup()
@@ -28,7 +28,7 @@ function FRAME:Init()
     self.desc:SetContentAlignment( 1 )
 
     self.reloadAllZones = self:Add( "DButton" )
-    self.reloadAllZones:SetText( "Reload All Zones" )
+    self.reloadAllZones:SetText( dL "reload_zones" )
     self.reloadAllZones:Dock( BOTTOM )
     self.reloadAllZones:SetTall( 32 )
     self.reloadAllZones:DockMargin( 0, 4, 0, 0 )
@@ -40,13 +40,26 @@ function FRAME:Init()
     end
 
     self.createZone = self:Add( "DButton" )
-    self.createZone:SetText( "Create Zone" )
+    self.createZone:SetText( dL "create_zone" )
     self.createZone:Dock( BOTTOM )
     self.createZone:SetTall( 32 )
     self.createZone:DockMargin( 0, 4, 0, 0 )
 
     self.createZone.DoClick = function( this )
         dHeists.zoneCreationMenu = vgui.Create( "dHeists.ZoneCreationMenu" )
+
+        self:Close()
+    end
+
+    self.entitySpawner = self:Add( "DButton" )
+    self.entitySpawner:SetText( dL "entity_spawner" )
+    self.entitySpawner:Dock( BOTTOM )
+    self.entitySpawner:SetTall( 32 )
+    self.entitySpawner:DockMargin( 0, 4, 0, 0 )
+
+    self.entitySpawner.DoClick = function( this )
+        dHeists.entitySpawnerMenu = vgui.Create( "dHeists.EntitySpawnerMenu" )
+        dHeists.entitySpawnerMenu:Setup()
 
         self:Close()
     end
@@ -161,10 +174,10 @@ end
 vgui.Register( "dHeists.ZoneCreationMenu", FRAME, "DFrame" )
 
 net.Receive( "dHeists.OpenZoneCreator", function()
-    local zoneList = net.ReadTable()
+    dHeists.zoneListTable = net.ReadTable()
 
     local frame = vgui.Create( "dHeists.ZoneList" )
-    frame:Setup( zoneList )
+    frame:Setup( dHeists.zoneListTable )
 
     dHeists.zoneList = frame
 end )
@@ -286,3 +299,72 @@ hook.Add( "OnEntityCreated", "dHeists.HookZoneCreation", function( entity )
         end
     end )
 end )
+
+FRAME = {}
+
+function FRAME:Init()
+    self:SetSize( 256, 256 )
+    self:Center()
+    self:SetTitle( dL "entity_spawner" )
+    self:MakePopup()
+
+    self:SetSkin( "devUI" )
+
+    self.goBack = self:Add( "DButton" )
+    self.goBack:Dock( BOTTOM )
+    self.goBack:SetTall( 32 )
+    self.goBack:SetText( dL "go_back" )
+    self.goBack.DoClick = function( this )
+        if not dHeists.zoneListTable then return end
+
+        local frame = vgui.Create( "dHeists.ZoneList" )
+        frame:Setup( dHeists.zoneListTable )
+
+        self:Close()
+    end
+
+    self.scroll = self:Add( "DScrollPanel" )
+    self.scroll:Dock( FILL )
+
+    self.layout = self.scroll:Add( "DIconLayout" )
+    self.layout:Dock( FILL )
+end
+
+function FRAME:AddEntity( name, data )
+    local button = self.layout:Add( "DButton" )
+    button:Dock( TOP )
+    button:SetTall( 32 )
+    button:SetText( name )
+
+    button.DoClick = function( this )
+        -- @TODO: add functionality to spawn the entity
+
+        net.Start( "dHeists.SpawnOtherEntity" )
+            net.WriteString( name )
+        net.SendToServer()
+
+        self:Close()
+    end
+
+    local selectedModel = data.model or "models/error.mdl"
+
+    local icon = button:Add( "SpawnIcon" )
+    icon:Dock( LEFT )
+    icon:DockMargin( 4, 0, 0, 0 )
+    icon:SetWide( button:GetTall() )
+    icon:SetModel( selectedModel )
+
+    if selectedModel == "models/error.mdl" then
+        icon:Remove()
+    end
+end
+
+function FRAME:Setup()
+    local List = dHeists.ent.list
+
+    for entName, entData in pairs( List ) do
+        self:AddEntity( entName, entData )
+    end
+end
+
+vgui.Register( "dHeists.EntitySpawnerMenu", FRAME, "DFrame" )

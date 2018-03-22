@@ -31,3 +31,68 @@ hook.Call( "dHeists.ent.registerEnts" )
 
 -- Include configuration for ents
 frile.includeFile( "dheists/config/config_entities/sh_other_ents.lua" )
+
+-- Property
+properties.Add( "saveOtherEntity", {
+	MenuLabel = "[dHeists] Save Entity",
+	Order = 0,
+	MenuIcon = "icon16/shield.png",
+
+    Filter = function( self, entity, ply )
+        if not entity.IsDHeistsEnt then return end
+		if not ply:IsAdmin() or not entity:getDevBool( "notSaved", false ) then return false end
+		--if not gamemode.Call( "CanProperty", ply, "saveOtherEntity", entity ) then return false end
+
+		return true
+	end,
+	Action = function( self, entity ) -- CLIENT
+        self:MsgStart()
+            net.WriteEntity( entity )
+        self:MsgEnd()
+	end,
+	Receive = function( self, length, player ) -- SERVER
+		local entity = net.ReadEntity()
+		if not self:Filter( entity, player ) then return end
+
+
+        dHeists.db.insertOtherEntity( entity, function( data, lastInsert )
+            entity:setDevInt( "creationId", lastInsert )
+            entity:setDevBool( "notSaved", false )
+
+            if IsValid( player ) then
+                player:dHeistsHint( dL "entity_saved", NOTIFY_SUCCESS )
+            end
+        end )
+	end
+} )
+
+properties.Add( "deleteOtherEntity", {
+	MenuLabel = "[dHeists] Delete Entity",
+	Order = 0,
+	MenuIcon = "icon16/delete.png",
+
+	Filter = function( self, entity, ply )
+        if not entity.IsDHeistsEnt then return end
+		if not ply:IsAdmin() or entity:getDevInt( "creationId", 0 ) == 0 then return false end
+		--if not gamemode.Call( "CanProperty", ply, "deleteOtherEntity", entity ) then return false end
+
+		return true
+	end,
+	Action = function( self, entity ) -- CLIENT
+        self:MsgStart()
+            net.WriteEntity( entity )
+        self:MsgEnd()
+	end,
+	Receive = function( self, length, player ) -- SERVER
+		local entity = net.ReadEntity()
+		if not self:Filter( entity, player ) then return end
+
+        dHeists.db.deleteOtherEntity( entity:getDevInt( "creationId" ), function()
+            SafeRemoveEntity( entity )
+            
+            if IsValid( player ) then
+                player:dHeistsHint( dL "entity_deleted", NOTIFY_SUCCESS )
+            end
+        end )
+	end
+} )

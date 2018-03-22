@@ -5,6 +5,7 @@ dHeists.privileges = {
     DEBUG_SET_BAG_TYPE = "dHeists_debug_set_bag_type",
     EDIT_ZONES = "dHeists_edit_zones",
     DELETE_ZONES = "dHeists_delete_zones",
+    SPAWN_ENTITIES = "dHeists_spawn_entities",
 }
 
 function dHeists.registerPrivilege( data )
@@ -35,6 +36,11 @@ local function registerPrivileges()
 
     dHeists.registerPrivilege {
         Name = dHeists.privileges.DELETE_ZONES,
+        MinAccess = "superadmin"
+    }
+
+    dHeists.registerPrivilege {
+        Name = dHeists.privileges.SPAWN_ENTITIES,
         MinAccess = "superadmin"
     }
 end

@@ -18,6 +18,8 @@ local function spawnEnt( typeInfo, pos, ang )
     ent:Spawn()
     ent:setEnt( typeInfo )
 
+    ent:setDevString( "entityType", typeInfo.name )
+
     dHeists.print( "Spawning ent at " .. tostring( pos ) .. ", " .. tostring( ang ) )
 
     ent.pos = pos
@@ -84,4 +86,26 @@ hook.Add( "dHeists_entUsed", "dHeists.useEnt", function( ent, name, activator, c
     net.Start( "dHeists_entUse" )
         net.WriteString( entData.name )
     net.Send( caller )
+end )
+
+util.AddNetworkString( "dHeists.SpawnOtherEntity" )
+
+function dHeists.createOtherEntity( player, entityType )
+    CAMI.PlayerHasAccess( player, dHeists.privileges.SPAWN_ENTITIES, function( hasAccess )
+        if not hasAccess then player:dHeistsHint( dL "no_access", NOTIFY_ERROR ) return end
+
+        if not entityType or not dHeists.ent.list[ entityType ] then return end
+
+        local entityData = dHeists.ent.list[ entityType ]
+        local ent = spawnEnt( entityData, player:GetEyeTrace().HitPos, Angle( 0, 0, 0 ) )
+        ent:setDevBool( "notSaved", true )
+
+        player:dHeistsHint( dL "entity_spawned", NOTIFY_SUCCESS )
+    end )
+end
+
+net.Receive( "dHeists.SpawnOtherEntity", function( _, player )
+    local entityType = net.ReadString()
+
+    dHeists.createOtherEntity( player, entityType )
 end )

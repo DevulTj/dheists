@@ -11,6 +11,8 @@ properties.Add( "removeFromZone", {
 	MenuIcon = "icon16/delete.png",
 
 	Filter = function( self, entity, ply )
+		if not entity._Entity then return end
+
 		if not ply:IsAdmin() or entity:getDevInt( "creationId", 0 ) == 0 then return false end
 		--if not gamemode.Call( "CanProperty", ply, "removeFromZone", entity ) then return false end
 
