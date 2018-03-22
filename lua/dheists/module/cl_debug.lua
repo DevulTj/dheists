@@ -21,7 +21,14 @@ cvars.AddChangeCallback( DEBUG_ENABLED, function( convarName, oldValue, newValue
 end )
 
 local function drawDebugESP()
+    for _, entity in pairs( ents.GetAll() ) do
+        if entity.IsDHeistsEnt then
+            local entityPos = entity:GetPos()
+            local data = entityPos:ToScreen()
 
+            draw.SimpleTextOutlined( "[DEBUG] " .. entity:getDevString( "entityType", "Spawned Entity" ), "dHeists_bagTextItalics", data.x, data.y - 24, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+        end
+    end
 end
 
 hook.Add( "HUDPaint", "dHeists.debug", function()
@@ -30,14 +37,5 @@ hook.Add( "HUDPaint", "dHeists.debug", function()
         draw.SimpleTextOutlined( "ACTIVE", "dHeistsHuge", ScrW() / 2, ScrH() * 0.015 + 24, Color( 50, 200, 50 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
     
         drawDebugESP()
-    end
-
-    for _, entity in pairs( ents.GetAll() ) do
-        if entity.IsDHeistsEnt then
-            local entityPos = entity:GetPos()
-            local data = entityPos:ToScreen()
-
-            draw.SimpleTextOutlined( "[DEBUG] " .. entity:getDevString( "entityType", "Spawned Entity" ), "dHeists_bagTextItalics", data.x, data.y - 24, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
-        end
     end
 end )
