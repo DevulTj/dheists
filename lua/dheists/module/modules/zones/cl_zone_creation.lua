@@ -9,7 +9,7 @@ local FRAME = {}
 local ZONES_TITLE = "Listing %i zone%s"
 
 function FRAME:Init()
-    self:SetSize( 256, 256 + 34 + 34 )
+    self:SetSize( 256, 256 + 34 + 34 + 34 + 16 )
     self:Center()
     self:SetTitle( "Zones" )
     self:MakePopup()
@@ -27,7 +27,13 @@ function FRAME:Init()
     self.desc:SetTall( 20 )
     self.desc:SetContentAlignment( 1 )
 
-    self.reloadAllZones = self:Add( "DButton" )
+    self.reloaderPanel = self:Add( "DPanel" )
+    self.reloaderPanel:Dock( BOTTOM )
+    self.reloaderPanel:DockMargin( 0, 4, 0, 0 )
+    self.reloaderPanel:DockPadding( 4, 4, 4, 4 )
+    self.reloaderPanel:SetTall( 34 + 34 + 8 )
+
+    self.reloadAllZones = self.reloaderPanel:Add( "DButton" )
     self.reloadAllZones:SetText( dL "reload_zones" )
     self.reloadAllZones:Dock( BOTTOM )
     self.reloadAllZones:SetTall( 32 )
@@ -35,6 +41,18 @@ function FRAME:Init()
 
     self.reloadAllZones.DoClick = function( this )
         RunConsoleCommand( "dheists_reload_zones" )
+
+        self:Close()
+    end
+
+    self.reloadAllEntities = self.reloaderPanel:Add( "DButton" )
+    self.reloadAllEntities:SetText( dL "reload_entities" )
+    self.reloadAllEntities:Dock( BOTTOM )
+    self.reloadAllEntities:SetTall( 32 )
+    self.reloadAllEntities:DockMargin( 0, 4, 0, 0 )
+
+    self.reloadAllEntities.DoClick = function( this )
+        RunConsoleCommand( "dheists_reload_ents" )
 
         self:Close()
     end
@@ -66,6 +84,7 @@ function FRAME:Init()
 
     self.panel = self:Add( "DPanel" )
     self.panel:Dock( FILL )
+    self.panel:DockPadding( 4, 4, 4, 4 )
     self.panel:DockMargin( 0, 4, 0, 0 )
 
     self.scroll = self.panel:Add( "DScrollPanel" )
