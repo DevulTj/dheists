@@ -64,6 +64,8 @@ if SERVER then
         mask:Activate()
         
         mask:setMaskType( currentMask )
+
+        return mask
     end
 
     function PLAYER:runMaskEffect()

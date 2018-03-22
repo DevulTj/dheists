@@ -97,3 +97,12 @@ dHeists.config.disableBagTilt = false
 
 --[[ Controls whether tracking utility is disabled - NOTE: we only track IP, and public information for statistical efforts. ]]
 dHeists.config.disableServerTracking = false
+
+--[[ [DARK RP] Should equipped masks and bags be confiscated on weapon confiscation? ]]
+dHeists.config.removeBagAndMaskOnWeaponConfiscation = true
+
+--[[ [DARK RP] Should bags and masks be dropped on team change? ]]
+dHeists.config.dropBagAndMaskOnTeamChange = true
+
+--[[ [DARK RP] Should bags and masks be removed on arrest? ]]
+dHeists.config.removeBagAndMaskOnArrest = true

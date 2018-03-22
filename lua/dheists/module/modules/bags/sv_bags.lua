@@ -25,8 +25,9 @@ function dHeists.dropBag( player, noDrop )
     if player._dHeistsBag then
         local bagData = player._dHeistsBag
 
+        local bag
         if not noDrop then
-            local bag = ents.Create( "dheists_bag_base" )
+            bag = ents.Create( "dheists_bag_base" )
             bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) + player:GetForward() * -5 )
 
             bag:Spawn()
@@ -53,6 +54,8 @@ function dHeists.dropBag( player, noDrop )
         if renderObjects then -- renderObjects support
             renderObjects:clearObject( player, "bag_" .. bagData.bagType )
         end
+
+        return bag
     end
 end
 

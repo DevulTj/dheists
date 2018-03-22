@@ -37,3 +37,43 @@ hook.Add( "onLockpickCompleted", "dHeists.robbing", function( client, succeeded,
 
     entity:deploy()
 end )
+
+local function clearHeistPlayer( player, deleteEnts )
+    if not player.getBag or not player.getMask then return end
+
+    local bag = player:getBag()
+    if bag then
+        local bagEnt = dHeists.dropBag( player )
+
+        if deleteEnts then
+            SafeRemoveEntity( bagEnt )
+        end
+    end
+
+    local mask = player:getMask()
+    if mask then
+        local maskEnt = player:dropMask( true )
+
+        if deleteEnts then
+            SafeRemoveEntity( maskEnt )
+        end
+    end
+end
+
+hook.Add( "OnPlayerChangedTeam", "dHeists", function( player, _, __ )
+    if dHeists.config.dropBagAndMaskOnTeamChange then
+        clearHeistPlayer( player )
+    end
+end )
+
+hook.Add( "playerArrested", "dHeists", function( player, _, __ )
+    if dHeists.config.removeBagAndMaskOnArrest then
+        clearHeistPlayer( player, true )
+    end
+end )
+
+hook.Add( "playerWeaponsConfiscated", "dHeists", function( player, _, __ )
+    if dHeists.config.removeBagAndMaskOnWeaponConfiscation then
+        clearHeistPlayer( player, true )
+    end
+end )
