@@ -220,8 +220,9 @@ if CLIENT then
 	end
 
 	function ENT:Draw()
-        if dHeists.config.debugEnabled then
-            render.DrawWireframeBox( self:GetPos(), self:GetAngles(), self.physicsBox.mins, self.physicsBox.maxs, color_white )
+		if dHeists.config.debugEnabled then
+			local boundMin, boundMax = self:GetCollisionBounds()
+            render.DrawWireframeBox( self:GetPos(), self:GetAngles(), boundMin, boundMax, color_white )
         end
 
 		if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
