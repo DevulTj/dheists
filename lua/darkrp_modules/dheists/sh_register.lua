@@ -28,12 +28,12 @@ local function registerBags()
     for bagName, data in pairs( bagList ) do
         print( "Registering dHeists bag " .. bagName )
 
-        DarkRP.createEntity( bagName, {
+        DarkRP.createEntity( dL( bagName ), {
             ent = "dheists_bag_base",
             model = "models/jessev92/payday2/item_Bag_loot.mdl",
             price = data.worth or 1000,
             max = data.max or 10,
-            cmd = "buy" .. string.Replace( bagName, " ", "_" ),
+            cmd = "buy" .. bagName,
 
             allowed = dHeists.teamsFromNames( data.teams ),
             category = "dHeists", -- The name of the category it is in. Note: the category must be created!
