@@ -50,8 +50,8 @@ local addEntitySQL = [[INSERT INTO dheists_other_entities (id, entity_class, pos
                        VALUES(NULL, %s, %i, %i, %i, %i, %i, %i)]]
 
 function dHeists.db.insertOtherEntity( entity, callback )
-    local className = entity:GetClass()
-    if not className then return end
+    local className = entity:getDevString( "entityType", "" )
+    if not className or className == "" then return end
 
     local entPos = entity:GetPos()
     local entAng = entity:GetAngles()
@@ -93,12 +93,10 @@ function dHeists.db.loadOtherEntities()
         if not data then return end
 
         for _, entityInfo in pairs( data ) do
-            local entity = ents.Create( entityInfo.entity_class )
-            entity:SetPos( Vector( entityInfo.pos_x, entityInfo.pos_y, entityInfo.pos_z ) )
-            entity:SetAngles( Angle( entityInfo.ang_p, entityInfo.ang_y, entityInfo.ang_r ) )
-            entity:Spawn()
-            entity:Activate()
+            local entData = dHeists.ent.list[ entityInfo.entity_class ]
+            if not entData then continue end
 
+            local entity = dHeists.spawnEnt( entData, Vector( entityInfo.pos_x, entityInfo.pos_y, entityInfo.pos_z ), Angle( entityInfo.ang_p, entityInfo.ang_y, entityInfo.ang_r ) )
             entity:setDevInt( "creationId", entityInfo.id )
 
             dHeists.print( "Spawned other entity " .. entityInfo.entity_class )

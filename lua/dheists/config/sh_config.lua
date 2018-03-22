@@ -4,7 +4,6 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-dHeists.config.debugEnabled = not game.IsDedicated()
 dHeists.config.debugEnabled = false
 
 dHeists.config.disablePlayerDrawHook = true

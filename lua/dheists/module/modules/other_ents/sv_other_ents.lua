@@ -6,7 +6,7 @@
 
 util.AddNetworkString( "dHeists_entUse" )
 
-local function spawnEnt( typeInfo, pos, ang )
+function dHeists.spawnEnt( typeInfo, pos, ang )
     local posIsTable = istable( pos )
     local angIsTable = istable( ang )
 
@@ -39,6 +39,10 @@ local function spawnEnt( typeInfo, pos, ang )
 
     if typeInfo.onSpawn then typeInfo.onSpawn( ent ) end
 
+    if IsValid( ent:GetPhysicsObject() ) then
+        ent:GetPhysicsObject():EnableMotion( false )
+    end
+
     return ent
 end
 
@@ -47,7 +51,7 @@ function dHeists.ent.spawnEnts()
         local location = dHeists.ent.getEntLocations( entData.name )
         if not location then continue end
 
-        spawnEnt( entData, location.pos, location.ang )
+        dHeists.spawnEnt( entData, location.pos, location.ang )
     end
 end
 
@@ -97,7 +101,7 @@ function dHeists.createOtherEntity( player, entityType )
         if not entityType or not dHeists.ent.list[ entityType ] then return end
 
         local entityData = dHeists.ent.list[ entityType ]
-        local ent = spawnEnt( entityData, player:GetEyeTrace().HitPos, Angle( 0, 0, 0 ) )
+        local ent = dHeists.spawnEnt( entityData, player:GetEyeTrace().HitPos, Angle( 0, 0, 0 ) )
         ent:setDevBool( "notSaved", true )
 
         player:dHeistsHint( dL "entity_spawned", NOTIFY_SUCCESS )
