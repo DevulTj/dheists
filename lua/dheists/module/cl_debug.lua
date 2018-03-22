@@ -37,7 +37,7 @@ hook.Add( "HUDPaint", "dHeists.debug", function()
             local entityPos = entity:GetPos()
             local data = entityPos:ToScreen()
 
-            draw.SimpleTextOutlined( "[DEBUG] " .. entity:getDevString( "entityType", "Spawned Entity" ), "dHeists_bagTextItalics", data.x, data.y, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+            draw.SimpleTextOutlined( "[DEBUG] " .. entity:getDevString( "entityType", "Spawned Entity" ), "dHeists_bagTextItalics", data.x, data.y - 24, Color( 255, 255, 255 ), TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
         end
     end
 end )
