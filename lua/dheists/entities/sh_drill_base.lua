@@ -114,8 +114,10 @@ function ENT:doDestroyAction( player )
 
         self.IsTaken = true
 
-        local moneyGiven = dHeists.config.drillDestroyMoneyPrize or 500
-        dHeists.addMoney( player, moneyGiven )
+        if dHeists.config.drillDestroyRewardEnabled then
+            local moneyGiven = dHeists.config.drillDestroyMoneyPrize or 500
+            dHeists.addMoney( player, moneyGiven )
+        end
 
         player:dHeistsNotify( dL( "drill_destroyed_text", string.formatMoney( moneyGiven ) ), NOTIFY_GENERIC )
     end, {
