@@ -5,7 +5,7 @@
 ]]
 
 dHeists = dHeists or {
-    VERSION = "1.1.0",
+    VERSION = "1.1.1",
     IDENTIFIER = "dheists",
     SCRIPT_ID = 5188,
 
