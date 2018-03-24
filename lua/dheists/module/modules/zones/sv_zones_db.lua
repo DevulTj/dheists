@@ -153,6 +153,8 @@ function dHeists.db.loadZones()
                 end
 
                 zone:spawnEntities()
+                -- Combine the categories to get the team list
+                zone:combineCategores()
             end )
         end
     end )
