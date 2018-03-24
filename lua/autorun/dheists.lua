@@ -76,7 +76,7 @@ function dL( identifier, ... )
 end
 
 frile.includeFolder( "dheists/config/", nil, true )
-frile.includeFolder( "dheists/config/languages/" )
+frile.includeFolder( "dheists/config/language/" )
 frile.includeFolder( "dheists/entities/" )
 frile.includeFolder( "dheists/module/" )
 
