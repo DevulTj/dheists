@@ -16,7 +16,7 @@ dHeists.config.drillTeams = {
     "Mob boss"
 }
 
---[[ Drill destruction reward for cops enabled ]]
+--[[ Drill destroy reward for cops enabled ]]
 dHeists.config.drillDestroyRewardEnabled = true
 --[[ Time taken to destroy a drill (ACTION) - seconds ]]
 dHeists.config.drillDestroyTime = 5
