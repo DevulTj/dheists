@@ -22,7 +22,7 @@ ENT.AutomaticFrameAdvance = false
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.DHeists = true
 
-ENT.MODEL = "models/hunter/plates/plate1x5.mdl"
+ENT.MODEL = "models/hunter/plates/plate1x2.mdl"
 
 ENT._parent = nil
 
@@ -73,14 +73,24 @@ if SERVER then
     function ENT:StartTouch( ply )
         if not ply:IsPlayer() then return end
 
+        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+
+        timer.Simple( 120, function()
+            if not IsValid( self ) then return end
+
+            self:SetCollisionGroup( COLLISION_GROUP_NONE )
+        end )
+
         local parent = self:GetParent()
         if not IsValid( parent ) then return end
 
         parent:TriggerAlarm( ply )
     end
 
-    function ENT:SetParent( ent )
+    function ENT:SetTheParent( ent )
         self._parent = ent
+
+        self:SetParent( ent )
     end
 
     function ENT:GetParent()

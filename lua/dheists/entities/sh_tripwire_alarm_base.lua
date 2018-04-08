@@ -36,6 +36,12 @@ ENT._heistZone = nil
 
 ENT._child = nil
 
+ENT.IsAlarmTripwire = true
+ENT.DHeists = true
+
+-- Used for saving
+ENT._Entity = "tripwires"
+
 function ENT:SpawnFunction( ply, tr, ClassName )
     if not tr.Hit then return end
 
@@ -58,10 +64,13 @@ function ENT:Initialize()
         self:PhysicsInit( SOLID_VPHYSICS )
         self:SetSolid( SOLID_VPHYSICS )
 
-        local up = self:GetUp()
+        local up = self:GetUp() * 55
         local ent = ents.Create( "dheists_entity_trigger" )
-        ent:SetAngles( Angle( 0, up:Angle().y + 90, 0 ) )
-        local pos = self:GetPos() + up * 125
+
+        local aAng = Angle()
+        aAng:RotateAroundAxis( aAng:Forward(), 90 )
+        ent:SetAngles( aAng )
+        local pos = self:GetPos() + up + ( self:GetRight() * 100 )
         local trace = util.TraceLine( {
             start = pos,
             endpos = pos + ( -ent:GetUp() * 100 ),
@@ -71,7 +80,7 @@ function ENT:Initialize()
         ent:Spawn()
         ent:Activate()
 
-        ent:SetParent( self )
+        ent:SetTheParent( self )
         self:SetChild( ent )
         self:CallOnRemove( "RemoveChild", function( child )
             SafeRemoveEntity( child )
