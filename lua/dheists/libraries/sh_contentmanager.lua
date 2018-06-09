@@ -69,6 +69,19 @@ if not getmetatable( "" ).__mod then
     end
 end
 
+local function downloadSteamworksAddon( id )
+    steamworks.FileInfo( id, function( dat )
+        if not dat then return end
+
+        notification.AddProgress( "Steamworks_" .. id, "Downloading " .. dat.title .. " via workshop..." )
+
+        steamworks.Download( dat.fileid, true, function( path )
+            game.MountGMA( path )
+            notification.Kill( "Steamworks_" .. id )
+        end )
+    end )
+end
+
 local function checkForMissingAddons()
     local tAddonCopy = table.Copy( ADDON_TABLE )
     for _, tData in pairs( engine.GetAddons() ) do
@@ -92,6 +105,10 @@ local function checkForMissingAddons()
                 id = sID,
                 title = sTitle
             } )
+
+            if CLIENT then
+                downloadSteamworksAddon( sID )
+            end
         end
     end
 end
