@@ -1,4 +1,3 @@
-# dHeists
 ## Installation
 1. Unzip the addon and place it in your 'addons' folder.
 2. Read the README.md that is placed inside the addon.
