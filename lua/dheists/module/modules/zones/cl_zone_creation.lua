@@ -284,6 +284,8 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
     end
 
     for _, entity in pairs( ents.FindByClass( "dheists_*" ) ) do
+        if not entity._Entity then continue end
+
         local entityPos = entity:GetPos()
         local data = entityPos:ToScreen()
 
@@ -310,6 +312,7 @@ hook.Add( "OnEntityCreated", "dHeists.HookZoneCreation", function( entity )
 
     timer.Simple( 0, function()
         if not IsValid( entity ) then print( "Entity is not valid" ) return end
+        if not entity._Entity then return end
 
         if entity:getDevEntity( "creator" ) == LocalPlayer() then
             dHeists.newZoneEntities = dHeists.newZoneEntities or {}
