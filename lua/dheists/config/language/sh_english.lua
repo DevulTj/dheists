@@ -71,4 +71,6 @@ i18n.registerPhrases( "en", {
 
     drill_destroyed_text = "You gained %s from destroying a Drill.",
     destroying_drill = "DESTROYING DRILL",
+
+    editing_zone_helper = "Place Objects from Spawn Menu → Entities → dHeists"
 } )

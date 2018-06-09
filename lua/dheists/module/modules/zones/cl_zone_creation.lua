@@ -248,13 +248,14 @@ hook.Add( "HUDPaint", "dHeists.ZoneEditor", function()
 
     local zoneName = LocalPlayer():getDevString( "zoneEditing" )
     draw.SimpleTextOutlined( dL( "editing_zone", zoneName ), "dHeistsHuge", ScrW() / 2, ScrH() * 0.01, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
-    draw.SimpleTextOutlined( dL "save_zone_prompt", "dHeists_bagTextItalics", ScrW() / 2, ScrH() * 0.065, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+    draw.SimpleTextOutlined( dL "editing_zone_helper", "dHeists_bagText", ScrW() / 2, ScrH() * 0.01 + 50, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
+    draw.SimpleTextOutlined( dL "save_zone_prompt", "dHeists_bagTextItalics", ScrW() / 2, ScrH() * 0.01 + 50 + 32, color_white, TEXT_ALIGN_CENTER, nil, 2, Color( 0, 0, 0, 100 ) )
 
     if not IsValid( dHeists.saveZoneButton ) then
         local btn = vgui.Create( "DButton" )
         btn:SetSkin( "devUI" )
         btn:SetSize( 256, 32 )
-        btn:SetPos( ScrW() / 2 - ( btn:GetWide() / 2 ), ScrH() * 0.095 )
+        btn:SetPos( ScrW() / 2 - ( btn:GetWide() / 2 ), ScrH() * 0.01 )
         btn:SetText( dL "save_zone" )
 
         btn.DoClick = function( this )
