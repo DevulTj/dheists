@@ -9,7 +9,7 @@ local FRAME = {}
 local ZONES_TITLE = "Listing %i zone%s"
 
 function FRAME:Init()
-    self:SetSize( 256, 256 + 34 + 34 + 34 + 16 )
+    self:SetSize( 256, 256 + 34 + 34 + 34 + 16 + 34 )
     self:Center()
     self:SetTitle( "Zones" )
     self:MakePopup()
@@ -26,6 +26,18 @@ function FRAME:Init()
     self.desc:SetFont( "devUI_TextSmall" )
     self.desc:SetTall( 20 )
     self.desc:SetContentAlignment( 1 )
+
+    self.help = self:Add( "DButton" )
+    self.help:SetText( dL "help" )
+    self.help:Dock( BOTTOM )
+    self.help:SetTall( 32 )
+    self.help:DockMargin( 0, 4, 0, 0 )
+
+    self.help.DoClick = function( this )
+        RunConsoleCommand( "dheists", "dheists" )
+
+        self:Close()
+    end
 
     self.reloaderPanel = self:Add( "DPanel" )
     self.reloaderPanel:Dock( BOTTOM )
