@@ -64,7 +64,7 @@ i18n.registerPhrases( "en", {
     entity_spawner = "Entity Spawner",
     go_back = "Go back",
 
-    save_instructions = "Hold [C] -> [RMB] -> Save Entity",
+    save_instructions = "Hold [C] → [RMB] → Save Entity",
     entity_spawned = "You spawned an Entity.",
     entity_saved = "You saved an Entity.",
     entity_deleted = "You deleted an Entity.",
