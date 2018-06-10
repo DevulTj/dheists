@@ -84,6 +84,8 @@ dHeists.commands:add( {
     func = function( player, text, commandData )
         player:SendLua([[
             chat.AddText( Color( 255, 50, 50 ), "[dHeists]", color_white, " This addon was created by DevulTj & fruitwasp." )
+
+            dHeists.showHelpMenu()
         ]])
     end
 } )
