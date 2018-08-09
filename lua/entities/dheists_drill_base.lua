@@ -176,7 +176,7 @@ if CLIENT then
         local drillState = self:getDrillState()
 
         local fFraction = math.Clamp( math.TimeFraction( self:GetDrillStart(), self:GetDrillEnd(), CurTime() ), 0, 1 )
-        local sActive = ( not IsValid( self:GetParent() ) and 0 or math.floor( fFraction * 100 ) ) .. "%"
+        local sActive = not IsValid( self:GetParent() ) and "?" or math.Clamp( math.ceil( self:GetDrillEnd() - CurTime() ), 0, 5000 ) .. " sec"
         local sPercentage = self.DrillStateNames[ drillState ] or ""
 
         local drillStateColor = self.DrillColors[ drillState ]
@@ -195,8 +195,8 @@ if CLIENT then
             draw.RoundedBox( 0, 8, 36, self.PanelInfo.w - 16, 4, Color( 0, 0, 0, 150 ) )
             draw.RoundedBox( 0, 8, 36, ( self.PanelInfo.w - 16 ) * fFraction, 4, drillStateColor )
 
-            draw.SimpleText( sActive, "dHeistsMedium", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 2.9 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-            draw.SimpleText( sActive, "dHeistsMedium", self.PanelInfo.w / 2, self.PanelInfo.h / 2.9, Color( 250, 250, 250 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+            draw.SimpleText( sActive, "dHeistsSmall", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 2.9 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+            draw.SimpleText( sActive, "dHeistsSmall", self.PanelInfo.w / 2, self.PanelInfo.h / 2.9, Color( 250, 250, 250 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
             draw.SimpleText( sPercentage, "dHeistsSmall", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 1.3 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
             draw.SimpleText( sPercentage, "dHeistsSmall", self.PanelInfo.w / 2, self.PanelInfo.h / 1.3, drillStateColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
