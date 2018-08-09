@@ -5,13 +5,13 @@
 ]]
 
 AddCSLuaFile()
-DEFINE_BASECLASS( "dheists_bag_base" )
+DEFINE_BASECLASS( "dheists_drill_base" )
 
-ENT.PrintName = "Enhanced Bag"
-ENT.Category = "dHeists - Bags"
+ENT.PrintName = "Regular Drill"
+ENT.Category = "dHeists - Drills"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
 --[[ dHeists configuration ]]
-ENT.BagCapacity = 6
-ENT.BagSkin = 2
+ENT.DrillTimeNormal = 1
+ENT.DrillSkin = 0

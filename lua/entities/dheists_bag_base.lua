@@ -39,13 +39,16 @@ ENT.BagCapacity = 2
 ENT.BagSkin = 0
 
 function ENT:SetupDataTables()
-    self:NetworkVar( "Int", 0, "BagType" )
     self:NetworkVar( "Int", 2, "LootCount" )
     self:NetworkVar( "Int", 4, "Capacity" )
     self:NetworkVar( "Entity", 0, "EntityOwner" )
 end
 
 function ENT:Initialize()
+    self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+
 	if SERVER then
         local selectedModel = dHeists.config.bagModel
         local isValidModel = file.Exists( selectedModel, "GAME" )
@@ -56,23 +59,19 @@ function ENT:Initialize()
 
         self:SetModel( selectedModel )
 
-        self:PhysicsInitBox( self.physicsBox.mins, self.physicsBox.maxs )
-        self:SetMoveType( MOVETYPE_VPHYSICS )
-        self:SetSolid( SOLID_VPHYSICS )
-        self:SetUseType( SIMPLE_USE )
-
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
         self:SetSkin( self.BagSkin )
 		self:SetCapacity( self.BagCapacity )
+        self:SetTrigger( true )
 
         self.lootItems = {}
-
-        self:SetTrigger( true )
-        self:SetAutomaticFrameAdvance( false )
 	end
 
+    self.InventoryItemID = self:GetClass()
+
+    self:DrawShadow( false )
     renderObjects:registerObject( self:GetClass(), {
         model = "models/jessev92/payday2/item_Bag_loot.mdl",
         bone = "ValveBiped.Bip01_Spine",
@@ -118,22 +117,6 @@ if SERVER then
         self:SetLootCount( table.Count( lootTable ) )
 
         return true
-    end
-
-    function ENT:setBagType( bagType )
-        local bagInfo = dHeists.bags.getBag( bagType )
-        if not bagInfo then
-            SafeRemoveEntity( self )
-
-            return
-        end
-
-        self:SetBagType( bagInfo.bagType ) -- Bag types
-        if bagInfo.skin then self:SetSkin( bagInfo.skin ) end
-
-        self:SetCapacity( bagInfo.capacity or dHeists.config.defaultBagCapacity or 4 )
-
-        self.InventoryItemID = bagInfo.name
     end
 
     function ENT:playActionSound()
@@ -242,8 +225,4 @@ if CLIENT then
             draw.SimpleText( loot .. "/" .. capacity, "dHeists_bagText3D", hudX + ( hudWidth / 2 ), hudY + ( hudHeight / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
         cam.End3D2D()
     end
-
-	function ENT:Initialize()
-        self:DrawShadow( false )
-	end
 end

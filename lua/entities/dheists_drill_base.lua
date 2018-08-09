@@ -9,10 +9,9 @@ AddCSLuaFile()
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.Author = "DevulTj"
-ENT.PrintName = "Drill"
-ENT.Category = "dHeists"
+ENT.PrintName = "Drill Base"
 
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminSpawnable	= true
 ENT.DHeists = true
 
@@ -73,6 +72,8 @@ function ENT:Initialize()
     self:Activate()
 
     self:SetAutomaticFrameAdvance( false )
+
+    self:SetSkin( self.DrillSkin )
 end
 
 function ENT:getPercent()
