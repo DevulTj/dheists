@@ -15,7 +15,6 @@ ENT.Category = "dHeists"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
-ENT.IsBag = true
 ENT.DHeists = true
 
 --[[
@@ -37,6 +36,10 @@ local scale = dHeists.config.alternateBagPos and 0.8 or 1
 --[[ dHeists configuration ]]
 ENT.BagCapacity = 2
 ENT.BagSkin = 0
+
+-- DarkRP/MonolithRP
+ENT.BagLevel = 1
+ENT.BagPrice = 5000
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 2, "LootCount" )

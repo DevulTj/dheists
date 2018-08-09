@@ -12,6 +12,18 @@ ENT.Category = "dHeists - Bags"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
+ENT.IsBag = true
+
 --[[ dHeists configuration ]]
 ENT.BagCapacity = 2
 ENT.BagSkin = 0
+
+-- DarkRP/MonolithRP
+ENT.BagLevel = 25
+ENT.BagPrice = 2500
+
+-- DarkRP
+ENT.BagTeams = {
+	"Gangster",
+	"Mob boss"
+}

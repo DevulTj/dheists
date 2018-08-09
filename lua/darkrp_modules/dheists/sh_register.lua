@@ -21,25 +21,37 @@ function dHeists.teamsFromNames( tbl )
     return newTbl
 end
 
-local function registerBags()
-    local bagList = dHeists.bags.list
-    if not bagList then return end
+local function registerAll()
+    for sClass, tData in pairs( scripted_ents.GetList() ) do
+        if string.find( sClass, "_base" ) then continue end
 
-    for bagName, data in pairs( bagList ) do
-        print( "Registering dHeists bag " .. bagName )
+        local tEntityData = tData.t
+        if tEntityData.IsBag then
+            print( "Bag found", tEntityData.PrintName )
+            DarkRP.createEntity( tEntityData.PrintName, {
+                ent = sClass,
+                model = "models/jessev92/payday2/item_Bag_loot.mdl",
+                price = tEntityData.BagPrice,
+                max = tEntityData.BagLimit or 10,
+                cmd = "buy" .. sClass,
+                skin = tEntityData.BagSkin or 0,
 
-        DarkRP.createEntity( dL( bagName ), {
-            ent = "dheists_bag_base",
-            model = "models/jessev92/payday2/item_Bag_loot.mdl",
-            price = data.worth or 1000,
-            max = data.max or 10,
-            cmd = "buy" .. bagName,
-
-            allowed = dHeists.teamsFromNames( data.teams ),
-            category = "dHeists", -- The name of the category it is in. Note: the category must be created!
-
-            dHeistsBag = data.bagType
-        })
+                allowed = dHeists.teamsFromNames( tEntityData.BagTeams ) or nil,
+                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+            })
+        elseif tEntityData.IsDrill then
+            print( "Drill found", tEntityData.PrintName )
+            DarkRP.createEntity( tEntityData.PrintName, {
+                ent = sClass,
+                model = dHeists.config.drillModel,
+                price = tEntityData.DrillPrice or dHeists.config.drillWorth or 2500,
+                max = 10,
+                cmd = "buy" .. sClass,
+                skin = tEntityData.DrillSkin or 0,
+                allowed = dHeists.teamsFromNames( tEntityData.DrillTeams or dHeists.config.drillTeams ),
+                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+            })
+        end
     end
 end
 
@@ -65,21 +77,6 @@ local function registerMasks()
     end
 end
 
-local function registerDrill()
-    print( "Registering dHeists drill " )
-
-    DarkRP.createEntity( "Drill", {
-        ent = "dheists_drill_base",
-        model = dHeists.config.drillModel,
-        price = dHeists.config.drillWorth or 2500,
-        max = 10,
-        cmd = "buydrill",
-
-        allowed = dHeists.teamsFromNames( dHeists.config.drillTeams ),
-        category = "dHeists", -- The name of the category it is in. Note: the category must be created!
-    })
-end
-
 local function RegisterItems()
     if not dHeists or not dHeists.bags then return end
 
@@ -92,12 +89,13 @@ local function RegisterItems()
         startExpanded = true
     }
 
-    registerBags()
+    registerAll()
     registerMasks()
-    registerDrill()
 end
 
 hook.Add( "dHeists.onGamemodeLoaded", "DarkRP.dHeists", RegisterItems )
+
+RegisterItems()
 
 hook.Add( "playerBoughtCustomEntity", "DarkRP.dHeists", function( player, entityTable, ent, price )
     if entityTable.category ~= "dHeists" then return end

@@ -12,7 +12,19 @@ ENT.Category = "dHeists - Drills"
 ENT.Spawnable = true
 ENT.AdminSpawnable	= true
 
+ENT.IsDrill = true
+
 --[[ dHeists configuration ]]
 ENT.DrillTimeNormal = 1
 ENT.DrillSkin = 0
 ENT.DrillScale = 0.8
+
+-- DarkRP/MonolithRP
+ENT.DrillLevel = 25
+ENT.DrillPrice = 2500
+
+-- DarkRP
+ENT.BagTeams = {
+	"Gangster",
+	"Mob boss"
+}

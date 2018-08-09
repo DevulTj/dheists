@@ -30,8 +30,6 @@ sound.Add {
     sound = "vehicles/digger_grinder_loop1.wav"
 }
 
-ENT.IsDrill = true
-
 function ENT:SetupDataTables()
     self:NetworkVar( "Bool", 0, "IsDrilling" )
     self:NetworkVar( "Float", 0, "DrillStart" )
@@ -73,7 +71,7 @@ function ENT:Initialize()
 
     self:SetAutomaticFrameAdvance( false )
 
-    self:SetSkin( self.DrillSkin )
+    self:SetSkin( self.DrillSkin or 0 )
     self:SetModelScale( self.DrillScale or 1 )
 end
 
