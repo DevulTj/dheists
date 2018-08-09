@@ -70,6 +70,8 @@ if SERVER then
 
         self:SetUseType( SIMPLE_USE )
 
+        self:SetTrigger( true )
+
         self.actionTime = lootData.actionTime
     end
 
@@ -96,7 +98,9 @@ if SERVER then
     end
 
     function ENT:StartTouch( entity )
-        if not entity.IsBag then return end
+        if not entity.IsBag then print("Not a bag") return end
+
+        print("touch", entity)
 
         local canDo = entity:addLoot( self:GetLootType() )
         if canDo ~= false then

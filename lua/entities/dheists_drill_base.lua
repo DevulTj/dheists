@@ -74,6 +74,7 @@ function ENT:Initialize()
     self:SetAutomaticFrameAdvance( false )
 
     self:SetSkin( self.DrillSkin )
+    self:SetModelScale( self.DrillScale or 1 )
 end
 
 function ENT:getPercent()
@@ -181,13 +182,14 @@ if CLIENT then
 
         local drillStateColor = self.DrillColors[ drillState ]
 
-        local vPos = self:GetPos() + self:GetUp() * 2 + self:GetRight() * - 9.7 + self:GetForward() * 6.6
+        local nModelScale = self:GetModelScale()
+        local vPos = self:GetPos() + ( ( self:GetUp() * 2 + self:GetRight() * - 9.7 + self:GetForward() * 6.6 ) * nModelScale )
         local aAng = self:GetAngles()
         aAng:RotateAroundAxis( aAng:Right(), 60 )
         aAng:RotateAroundAxis( aAng:Up(), -90 )
         aAng:RotateAroundAxis( aAng:Forward(), 0 )
 
-        cam.Start3D2D( vPos, aAng, 0.1 )
+        cam.Start3D2D( vPos, aAng, 0.1 * nModelScale )
             draw.RoundedBox( 0, 0, 0, self.PanelInfo.w, self.PanelInfo.h, Color( 255, 255, 255 ) )
             draw.RoundedBox( 0, 2, 2, self.PanelInfo.w - 4, self.PanelInfo.h - 4, Color( 50, 50, 50 ) )
             draw.RoundedBox( 0, 2, 2, self.PanelInfo.w - 4, 6, Color( 150, 150, 150 ) )

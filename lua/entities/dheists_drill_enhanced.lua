@@ -15,3 +15,4 @@ ENT.AdminSpawnable	= true
 --[[ dHeists configuration ]]
 ENT.DrillTimeNormal = 0.6
 ENT.DrillSkin = 2
+ENT.DrillScale = 1.1

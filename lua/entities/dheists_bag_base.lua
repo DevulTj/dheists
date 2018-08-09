@@ -103,7 +103,7 @@ if SERVER then
     end
 
     function ENT:addLoot( lootName )
-        if #self:getLoot() >= self:GetCapacity() then return false end
+        if #self:getLoot() >= self:GetCapacity() then print("no") return false end
 
         table.insert( self.lootItems, lootName )
 
