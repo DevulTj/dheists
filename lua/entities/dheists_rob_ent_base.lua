@@ -261,7 +261,7 @@ if SERVER then
         drillEnt:SetAngles( localAng )
 
         drillEnt:SetDrillStart( CurTime() )
-        drillEnt:SetDrillEnd( CurTime() + ( typeInfo.drillTime or 60 ) )
+        drillEnt:SetDrillEnd( CurTime() + ( ( typeInfo.drillTime or 60 ) * ( drillEnt.DrillTimeNormal or 1 ) ) )
 
         self:SetDrill( drillEnt )
 
