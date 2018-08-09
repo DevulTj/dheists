@@ -4,7 +4,7 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local ENT = {}
+AddCSLuaFile()
 
 ENT.Base = "base_anim"
 ENT.Type = "anim"
@@ -30,6 +30,14 @@ ENT.physicsBox = {
     maxs = Vector( 7, 10, 6 )
 }
 
+local bagPos = dHeists.config.alternateBagPos and Vector( -7, -5, 0 ) or Vector( 0, 0, 10 )
+local bagAng = dHeists.config.alternateBagPos and Angle( 90, 0, 110 ) or Angle( 80, 100, 20 )
+local scale = dHeists.config.alternateBagPos and 0.8 or 1
+
+--[[ dHeists configuration ]]
+ENT.BagCapacity = 2
+ENT.BagSkin = 0
+
 function ENT:SetupDataTables()
     self:NetworkVar( "Int", 0, "BagType" )
     self:NetworkVar( "Int", 2, "LootCount" )
@@ -37,22 +45,8 @@ function ENT:SetupDataTables()
     self:NetworkVar( "Entity", 0, "EntityOwner" )
 end
 
-if SERVER then
-    function ENT:SpawnFunction( ply, tr, ClassName )
-        if not tr.Hit then return end
-
-        local SpawnPos = tr.HitPos + tr.HitNormal * 16
-
-        local ent = ents.Create( ClassName )
-        ent:SetPos( SpawnPos )
-        ent:setDevEntity( "creator", ply )
-        ent:Spawn()
-        ent:Activate()
-
-        return ent
-    end
-
-    function ENT:Initialize()
+function ENT:Initialize()
+	if SERVER then
         local selectedModel = dHeists.config.bagModel
         local isValidModel = file.Exists( selectedModel, "GAME" )
 
@@ -70,19 +64,39 @@ if SERVER then
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
 
-        local randomBagData = table.Random( dHeists.bags.list )
-        if not randomBagData then
-            SafeRemoveEntity( self )
-
-            return
-        end
-
-        self:setBagType( randomBagData.name )
+        self:SetSkin( self.BagSkin )
+		self:SetCapacity( self.BagCapacity )
 
         self.lootItems = {}
 
         self:SetTrigger( true )
         self:SetAutomaticFrameAdvance( false )
+	end
+
+    renderObjects:registerObject( self:GetClass(), {
+        model = "models/jessev92/payday2/item_Bag_loot.mdl",
+        bone = "ValveBiped.Bip01_Spine",
+        pos = bagPos,
+        ang = bagAng,
+
+        skin = self.BagSkin,
+        scale = scale
+    } )
+end
+
+if SERVER then
+    function ENT:SpawnFunction( ply, tr, ClassName )
+        if not tr.Hit then return end
+
+        local SpawnPos = tr.HitPos + tr.HitNormal * 16
+
+        local ent = ents.Create( ClassName )
+        ent:SetPos( SpawnPos )
+        ent:setDevEntity( "creator", ply )
+        ent:Spawn()
+        ent:Activate()
+
+        return ent
     end
 
     function ENT:getLoot()
@@ -233,41 +247,3 @@ if CLIENT then
         self:DrawShadow( false )
 	end
 end
-
-properties.Add( "setbagtype", {
-	MenuLabel = "Set Bag Type",
-	Order = 0,
-	MenuIcon = "icon16/briefcase.png",
-
-	Filter = function( self, ent, ply )
-		if not ent.IsBag then return false end
-		if not gamemode.Call( "CanProperty", ply, "setbagtype", ent ) then return false end
-
-		return true
-	end,
-	Action = function( self, ent ) -- CLIENT
-        Derma_StringRequest(
-            "Set Bag Type",
-            "Input a number with the bag type",
-            "",
-            function( text )
-                if not tonumber( text ) then return end
-
-                self:MsgStart()
-                    net.WriteEntity( ent )
-                    net.WriteUInt( text, 8 )
-                self:MsgEnd()
-            end,
-            function( text ) end
-        )
-
-	end,
-	Receive = function( self, length, player ) -- SERVER
-		local ent = net.ReadEntity()
-		if not self:Filter( ent, player ) then return end
-
-		ent:setBagType( net.ReadUInt( 8 ) )
-	end
-} )
-
-scripted_ents.Register( ENT, "dheists_bag_base" )

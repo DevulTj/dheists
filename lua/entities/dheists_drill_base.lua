@@ -4,7 +4,7 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local ENT = {}
+AddCSLuaFile()
 
 ENT.Base = "base_anim"
 ENT.Type = "anim"
@@ -206,5 +206,3 @@ if CLIENT then
         self:DrawShadow( false )
 	end
 end
-
-scripted_ents.Register( ENT, "dheists_drill_base" )

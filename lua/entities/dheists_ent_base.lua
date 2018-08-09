@@ -4,7 +4,7 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local ENT = {}
+AddCSLuaFile()
 
 ENT.Name = "Base Entity"
 ENT.Base = "base_ai"
@@ -268,5 +268,3 @@ if CLIENT then
 		draw.SimpleText( entData.name, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 	end )
 end
-
-scripted_ents.Register( ENT, "dheists_ent_base" )

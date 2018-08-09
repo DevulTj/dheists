@@ -106,9 +106,4 @@ hook.Add( "playerBoughtCustomEntity", "DarkRP.dHeists", function( player, entity
     if entityTable.dHeistsMask then
         ent:setMaskType( entityTable.name )
     end
-
-    -- Bag support
-    if entityTable.dHeistsBag then
-        ent:setBagType( entityTable.dHeistsBag )
-    end
 end )
