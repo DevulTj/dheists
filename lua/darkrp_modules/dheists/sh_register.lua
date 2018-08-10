@@ -51,29 +51,21 @@ local function registerAll()
                 allowed = dHeists.teamsFromNames( tEntityData.DrillTeams or dHeists.config.drillTeams ),
                 category = "dHeists", -- The name of the category it is in. Note: the category must be created!
             })
+        elseif tEntityData.IsMask then
+            print( "Mask found", tEntityData.PrintName )
+            DarkRP.createEntity( tEntityData.PrintName, {
+                ent = sClass,
+                model = tEntityData.MaskModel,
+                price = tEntityData.MaskPrice or 1000,
+                max = tEntityData.MaskMax or 10,
+                cmd = "buy" .. sClass,
+
+                allowed = dHeists.teamsFromNames( tEntityData.MaskTeams or dHeists.config.maskTeams ),
+                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+
+                dHeistsMask = true
+            })
         end
-    end
-end
-
-local function registerMasks()
-    local maskList = dHeists.masks.list
-    if not maskList then return end
-
-    for maskName, data in pairs( maskList ) do
-        print( "Registering dHeists mask " .. maskName )
-
-        DarkRP.createEntity( maskName, {
-            ent = "dheists_mask_base",
-            model = data.model,
-            price = data.worth or 1000,
-            max = data.max or 10,
-            cmd = "buy" .. string.Replace( maskName, " ", "_" ),
-
-            allowed = dHeists.teamsFromNames( data.teams ),
-            category = "dHeists", -- The name of the category it is in. Note: the category must be created!
-
-            dHeistsMask = true
-        })
     end
 end
 
@@ -90,18 +82,8 @@ local function RegisterItems()
     }
 
     registerAll()
-    registerMasks()
 end
 
 hook.Add( "dHeists.onGamemodeLoaded", "DarkRP.dHeists", RegisterItems )
 
 RegisterItems()
-
-hook.Add( "playerBoughtCustomEntity", "DarkRP.dHeists", function( player, entityTable, ent, price )
-    if entityTable.category ~= "dHeists" then return end
-
-    -- Masks support
-    if entityTable.dHeistsMask then
-        ent:setMaskType( entityTable.name )
-    end
-end )
