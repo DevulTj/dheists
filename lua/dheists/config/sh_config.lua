@@ -115,4 +115,4 @@ dHeists.config.notificationDirection = "Up"
 
 -- [HINTS] Position of hints
 -- "Top" or "Bottom" works
-dHeists.config.notificationPosition = "Bottom"
+dHeists.config.notificationPosition = "Top"
