@@ -8,8 +8,6 @@
 
 hook.Add( "canPocket", "dHeists.disallowPocket", function( player, entity )
     if entity.DHeists and dHeists.config.disablePocket then
-        if dHeists.pocketWhitelist[ entity:GetClass() ] then return dHeists.pocketWhitelist[ entity:GetClass() ]( entity ) end
-
         if entity.IsDrill then
             if entity:GetIsDrilling() then return false end
 
@@ -17,6 +15,8 @@ hook.Add( "canPocket", "dHeists.disallowPocket", function( player, entity )
         elseif entity.IsBag then
             if #entity.lootItems > 0 then return false end
 
+            return true
+        elseif entity.IsMask then
             return true
         end
 
