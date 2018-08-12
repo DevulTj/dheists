@@ -108,3 +108,11 @@ dHeists.config.dropBagAndMaskOnTeamChange = true
 
 --[[ [DARK RP] Should bags and masks be removed on arrest? ]]
 dHeists.config.removeBagAndMaskOnArrest = true
+
+-- [HINTS] Should the hints flow downwards or upwards?
+-- "Down" or "Up" works
+dHeists.config.notificationDirection = "Up"
+
+-- [HINTS] Position of hints
+-- "Top" or "Bottom" works
+dHeists.config.notificationPosition = "Bottom"

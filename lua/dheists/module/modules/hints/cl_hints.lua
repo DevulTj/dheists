@@ -74,10 +74,12 @@ function NOTIFICATION:Close()
 end
 
 function NOTIFICATION:Think()
-local yPos = ScrH() * 0.2
+    local sPosition = dHeists.config.notificationPosition
+    local yPos = sPosition == "Bottom" and ScrH() * 0.8 or ScrH() * 0.2
 
     if IsValid( self.parentToFollow ) then
-        yPos = select( 2, self.parentToFollow:GetPos() ) - self.parentToFollow:GetTall() - 4
+        local Offset = dHeists.config.notificationDirection == "Down" and ( self.parentToFollow:GetTall() + 4 ) or ( - self.parentToFollow:GetTall() - 4 )
+        yPos = select( 2, self.parentToFollow:GetPos() ) + Offset
     end
 
     self:SetPos( ScrW() / 2 - ( self:GetWide() / 2 ), yPos )
