@@ -37,7 +37,7 @@ local function registerAll()
                 skin = tEntityData.BagSkin or 0,
 
                 allowed = dHeists.teamsFromNames( tEntityData.BagTeams ) or nil,
-                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+                category = "dHeists - Bags", -- The name of the category it is in. Note: the category must be created!
             })
         elseif tEntityData.IsDrill then
             print( "Drill found", tEntityData.PrintName )
@@ -49,7 +49,7 @@ local function registerAll()
                 cmd = "buy" .. sClass,
                 skin = tEntityData.DrillSkin or 0,
                 allowed = dHeists.teamsFromNames( tEntityData.DrillTeams or dHeists.config.drillTeams ),
-                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+                category = "dHeists - Drills", -- The name of the category it is in. Note: the category must be created!
             })
         elseif tEntityData.IsMask then
             print( "Mask found", tEntityData.PrintName )
@@ -61,7 +61,7 @@ local function registerAll()
                 cmd = "buy" .. sClass,
 
                 allowed = dHeists.teamsFromNames( tEntityData.MaskTeams or dHeists.config.maskTeams ),
-                category = "dHeists", -- The name of the category it is in. Note: the category must be created!
+                category = "dHeists - Masks", -- The name of the category it is in. Note: the category must be created!
 
                 dHeistsMask = true
             })
@@ -73,11 +73,29 @@ local function RegisterItems()
     if not dHeists or not dHeists.bags then return end
 
     DarkRP.createCategory {
-        name = "dHeists",
+        name = "dHeists - Masks",
         categorises = "entities",
         canSee = fp{ fn.Id, true },
         sortOrder = 102,
         color = Color( 0, 100, 200 ),
+        startExpanded = true
+    }
+
+    DarkRP.createCategory {
+        name = "dHeists - Drills",
+        categorises = "entities",
+        canSee = fp{ fn.Id, true },
+        sortOrder = 102,
+        color = Color( 0, 200, 0 ),
+        startExpanded = true
+    }
+
+    DarkRP.createCategory {
+        name = "dHeists - Bags",
+        categorises = "entities",
+        canSee = fp{ fn.Id, true },
+        sortOrder = 102,
+        color = Color( 255, 125, 0 ),
         startExpanded = true
     }
 
