@@ -59,12 +59,14 @@ function ENT:setMaskType( sName, sModel, nActionTime )
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
         self.actionTime = nActionTime or 1
+    else
+        self:DrawShadow( false )
     end
 
-    renderObjects:registerObject( sName, {
+    renderObjects:registerObject( self:GetClass(), {
         model = sModel,
         bone = self.MaskBone or "ValveBiped.Bip01_Head1",
-        pos = self.MasPos,
+        pos = self.MaskPos,
         ang = self.MaskAng,
 
         skin = self.MaskSkin or 0,
@@ -133,8 +135,4 @@ if CLIENT then
 
         pos.y = pos.y + 20
 	end )
-
-	function ENT:Initialize()
-        self:DrawShadow( false )
-	end
 end
