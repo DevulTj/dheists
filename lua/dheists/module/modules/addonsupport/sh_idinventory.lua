@@ -21,6 +21,9 @@ dHeists.addonSupport:register {
                     if #entity.lootItems > 0 then return false end
 
                     return true
+                elseif entity.IsMask then
+
+                    return true 
                 end
             end
         }
