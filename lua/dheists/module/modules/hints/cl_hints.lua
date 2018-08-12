@@ -126,7 +126,7 @@ function dHeists.hints:add( text, hintType, lifetime )
     local pCurrentHint = dHeists.currentHint
 
     dHeists.currentHint = vgui.Create( "dHeistsHint" )
-    dHeists.currentHint:Setup( text, hintType, lifetime, pCurrentHint )
+    dHeists.currentHint:Setup( dL( text ), hintType, lifetime, pCurrentHint )
 end
 
 net.Receive( "dHeists.hints.add", function( _ )
