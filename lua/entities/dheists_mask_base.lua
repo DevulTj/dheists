@@ -63,16 +63,6 @@ function ENT:setMaskType( sName, sModel, nActionTime )
         self:DrawShadow( false )
     end
 
-    renderObjects:registerObject( self:GetClass(), {
-        model = sModel,
-        bone = self.MaskBone or "ValveBiped.Bip01_Head1",
-        pos = self.MaskPos,
-        ang = self.MaskAng,
-
-        skin = self.MaskSkin or 0,
-        scale = self.MaskScale or 1
-    } )
-
     self.InventoryItemID = sName
 end
 

@@ -29,11 +29,12 @@ ENT.physicsBox = {
     maxs = Vector( 7, 10, 6 )
 }
 
-local bagPos = dHeists.config.alternateBagPos and Vector( -7, -5, 0 ) or Vector( 0, 0, 10 )
-local bagAng = dHeists.config.alternateBagPos and Angle( 90, 0, 110 ) or Angle( 80, 100, 20 )
-local scale = dHeists.config.alternateBagPos and 0.8 or 1
-
 --[[ dHeists configuration ]]
+ENT.BagModel = "models/jessev92/payday2/item_Bag_loot.mdl"
+ENT.BagPos = dHeists.config.alternateBagPos and Vector( -7, -5, 0 ) or Vector( 0, 0, 10 )
+ENT.BagAng = dHeists.config.alternateBagPos and Angle( 90, 0, 110 ) or Angle( 80, 100, 20 )
+ENT.BagScale = dHeists.config.alternateBagPos and 0.8 or 1
+
 ENT.BagCapacity = 2
 ENT.BagSkin = 0
 
@@ -53,14 +54,7 @@ function ENT:Initialize()
     self:SetSolid( SOLID_VPHYSICS )
 
 	if SERVER then
-        local selectedModel = dHeists.config.bagModel
-        local isValidModel = file.Exists( selectedModel, "GAME" )
-
-        if not isValidModel then
-            selectedModel = "models/jessev92/payday2/item_Bag_loot.mdl"
-        end
-
-        self:SetModel( selectedModel )
+        self:SetModel( self.BagModel )
 
         self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
         self:GetPhysicsObject():Wake()
@@ -73,17 +67,7 @@ function ENT:Initialize()
 	end
 
     self.InventoryItemID = self:GetClass()
-
     self:DrawShadow( false )
-    renderObjects:registerObject( self:GetClass(), {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = bagPos,
-        ang = bagAng,
-
-        skin = self.BagSkin,
-        scale = scale
-    } )
 end
 
 if SERVER then
