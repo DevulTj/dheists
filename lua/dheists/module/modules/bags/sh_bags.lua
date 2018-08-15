@@ -40,6 +40,3 @@ hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, comm
         moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
     end
 end )
-
--- Include configuration for bags
-frile.includeFile( "dheists/config/config_entities/sh_bags.lua" )

@@ -16,6 +16,3 @@ function dHeists.masks.getMask( maskName )
 end
 
 hook.Run( "dHeists.masks.registerMasks" )
-
--- Include configuration for masks
-frile.includeFile( "dheists/config/config_entities/sh_masks.lua" )
