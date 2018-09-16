@@ -108,3 +108,17 @@ dHeists.config.dropBagAndMaskOnTeamChange = true
 
 --[[ [DARK RP] Should bags and masks be removed on arrest? ]]
 dHeists.config.removeBagAndMaskOnArrest = true
+
+-- [HINTS] Should the hints flow downwards or upwards?
+-- "Down" or "Up" works
+dHeists.config.notificationDirection = "Up"
+
+-- [HINTS] Position of hints
+-- "Top" or "Bottom" works
+dHeists.config.notificationPosition = "Top"
+
+--[[ [ITEM STORE] Should support for ItemStore be disabled if it is found? ]]
+dHeists.config.itemStoreDisabled = false
+
+--[[ [ITEM STORE] Should items registered in ItemStore be stackable? ]]
+dHeists.config.itemStoreStackableItem = true

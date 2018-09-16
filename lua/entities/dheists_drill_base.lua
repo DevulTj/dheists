@@ -4,15 +4,14 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local ENT = {}
+AddCSLuaFile()
 
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.Author = "DevulTj"
-ENT.PrintName = "Drill"
-ENT.Category = "dHeists"
+ENT.PrintName = "Drill Base"
 
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminSpawnable	= true
 ENT.DHeists = true
 
@@ -30,8 +29,6 @@ sound.Add {
 
     sound = "vehicles/digger_grinder_loop1.wav"
 }
-
-ENT.IsDrill = true
 
 function ENT:SetupDataTables()
     self:NetworkVar( "Bool", 0, "IsDrilling" )
@@ -73,6 +70,9 @@ function ENT:Initialize()
     self:Activate()
 
     self:SetAutomaticFrameAdvance( false )
+
+    self:SetSkin( self.DrillSkin or 0 )
+    self:SetModelScale( self.DrillScale or 1 )
 end
 
 function ENT:getPercent()
@@ -175,18 +175,19 @@ if CLIENT then
         local drillState = self:getDrillState()
 
         local fFraction = math.Clamp( math.TimeFraction( self:GetDrillStart(), self:GetDrillEnd(), CurTime() ), 0, 1 )
-        local sActive = ( not IsValid( self:GetParent() ) and 0 or math.floor( fFraction * 100 ) ) .. "%"
+        local sActive = not IsValid( self:GetParent() ) and "?" or math.Clamp( math.ceil( self:GetDrillEnd() - CurTime() ), 0, 5000 ) .. " sec"
         local sPercentage = self.DrillStateNames[ drillState ] or ""
 
         local drillStateColor = self.DrillColors[ drillState ]
 
-        local vPos = self:GetPos() + self:GetUp() * 2 + self:GetRight() * - 9.7 + self:GetForward() * 6.6
+        local nModelScale = self:GetModelScale()
+        local vPos = self:GetPos() + ( ( self:GetUp() * 2 + self:GetRight() * - 9.7 + self:GetForward() * 6.6 ) * nModelScale )
         local aAng = self:GetAngles()
         aAng:RotateAroundAxis( aAng:Right(), 60 )
         aAng:RotateAroundAxis( aAng:Up(), -90 )
         aAng:RotateAroundAxis( aAng:Forward(), 0 )
 
-        cam.Start3D2D( vPos, aAng, 0.1 )
+        cam.Start3D2D( vPos, aAng, 0.1 * nModelScale )
             draw.RoundedBox( 0, 0, 0, self.PanelInfo.w, self.PanelInfo.h, Color( 255, 255, 255 ) )
             draw.RoundedBox( 0, 2, 2, self.PanelInfo.w - 4, self.PanelInfo.h - 4, Color( 50, 50, 50 ) )
             draw.RoundedBox( 0, 2, 2, self.PanelInfo.w - 4, 6, Color( 150, 150, 150 ) )
@@ -194,8 +195,8 @@ if CLIENT then
             draw.RoundedBox( 0, 8, 36, self.PanelInfo.w - 16, 4, Color( 0, 0, 0, 150 ) )
             draw.RoundedBox( 0, 8, 36, ( self.PanelInfo.w - 16 ) * fFraction, 4, drillStateColor )
 
-            draw.SimpleText( sActive, "dHeistsMedium", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 2.9 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
-            draw.SimpleText( sActive, "dHeistsMedium", self.PanelInfo.w / 2, self.PanelInfo.h / 2.9, Color( 250, 250, 250 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+            draw.SimpleText( sActive, "dHeistsSmall", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 2.9 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+            draw.SimpleText( sActive, "dHeistsSmall", self.PanelInfo.w / 2, self.PanelInfo.h / 2.9, Color( 250, 250, 250 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 
             draw.SimpleText( sPercentage, "dHeistsSmall", self.PanelInfo.w / 2 + 2, self.PanelInfo.h / 1.3 + 2, Color( 0, 0, 0, 200 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
             draw.SimpleText( sPercentage, "dHeistsSmall", self.PanelInfo.w / 2, self.PanelInfo.h / 1.3, drillStateColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
@@ -206,5 +207,3 @@ if CLIENT then
         self:DrawShadow( false )
 	end
 end
-
-scripted_ents.Register( ENT, "dheists_drill_base" )

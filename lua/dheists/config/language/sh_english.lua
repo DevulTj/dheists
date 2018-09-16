@@ -73,5 +73,7 @@ i18n.registerPhrases( "en", {
     destroying_drill = "DESTROYING DRILL",
 
     editing_zone_helper = "Place Objects from Spawn Menu → Entities → dHeists",
-    help = "Help"
+    help = "Help",
+
+    edit_zone_spawn_entity = "Please start editing a zone to spawn this entity."
 } )

@@ -15,3 +15,32 @@ hook.Add( "OnReloaded", dHeists.IDENTIFIER .. "reload", function()
     hook.Run( "dHeists.loot.registerLoot" )
     hook.Run( "dHeists.ent.registerEnts" )
 end )
+
+hook.Add( "PostGamemodeLoaded", dHeists.IDENTIFIER .. "register", function()
+    for sClass, tData in pairs( scripted_ents.GetList() ) do
+        if string.find( sClass, "_base" ) then continue end
+
+        local tEntityData = tData.t
+        if tEntityData.IsBag then
+            renderObjects:registerObject( sClass, {
+                model = tEntityData.BagModel,
+                bone = tEntityData.BagBone or "ValveBiped.Bip01_Spine",
+                pos = tEntityData.BagPos,
+                ang = tEntityData.BagAng,
+
+                skin = tEntityData.BagSkin,
+                scale = tEntityData.BagScale
+            } )
+        elseif tEntityData.IsMask then
+            renderObjects:registerObject( sClass, {
+                model = tEntityData.MaskModel,
+                bone = tEntityData.MaskBone or "ValveBiped.Bip01_Head1",
+                pos = tEntityData.MaskPos,
+                ang = tEntityData.MaskAng,
+
+                skin = tEntityData.MaskSkin,
+                scale = tEntityData.MaskScale
+            } )
+        end
+    end
+end )

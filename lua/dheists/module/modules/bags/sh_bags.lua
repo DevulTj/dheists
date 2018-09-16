@@ -8,32 +8,8 @@ dHeists.bags = dHeists.bags or {}
 dHeists.bags.list = {}
 dHeists.bags.typeToName = {}
 
-local bagPos = dHeists.config.alternateBagPos and Vector( -7, -5, 0 ) or Vector( 0, 0, 10 )
-local bagAng = dHeists.config.alternateBagPos and Angle( 90, 0, 110 ) or Angle( 80, 100, 20 )
-local scale = dHeists.config.alternateBagPos and 0.8 or 1
-
 function dHeists.bags.registerBag( bagName, data )
-    if not bagName then return end
-    if not data or not data.bagType then return end
 
-    data.name = bagName
-    dHeists.bags.list[ bagName ] = data
-
-    local objectName =  "bag_" .. data.bagType
-
-    renderObjects:registerObject( objectName, {
-        model = "models/jessev92/payday2/item_Bag_loot.mdl",
-        bone = "ValveBiped.Bip01_Spine",
-        pos = bagPos,
-        ang = bagAng,
-
-        skin = data.skin,
-        scale = scale
-    } )
-
-    dHeists.bags.typeToName[ data.bagType ] = bagName
-
-    hook.Run( "dHeists.bags.registerBag", bagName, data, objectName )
 end
 
 function dHeists.bags.getBag( bagName )
@@ -64,6 +40,3 @@ hook.Add( "SetupMove", "dHeists.setupMoveBags", function( player, moveData, comm
         moveData:SetMaxClientSpeed( moveData:GetMaxClientSpeed() * modifier )
     end
 end )
-
--- Include configuration for bags
-frile.includeFile( "dheists/config/config_entities/sh_bags.lua" )

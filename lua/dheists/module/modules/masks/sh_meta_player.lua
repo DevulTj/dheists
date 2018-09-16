@@ -22,23 +22,28 @@ end
 
 if SERVER then
     -- Optimization
-    local function maskUnEquip( player, maskInfo )
+    local function maskUnEquip( player, currentMask )
         player:setDevBool( "maskEquipped", false )
         player:runMaskEffect()
 
-        renderObjects:clearObject( player, "mask_" .. maskInfo.name )
+        renderObjects:clearObject( player, currentMask )
 
-        hook.Run( "dHeists.maskUnEquipped", player, maskInfo )
+        hook.Run( "dHeists.maskUnEquipped", player, currentMask )
     end
 
     function PLAYER:dropMask( force )
         if #self:getMask() == 0 then return end
 
-        if force then
-            local maskInfo = dHeists.masks.getMask( self:getMask() )
-            if not maskInfo then return end
+        local currentMask = self:getMask()
 
-            maskUnEquip( self, maskInfo )
+        if force then
+            maskUnEquip( self, currentMask )
+        end
+
+        if not currentMask then
+            -- Something that shouldn't ever happen, right here!
+
+            return
         end
 
         if self:getDevBool( "maskEquipped", false ) then
@@ -47,23 +52,14 @@ if SERVER then
             return
         end
 
-        local currentMask = self:getDevString( "currentMask", nil )
-        if not currentMask then
-            -- Something that shouldn't ever happen, right here!
-
-            return
-        end
-
         self:setDevString( "currentMask", nil )
         self:dHeistsNotify( "You dropped your mask.", NOTIFY_GENERIC )
 
-        local mask = ents.Create( "dheists_mask_base" )
+        local mask = ents.Create( currentMask )
         mask:SetPos( self:GetPos() + ( self:GetUp() * 50 ) + ( self:GetForward() * 20 ) )
 
         mask:Spawn()
         mask:Activate()
-        
-        mask:setMaskType( currentMask )
 
         return mask
     end
@@ -76,8 +72,7 @@ if SERVER then
     function PLAYER:equipMask()
         if not self:getMask() then return end
 
-        local maskInfo = dHeists.masks.getMask( self:getMask() )
-        if not maskInfo then return end
+        local currentMask = self:getMask()
 
         -- Two types here, if the specified key is down, we drop the mask, if not, we equip it.
         if self:KeyDown( IN_SPEED ) then
@@ -93,11 +88,11 @@ if SERVER then
                 self:setDevBool( "maskEquipped", true )
                 self:runMaskEffect()
 
-                renderObjects:setObject( self, "mask_" .. maskInfo.name )
+                renderObjects:setObject( self, currentMask )
                 
                 if dHeists.config.playMaskEquipSound then self:playMaskEquipSound() end
 
-                hook.Run( "dHeists.maskEquipped", self, maskInfo )
+                hook.Run( "dHeists.maskEquipped", self, currentMask )
             end, {
                 -- Will edit values later
                 ActionTimeRemainingTextPhrase = "equipping_mask",
@@ -109,11 +104,8 @@ if SERVER then
     function PLAYER:unEquipMask()
         if not self:getMask() then return end
 
-        local maskInfo = dHeists.masks.getMask( self:getMask() )
-        if not maskInfo then return end
-
         dHeists.actions.doAction( self, dHeists.config.unEquipMaskTime or 1.5, function()
-            maskUnEquip( self, maskInfo )
+            maskUnEquip( self, self:getMask() )
         end, {
             -- Will edit values later
             ActionTimeRemainingTextPhrase = "un_equipping_mask",

@@ -4,15 +4,15 @@
 	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
 ]]
 
-local ENT = {}
+AddCSLuaFile()
 
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 ENT.Author = "DevulTj"
-ENT.PrintName = "Mask"
+ENT.PrintName = "Mask Base"
 ENT.Category = "dHeists"
 
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminSpawnable	= true
 
 --[[
@@ -25,8 +25,45 @@ ENT.WalkOnlyPickUp = true
 ENT.IsMask = true
 ENT.DHeists = true
 
+ENT.MaskModel = "models/shaklin/payday2/masks/pd2_mask_dallas.mdl"
+ENT.MaskPos = Vector( 1, 0, -3 )
+ENT.MaskAng = Angle( 90, 180, 90 )
+
 function ENT:SetupDataTables()
     self:NetworkVar( "String", 0, "MaskType" )
+end
+
+function ENT:Initialize()
+    -- assign a default model, with physics etc.
+
+    if SERVER then
+        self:SetMoveType( MOVETYPE_VPHYSICS )
+        self:SetSolid( SOLID_VPHYSICS )
+        self:SetUseType( SIMPLE_USE )
+    end
+
+    self:setMaskType( self.PrintName, self.MaskModel, self.MaskPickUpTime )
+end
+
+function ENT:setMaskType( sName, sModel, nActionTime )
+    if SERVER then
+        self:SetMaskType( sName )
+        self:SetModel( sModel )
+
+        self:PhysicsInit( SOLID_VPHYSICS )
+        self:SetMoveType( MOVETYPE_VPHYSICS )
+        self:SetSolid( SOLID_VPHYSICS )
+        self:GetPhysicsObject():Wake()
+
+        self:SetUseType( SIMPLE_USE )
+        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+
+        self.actionTime = nActionTime or 1
+    else
+        self:DrawShadow( false )
+    end
+
+    self.InventoryItemID = sName
 end
 
 if SERVER then
@@ -44,45 +81,6 @@ if SERVER then
 		return ent
 	end
 
-    function ENT:Initialize()
-        -- assign a default model, with physics etc.
-
-        self:SetMoveType( MOVETYPE_VPHYSICS )
-        self:SetSolid( SOLID_VPHYSICS )
-        self:SetUseType( SIMPLE_USE )
-
-        local randomMaskData = table.Random( dHeists.masks.list )
-        if not randomMaskData then
-            SafeRemoveEntity( self )
-
-            return
-        end
-
-        self:setMaskType( randomMaskData )
-
-        self:SetAutomaticFrameAdvance( false )
-    end
-
-    function ENT:setMaskType( maskType )
-        local maskData = istable( maskType ) and maskType or dHeists.masks.getMask( maskType )
-        if not maskData then return end
-
-        self:SetMaskType( maskData.name )
-        self:SetModel( maskData.model )
-
-        self:PhysicsInit( SOLID_VPHYSICS )
-        self:SetMoveType( MOVETYPE_VPHYSICS )
-        self:SetSolid( SOLID_VPHYSICS )
-        self:GetPhysicsObject():Wake()
-
-        self:SetUseType( SIMPLE_USE )
-        self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
-
-        self.actionTime = maskData.actionTime
-
-        self.InventoryItemID = maskType
-    end
-
     function ENT:Use( player )
         if player:KeyDown( IN_WALK ) then return end
 
@@ -94,8 +92,7 @@ if SERVER then
         end
 
         dHeists.actions.doAction( player, self.actionTime or 1, function()
-            local maskType = self:GetMaskType()
-            local canDo, reason = player:addMask( maskType )
+            local canDo, reason = player:addMask( self:GetClass() )
             if canDo ~= false then
                 SafeRemoveEntity( self )
             else
@@ -119,22 +116,13 @@ if CLIENT then
 		local entity = LocalPlayer():GetEyeTrace().Entity
 		if not IsValid( entity ) or not entity.IsMask or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
 
-		local maskData = dHeists.masks.list[ entity:GetMaskType() ]
-		if not maskData then return end
-
 		local pos = entity:GetPos()
 		pos.z = pos.z + 10
 		pos = pos:ToScreen()
 
-		draw.SimpleText( dL( maskData.name ), "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
-		draw.SimpleText( dL( maskData.name ), "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
+		draw.SimpleText( entity.PrintName, "dHeists_bagText", pos.x + 1, pos.y + 1, color_black, TEXT_ALIGN_CENTER )
+		draw.SimpleText( entity.PrintName, "dHeists_bagText", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER )
 
         pos.y = pos.y + 20
 	end )
-
-	function ENT:Initialize()
-        self:DrawShadow( false )
-	end
 end
-
-scripted_ents.Register( ENT, "dheists_mask_base" )

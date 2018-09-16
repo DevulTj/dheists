@@ -119,6 +119,10 @@ function FRAME:Setup( zoneList )
         button:SetText( zoneName .. ( isDynamic and " (Dynamic)" or "" ) )
         button:SetDisabled( not isDynamic )
 
+        if not isDynamic then
+            button:SetTooltip( "This zone is not dynamic - edit configuration files directly or remove it from the files." )
+        end
+
         button.DoClick = function( this )
             RunConsoleCommand( "dheists", "editzone", zoneName )
 

@@ -87,7 +87,6 @@ function dHeists.zones:createZone( player, zoneName, origin )
     end )
 end
 
-
 function dHeists.zones:deleteDynamicZone( player, zoneName )
     local zone = self.zones[ zoneName ]
     if not zone then return end
@@ -108,3 +107,16 @@ function dHeists.zones:gatherZoneNames()
 
     return tbl
 end
+
+hook.Add( "PlayerSpawnedSENT", "dHeists.zones", function( pPlayer, eEntity )
+    if pPlayer:getDevString( "zoneEditing" ) == "" then
+        -- Flags to detect if it is used for zone creation
+        if eEntity.DHeists and eEntity._Entity then
+            SafeRemoveEntity( eEntity )
+
+            pPlayer:dHeistsHint( "edit_zone_spawn_entity", NOTIFY_ERROR )
+        end
+
+        return
+    end
+end )

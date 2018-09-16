@@ -7,19 +7,6 @@
 util.AddNetworkString( "dHeists.sendBagItems" )
 util.AddNetworkString( "dHeists.dropBag" )
 
-concommand.Add( "dheists_debug_setbagtype", function( player, command, arguments )
-    CAMI.PlayerHasAccess( dHeists.privileges.DEBUG_SETBAGTYPE, function( hasAccess )
-        if not hasAccess then return end
-
-        arguments = table.concat( arguments, " " )
-        if not tonumber( arguments ) then return end
-
-        local entity = player:GetEyeTrace().Entity
-        if not IsValid( entity ) or not entity.IsBag then return end
-
-        entity:setBagType( arguments )
-    end )
-end )
 
 function dHeists.dropBag( player, noDrop )
     if player._dHeistsBag then
@@ -27,7 +14,7 @@ function dHeists.dropBag( player, noDrop )
 
         local bag
         if not noDrop then
-            bag = ents.Create( "dheists_bag_base" )
+            bag = ents.Create( bagData.bagType )
             bag:SetPos( player:GetPos() + ( player:GetUp() * 50 ) + player:GetForward() * -5 )
 
             bag:Spawn()
@@ -38,7 +25,6 @@ function dHeists.dropBag( player, noDrop )
                 * ( player:KeyDown( IN_SPEED ) and ( dHeists.config.defaultBagThrowStrengthSprintMultiplier or 2 ) or 1  )
             ) -- Throw the bag in the player's direction
 
-            bag:setBagType( bagData.bagType )
             bag:setLoot( bagData.lootItems )
             bag:SetEntityOwner( player ) -- Ownership property
         end
@@ -52,7 +38,7 @@ function dHeists.dropBag( player, noDrop )
         hook.Run( "dHeists.onDropBag", player, noDrop, bagData )
 
         if renderObjects then -- renderObjects support
-            renderObjects:clearObject( player, "bag_" .. bagData.bagType )
+            renderObjects:clearObject( player, bagData.bagType )
         end
 
         return bag
@@ -67,12 +53,12 @@ function dHeists.setBag( player, entity )
     if not entity.IsBag then return end
 
     player._dHeistsBag = {
-        bagType = entity:GetBagType(),
+        bagType = entity:GetClass(),
         lootItems = entity:getLoot(),
         capacity = entity:GetCapacity()
     }
 
-    renderObjects:setObject( player, "bag_" .. entity:GetBagType() )
+    renderObjects:setObject( player, entity:GetClass() )
     player:SetNW2Bool( "dHeists_CarryingBag", true )
 
     net.Start( "dHeists.sendBagItems" )

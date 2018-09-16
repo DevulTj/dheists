@@ -41,7 +41,7 @@ local HINT_TYPE_TO_COLOR_BG = {
 }
 
 local color2 = Color( 50, 200, 50, 100 )
-function NOTIFICATION:Setup( text, hintType, lifetime )
+function NOTIFICATION:Setup( text, hintType, lifetime, parentToFollow )
     surface.SetFont( self.text:GetFont() )
 
     hintType = hintType or NOTIFY_GENERIC
@@ -61,16 +61,28 @@ function NOTIFICATION:Setup( text, hintType, lifetime )
             self:Close()
         end )
     end )
+
+    self.parentToFollow = parentToFollow
 end
 
 function NOTIFICATION:Close()
+    self:SizeTo( self:GetWide(), 0, FADE_TIME, 0, 3.5 )
+
     self:AlphaTo( 0, FADE_TIME, 0, function()
         self:Remove()
     end )
 end
 
 function NOTIFICATION:Think()
-    self:SetPos( ScrW() / 2 - ( self:GetWide() / 2 ), ScrH() * 0.2 )
+    local sPosition = dHeists.config.notificationPosition
+    local yPos = sPosition == "Bottom" and ScrH() * 0.8 or ScrH() * 0.2
+
+    if IsValid( self.parentToFollow ) then
+        local Offset = dHeists.config.notificationDirection == "Down" and ( self.parentToFollow:GetTall() + 4 ) or ( - self.parentToFollow:GetTall() - 4 )
+        yPos = select( 2, self.parentToFollow:GetPos() ) + Offset
+    end
+
+    self:SetPos( ScrW() / 2 - ( self:GetWide() / 2 ), yPos )
 end
 
 local color = Color( 25, 25, 25, 200 )
@@ -113,12 +125,10 @@ end
 vgui.Register( "dHeistsHint", NOTIFICATION, "DPanel" )
 
 function dHeists.hints:add( text, hintType, lifetime )
-    if IsValid( dHeists.currentHint ) then
-        dHeists.currentHint:Remove()
-    end
+    local pCurrentHint = dHeists.currentHint
 
     dHeists.currentHint = vgui.Create( "dHeistsHint" )
-    dHeists.currentHint:Setup( text, hintType, lifetime )
+    dHeists.currentHint:Setup( dL( text ), hintType, lifetime, pCurrentHint )
 end
 
 net.Receive( "dHeists.hints.add", function( _ )
