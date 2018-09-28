@@ -327,7 +327,7 @@ hook.Add( "OnEntityCreated", "dHeists.HookZoneCreation", function( entity )
     local zoneId = dHeists.currentEditingZone
     if not zoneId then return end
 
-    timer.Simple( 0, function()
+    timer.Simple( 0.1, function()
         if not IsValid( entity ) then print( "Entity is not valid" ) return end
         if not entity._Entity then return end
 
