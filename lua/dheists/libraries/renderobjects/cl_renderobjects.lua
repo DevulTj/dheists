@@ -70,10 +70,24 @@ function renderObjects:renderEntity( player, playerOverride )
         if not entity or isbool( entity ) or not IsValid( entity ) then
             local objectEntity = ClientsideModel( objectData.model, RENDERGROUP_TRANSLUCENT )
             if not IsValid( objectEntity ) then return end
-            objectEntity:SetParent( target, objectData.attachment or 7 )
+            objectEntity:SetParent( target )
 
             if objectData.scale then objectEntity:SetModelScale( objectData.scale, 0 ) end
             if objectData.skin then objectEntity:SetSkin( objectData.skin ) end
+
+            objectEntity:SetNoDraw( true )
+
+            self:setObjectEntity( player, objectName, objectEntity )
+        else
+
+            local position, angles
+            local bone = target:LookupBone( objectData.bone or "ValveBiped.Bip01_Head1" )
+            position, angles = target:GetBonePosition( bone )
+
+            if not bone then return end
+
+            if not position then position = target:GetPos() end
+            if not angles then angles = Angle( 0, 0, 0 ) end
 
             local ismale = player.IsMale and player:IsMale() or true
             local malePos = objectData.pos and objectData.pos.male
@@ -84,18 +98,20 @@ function renderObjects:renderEntity( player, playerOverride )
             local femaleAng = objectData.ang and objectData.ang.female
             local desiredAng = ismale and maleAng or femaleAng or objectData.ang
 
-            local posOffset, angOffset = desiredPos, desiredAng
-            objectEntity:SetLocalPos( posOffset * ( objectData.scale or 1 ) )
-            objectEntity:SetLocalAngles( angOffset )
+            angles:RotateAroundAxis( angles:Up(), desiredAng.p )
+            angles:RotateAroundAxis( angles:Right(), desiredAng.y )
+            angles:RotateAroundAxis( angles:Forward(), desiredAng.r )
 
-            self:setObjectEntity( player, objectName, objectEntity )
+            local newPosition = position + angles:Forward() * desiredPos.x
+            + angles:Right() * desiredPos.y + angles:Up() * desiredPos.z
 
-            objectEntity:Spawn()
-        else
+            entity:SetPos( newPosition )
+            entity:SetAngles( angles )
             entity:DrawModel()
         end
     end
 end
+
 
 if not dHeists.config.disablePlayerDrawHook then
     hook.Add( "PostPlayerDraw", "renderObjects.Draw", function( player )

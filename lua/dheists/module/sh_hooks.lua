@@ -29,7 +29,7 @@ hook.Add( "PostGamemodeLoaded", dHeists.IDENTIFIER .. "register", function()
                 ang = tEntityData.BagAng,
 
                 skin = tEntityData.BagSkin,
-                scale = tEntityData.BagScale
+                scale = tEntityData.BagScale,
             } )
         elseif tEntityData.IsMask then
             renderObjects:registerObject( sClass, {
