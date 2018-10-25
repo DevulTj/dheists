@@ -98,7 +98,7 @@ function renderObjects:clearObject( player, objectName )
 
     if CLIENT then
         local objectEntity = self.objectList[ player ][ objectName ]
-        if objectEntity and IsValid( objectEntity ) then objectEntity:Remove() end
+        if objectEntity and not isbool( objectEntity ) and IsValid( objectEntity ) then objectEntity:Remove() end
     end
 
     self.objectList[ player ][ objectName ] = nil
