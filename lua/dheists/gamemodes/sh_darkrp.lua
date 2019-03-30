@@ -9,7 +9,7 @@ local DARKRP = {}
 DARKRP.name = "DarkRP"
 DARKRP.gamemodeCallback = function() return DarkRP and true or false end
 
-DARKRP.isPolice = function( player ) return player:getJobTable().category == "Civil Protection" end
+DARKRP.isPolice = function( player ) return player:isCP() end
 DARKRP.addMoney = function( player, amount ) return player:addMoney( amount ) end
 DARKRP.getJobName = function( player ) return team.GetName( player:Team() ) end
 DARKRP.getJobCategory = function( player ) return player:getJobTable().category end
