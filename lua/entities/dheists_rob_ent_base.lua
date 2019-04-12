@@ -107,16 +107,26 @@ if SERVER then
         local lootItems = self.lootItems
         local randomItem = lootItems[ math.random( 1, #lootItems ) ]
 
-        local lootData = dHeists.loot.getLoot( randomItem )
-        if not lootData then return end
+        if istable( randomItem ) and randomItem.class then
+            local entity = ents.Create( randomItem.class )
+            entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
 
-        local entity = ents.Create( "dheists_loot_base" )
-        entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
+            entity:Spawn()
+            entity:Activate()
 
-        entity:Spawn()
-        entity:Activate()
+            if randomItem.callback then randomItem.callback( self, entity ) end
+        else
+            local lootData = dHeists.loot.getLoot( randomItem )
+            if not lootData then return end
 
-        entity:setLootType( randomItem )
+            local entity = ents.Create( "dheists_loot_base" )
+            entity:SetPos( self:LocalToWorld( self.lootSpawnPoint or Vector( 0, 0, 0 ) ) )
+
+            entity:Spawn()
+            entity:Activate()
+
+            entity:setLootType( randomItem )
+        end
     end
 
     function ENT:deployLoot()

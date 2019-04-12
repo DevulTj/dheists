@@ -32,6 +32,9 @@ dHeists.robbing:registerEnt( "Small Vault", {
         "loot_diamond_figure",
         "loot_cash_crate",
         "loot_cash_case",
+
+        -- example of spawning any kind of entity in here!
+        -- { class = "item_healthkit", callback = function( robEntity, newEntity ) end }
     },
 
     -- Cooldown between robberies
