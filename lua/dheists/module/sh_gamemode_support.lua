@@ -31,6 +31,16 @@ function dHeists.gamemodes:findCurrentGamemode()
     end
 end
 
+dHeists.gamemodes.list.default = {
+    addMoney = function() end,
+    isPolice = function() return false end,
+    getJobName = function() return "N/A" end,
+    getJobCategory = function() return "N/A" end,
+    notify = function( player, text, notificationType ) return player:SendLua([[notification.AddLegacy(]] .. ( text or "No messsage!" ) .. [[, ]] .. ( notificationType or 0 ) .. [[ )]]) end,
+    getJobList = function() end,
+    getCategoryIndex = function() end,
+}
+
 function dHeists.gamemodes:getGamemode()
     return self.list[ self.currentGamemode ] or self.list.default
 end
