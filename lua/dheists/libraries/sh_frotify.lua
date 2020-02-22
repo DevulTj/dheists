@@ -41,9 +41,10 @@ if SERVER then
         net.Send( targets or player.GetAll() )
     end
 
-    DarkRP = DarkRP or {}
-    function DarkRP.notify( targets, messageType, timeLength, message )
-        frotify.notify( message, messageType, timeLength, targets )
+    if DarkRP then
+        function DarkRP.notify( targets, messageType, timeLength, message )
+            frotify.notify( message, messageType, timeLength, targets )
+        end
     end
 end
 
