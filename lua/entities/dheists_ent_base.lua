@@ -225,7 +225,7 @@ if CLIENT then
             render.DrawWireframeBox( self:GetPos(), self:GetAngles(), boundMin, boundMax, color_white )
         end
 
-		if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
+		if LocalPlayer():dHeists_isCarryingBag() then
 			local eyeAng = EyeAngles()
 			eyeAng.p = 0
 			eyeAng.y = eyeAng.y - 90

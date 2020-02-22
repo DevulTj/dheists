@@ -16,13 +16,11 @@ local roll = 0
 hook.Add( "CalcView", "dHeists.drawBag", function( player, origin, angles, fov )
     if dHeists.config.disableBagTilt then return end
 
-    if roll ~= 0 or ( roll == 0 and player:GetNW2Bool( "dHeists_CarryingBag", false ) ) then
-        roll = Lerp( FrameTime() * 10, roll, player:GetNW2Bool( "dHeists_CarryingBag", false ) and dHeists.config.holdingBagAngleOffset or 0)
+    if roll ~= 0 or ( roll == 0 and player:dHeists_isCarryingBag() ) then
+        roll = Lerp( FrameTime() * 10, roll, player:dHeists_isCarryingBag() and dHeists.config.holdingBagAngleOffset or 0 )
 
-        local view = {
-            origin = origin,
-            angles = Angle( angles.p, angles.y, angles.r + roll )
-        }
+        local view = {}
+        view.angles = Angle( angles.p, angles.y, angles.r + roll )
 
         return view
     end
@@ -33,7 +31,7 @@ local width, height = 230, 40
 
 dHeists.addedHeight = dHeists.addedHeight or 0
 hook.Add( "HUDPaint", "dHeists.drawBag", function()
-    if LocalPlayer():GetNW2Bool( "dHeists_CarryingBag", false ) then
+    if LocalPlayer():dHeists_isCarryingBag() then
         local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] " .. dL( "throw_item" )
         local itemsText = LocalPlayer()._dHeistsLootItems or dL( "no_items" )
         

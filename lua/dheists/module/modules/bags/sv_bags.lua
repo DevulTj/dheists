@@ -30,7 +30,7 @@ function dHeists.dropBag( player, noDrop )
         end
 
         player._dHeistsBag = nil
-        player:SetNW2Bool( "dHeists_CarryingBag", false )
+        player:setDevBool( "isCarryingBag", false )
 
         net.Start( "dHeists.dropBag" )
         net.Send( player )
@@ -45,9 +45,11 @@ function dHeists.dropBag( player, noDrop )
     end
 end
 
-concommand.Add( dHeists.config.dropBagCommand, function( ply )
-     dHeists.dropBag( ply )
-end )
+if dHeists.config.dropBagCommand then
+    concommand.Add( dHeists.config.dropBagCommand, function( ply )
+        dHeists.dropBag( ply )
+    end )
+end
 
 function dHeists.setBag( player, entity )
     if not entity.IsBag then return end
@@ -59,7 +61,7 @@ function dHeists.setBag( player, entity )
     }
 
     renderObjects:setObject( player, entity:GetClass() )
-    player:SetNW2Bool( "dHeists_CarryingBag", true )
+    player:setDevBool( "isCarryingBag", true )
 
     net.Start( "dHeists.sendBagItems" )
         net.WriteTable( entity:getLoot() )
