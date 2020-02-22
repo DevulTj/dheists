@@ -61,7 +61,7 @@ local function clearHeistPlayer( player, deleteEnts )
     end
 
     local mask = player:getMask()
-    if mask then
+    if mask ~= "" then
         local maskEnt = player:dropMask( true )
 
         if deleteEnts then

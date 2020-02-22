@@ -6,8 +6,6 @@
 
 hook.Add( "PlayerButtonDown", dHeists.IDENTIFIER .. "_masks", function( ply, button )
     if button == dHeists.config.maskEquipKey then
-        if ply:getMask() then
-            ply:toggleMask()
-        end
+        ply:toggleMask()
     end
 end )

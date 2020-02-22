@@ -70,7 +70,7 @@ if SERVER then
     end
 
     function PLAYER:equipMask()
-        if not self:getMask() then return end
+        if self:getMask() == "" then return end
 
         local currentMask = self:getMask()
 
@@ -102,7 +102,7 @@ if SERVER then
     end
 
     function PLAYER:unEquipMask()
-        if not self:getMask() then return end
+        if self:getMask() == "" then return end
 
         dHeists.actions.doAction( self, dHeists.config.unEquipMaskTime or 1.5, function()
             maskUnEquip( self, self:getMask() )
@@ -115,15 +115,15 @@ if SERVER then
 
     function PLAYER:playMaskEquipSound()
         local isFemale = string.find( self:GetModel(), "female" )
-    
+
         local sounds = dHeists.config.maskOnSounds[ isFemale and "female" or "male" ]
         local selectedSound = sounds[ math.random( 1, #sounds ) ]
-        
+
         self:EmitSound( selectedSound )
     end
 
     function PLAYER:toggleMask()
-        if not self:getMask() then return end
+        if self:getMask() == "" then return end
 
         if self:getDevBool( "maskEquipped", false ) then
             self:unEquipMask()
