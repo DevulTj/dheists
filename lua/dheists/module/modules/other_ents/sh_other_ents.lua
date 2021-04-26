@@ -1,7 +1,7 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 dHeists.ent.list = {}
@@ -89,7 +89,7 @@ properties.Add( "deleteOtherEntity", {
 
         dHeists.db.deleteOtherEntity( entity:getDevInt( "creationId" ), function()
             SafeRemoveEntity( entity )
-            
+
             if IsValid( player ) then
                 player:dHeistsHint( dL "entity_deleted", NOTIFY_SUCCESS )
             end

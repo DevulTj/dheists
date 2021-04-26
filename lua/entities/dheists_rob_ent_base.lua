@@ -1,7 +1,7 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 AddCSLuaFile()
@@ -133,7 +133,7 @@ if SERVER then
         print("running deployLoot")
         local data = self.typeInfo
         if data then
-            if data.onFinish then 
+            if data.onFinish then
                 data.onFinish( self, data )
             end
 
@@ -319,7 +319,7 @@ if CLIENT then
         local lootSpawnPos = typeInfo.textPos or typeInfo.lootSpawnPoint
 
         if dHeists.config.debugEnabled then
-            
+
             local entPos = self:GetPos()
 
             if lootSpawnPos then
@@ -362,7 +362,7 @@ if CLIENT then
             local xPos, yPos = -( width / 2 ), -( height / 2 )
             cam.Start3D2D( self.camPos, self.camAng, .1 )
                 surface.DrawCuteRect( xPos, yPos, width, height, 3 )
-                
+
                 local remainingTime = string.FormattedTime( math.max( cooldownEnd - CurTime(), 0 ), "%02i:%02i:%02i" )
                 draw.SimpleText( dL( "cooldown_3d" ), "dHeistsHuge", 0, - 48, Color( 255, 50, 50 ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
                 draw.SimpleText( remainingTime, "dHeistsMassive", 0, 24, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )

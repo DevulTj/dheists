@@ -1,7 +1,7 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 AddCSLuaFile()
@@ -63,7 +63,7 @@ if SERVER then
 		if name ~= "Use" or not IsValid( caller ) or not caller:IsPlayer() then return end
 
         if not self:getZone() then return end
-        
+
         self:getZone():deActivateAlarms()
 	end
 end
@@ -76,7 +76,7 @@ if CLIENT then
         hook.Add( "HUDPaint", "dHeists.alarmButtonDraw", function()
             local entity = LocalPlayer():GetEyeTrace().Entity
             if not IsValid( entity ) or not entity.IsAlarmButton or entity:GetPos():DistToSqr( LocalPlayer():GetPos() ) > drawTextDistance then return end
-            
+
             local pos = entity:GetPos()
             pos.z = pos.z + 10
             pos = pos:ToScreen()

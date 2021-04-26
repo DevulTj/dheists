@@ -1,19 +1,19 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 local HTMLCode = [[
-        
+
     <!DOCTYPE html>
     <html lang="en-US">
       <head>
         <meta charset="UTF-8">
-    
+
     <!-- Begin Jekyll SEO tag v2.4.0 -->
     <title>Installation | dheists</title>
-    
+
     <meta name="generator" content="Jekyll v3.7.3" />
     <meta property="og:title" content="Installation" />
     <meta property="og:locale" content="en_US" />
@@ -25,7 +25,7 @@ local HTMLCode = [[
     <script type="application/ld+json">
     {"name":"dHeists","description":"A bank robbery system for Garry’s Mod made by DevulTj","@type":"WebSite","url":"https://devultj.github.io/dheists/","headline":"Installation","@context":"http://schema.org"}</script>
     <!-- End Jekyll SEO tag -->
-    
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#157878">
         <!-- Latest compiled and minified CSS -->
@@ -41,13 +41,13 @@ local HTMLCode = [[
         <section class="page-header">
           <center><h1 class="project-name">dHeists</h1>
           <h2 class="project-tagline">A bank robbery system for Garry's Mod made by DevulTj</h2>
-          
+
             <a href="https://www.gmodstore.com/scripts/view/5188/dheists-heist-system-for-darkrp" class="btn">View on gmodstore</a>
             </center>
-          
-          
+
+
         </section>
-    
+
         <section class="container">
           <h2 id="installation">Installation</h2>
     <ol>
@@ -56,7 +56,7 @@ local HTMLCode = [[
       <li>If you have any further inquiries regarding installation please send in a support ticket or refer below on how to contact me.</li>
       <li>All configuration options are displayed in the ‘lua\dheists\config’ folder.</li>
     </ol>
-    
+
     <h2 id="creating-a-zone">Creating a Zone</h2>
     <ol>
       <li>Type /zones (if you have access) to open the Zone List.</li>
@@ -64,28 +64,28 @@ local HTMLCode = [[
       <li>Re-open /zones, and press on the new Zone you just created.</li>
       <li>You will be in a Zone Editor utility, you’ll be able to spawn objects such as robbable entities (vaults, etc) and then click Save to persist them.</li>
     </ol>
-    
+
     <h2 id="deleting-a-zone">Deleting a Zone</h2>
     <ol>
       <li>Type /zones to open the Zone List.</li>
       <li>Hover over the red slot to the right of a zone, it’ll show a Delete button.</li>
       <li>Click it.</li>
     </ol>
-    
+
     <h2 id="spawning-loot-triggers-waypoints">Spawning Loot Triggers (Waypoints)</h2>
     <ol>
       <li>Type /zones to open the Zone List.</li>
       <li>Click Entity Spawner.</li>
       <li>A list will show possible entities you can spawn, such as a Loot Trigger. This will allow your players to locate and sell their goods.</li>
     </ol>
-    
-    
+
+
           <footer class="site-footer">
             <span class="site-footer-credits">This page, and dHeists was created by <a href="http://steamcommunity.com/id/Devul">DevulTj</a>.</span>
           </footer>
         </section>
-    
-        
+
+
       </body>
     </html>
 ]]

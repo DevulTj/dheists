@@ -1,7 +1,7 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 AddCSLuaFile()
@@ -76,7 +76,7 @@ if SERVER then
         self:SetColor( color_black )
 
         timer.Simple( dHeists.config.cameraRespawnTime or 600, function()
-            if IsValid( self ) then 
+            if IsValid( self ) then
                 self:SetColor( color_white )
                 self:SetCameraDestroyed( false )
             end

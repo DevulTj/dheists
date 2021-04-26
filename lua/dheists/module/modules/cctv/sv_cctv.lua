@@ -1,7 +1,7 @@
 --[[
-    © 2018 devultj.co.uk, do not share, re-distribute or modify
+    © 2021 Tony Ferguson, do not share, re-distribute or modify
 
-    without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+    without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 dHeists.cctv = dHeists.cctv or {}
@@ -11,7 +11,7 @@ util.AddNetworkString( "dHeists_ViewCCTV" )
 function dHeists.cctv.viewCCTV( player, entity )
     if player:GetPos():Distance( entity:GetPos() ) > 256 then return end
 
-    net.Start( "dHeists_ViewCCTV" ) 
+    net.Start( "dHeists_ViewCCTV" )
         net.WriteEntity( entity )
     net.Send( player )
 

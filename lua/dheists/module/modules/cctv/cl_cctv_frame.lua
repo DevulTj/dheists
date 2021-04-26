@@ -1,7 +1,7 @@
 --[[
-    © 2018 devultj.co.uk, do not share, re-distribute or modify
+    © 2021 Tony Ferguson, do not share, re-distribute or modify
 
-    without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+    without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 local FRAME = {}
@@ -66,16 +66,16 @@ function FRAME:Init()
             surface.DrawLine( w / 2, 0, w / 2, h )
 
             if not self.haltTimer or self.haltTimer and self.haltTimer < CurTime() then
-                self.renderData.angles = Angle( 
-                    self.renderData.angles.p, 
-                    self.goingBack and self.renderData.angles.y + 0.05 or self.renderData.angles.y - 0.05, 
-                    self.renderData.angles.r 
+                self.renderData.angles = Angle(
+                    self.renderData.angles.p,
+                    self.goingBack and self.renderData.angles.y + 0.05 or self.renderData.angles.y - 0.05,
+                    self.renderData.angles.r
                 )
 
                 self.haltTimer = nil
 
                 if not self.goingBack and math.abs( self.renderData.angles.y - self.endCameraAng.y ) <= 5 then
-                    self.goingBack = true 
+                    self.goingBack = true
 
                     self.haltTimer = CurTime() + 0.2
                 end

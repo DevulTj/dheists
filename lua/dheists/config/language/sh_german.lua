@@ -1,8 +1,8 @@
 --[[
-    © 2018 devultj.co.uk, do not share, re-distribute or modify
+    © 2021 Tony Ferguson, do not share, re-distribute or modify
     without permission of its author (devultj@gmail.com) - {{ user_id }}
 ]]
- 
+
 i18n.registerPhrases( "de", {
     bag_regular = "Reguläre Tasche",
     bag_luxury = "Luxoriöse Tasche",

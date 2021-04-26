@@ -1,11 +1,11 @@
 --[[
-	© 2018 devultj.co.uk, do not share, re-distribute or modify
+	© 2021 Tony Ferguson, do not share, re-distribute or modify
 
-	without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+	without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 hook.Add( "PlayerButtonDown", "dHeists.dropBag", function( player, buttonId )
-    if not IsFirstTimePredicted() then return end        
+    if not IsFirstTimePredicted() then return end
     if player ~= LocalPlayer() then return end
     if buttonId ~= dHeists.config.dropBagKey then return end
 
@@ -34,7 +34,7 @@ hook.Add( "HUDPaint", "dHeists.drawBag", function()
     if LocalPlayer():dHeists_isCarryingBag() then
         local throwText =  "[" .. input.GetKeyName( dHeists.config.dropBagKey ):upper() .. "] " .. dL( "throw_item" )
         local itemsText = LocalPlayer()._dHeistsLootItems or dL( "no_items" )
-        
+
         surface.SetFont( "dHeists_bagText" )
         local textW, textH = surface.GetTextSize( itemsText )
         local carryingText = dL( "carrying_text" )

@@ -1,7 +1,7 @@
 --[[
-    © 2018 devultj.co.uk, do not share, re-distribute or modify
+    © 2021 Tony Ferguson, do not share, re-distribute or modify
 
-    without permission of its author (devultj@gmail.com) - {{ user_id }} - Script ID: {{ script_version_name }}
+    without permission of its author ( devultj@gmail.com - Tony Ferguson, http://www.tferguson.co.uk/ )
 ]]
 
 dHeists.db = dHeists.db or {}
@@ -46,7 +46,7 @@ end
 
 hook.Add( "dHeistsDBInitialized", "dHeists.otherEnts", dHeists.db.otherEntsDBInit )
 
-local addEntitySQL = [[INSERT INTO dheists_other_entities (id, entity_class, pos_x, pos_y, pos_z, ang_p, ang_y, ang_r) 
+local addEntitySQL = [[INSERT INTO dheists_other_entities (id, entity_class, pos_x, pos_y, pos_z, ang_p, ang_y, ang_r)
                        VALUES(NULL, %s, %i, %i, %i, %i, %i, %i)]]
 
 function dHeists.db.insertOtherEntity( entity, callback )
@@ -65,8 +65,8 @@ function dHeists.db.insertOtherEntity( entity, callback )
     end )
 end
 
-local modifyEntitySQL = [[UPDATE dheists_other_entities SET 
-                            pos_x = %i, pos_y = %i, pos_z = %i, ang_p = %i, ang_y = %i, ang_r = %i 
+local modifyEntitySQL = [[UPDATE dheists_other_entities SET
+                            pos_x = %i, pos_y = %i, pos_z = %i, ang_p = %i, ang_y = %i, ang_r = %i
                             WHERE id = %i
                         ]]
 
